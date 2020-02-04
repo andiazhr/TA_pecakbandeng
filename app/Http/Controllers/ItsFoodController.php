@@ -1,0 +1,593 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\UsersPelanggan;
+use App\Models\Kegiatan;
+use App\Models\Produk;
+use App\Models\ProdukKegiatan;
+use App\Models\Keranjang;
+use App\Models\Order;
+use App\Models\OrderDetails;
+use App\Models\Like;
+use App\Models\Review;
+use Stripe\Stripe;
+use Stripe\Charge;
+Use DB;
+use Session;
+
+class ItsFoodController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+
+    
+        $data = Produk::all();
+        $datamkn = Produk::join('kategori_produk', 'kategori_produk.id_kategori', '=', 'produk.id_kategori')->where('kategori_produk.nama_kategori', '=', 'Makanan')->limit(4)->get();
+        $datamnm = Produk::join('kategori_produk', 'kategori_produk.id_kategori', '=', 'produk.id_kategori')->where('kategori_produk.nama_kategori', '=', 'Minuman')->limit(4)->get();
+        $kegiatan = Kegiatan::all();
+        $now = date('Y-m-d');
+        $produkkegiatan = ProdukKegiatan::all();
+        // $produkkegiatan = ProdukKegiatan::join('kegiatan', 'produk_kegiatan.id_kegiatan', '=', 'kegiatan.id_kegiatan')->where('kegiatan.periode_awal', '<=', $now)->where('kegiatan.periode_akhir', '>=', $now)->get();
+        // $produkkegiatan = DB::select("SELECT * FROM `kegiatan` INNER JOIN `produk_kegiatan` USING(id_kegiatan) INNER JOIN produk USING(id_produk) WHERE CURRENT_DATE() BETWEEN kegiatan.periode_awal AND COALESCE(kegiatan.periode_akhir, NOW())");
+        // $produkkegiatan = DB::select("SELECT * FROM `kegiatan` INNER JOIN `produk_kegiatan` USING(id_kegiatan) INNER JOIN produk USING(id_produk) WHERE kegiatan.periode_awal <= CURRENT_DATE() AND kegiatan.periode_akhir >= CURRENT_DATE()");
+        // dd($datamnm);
+        return view('index.index', compact('data', 'datamkn', 'datamnm', 'kegiatan', 'produkkegiatan'));
+    }
+
+    public function search(Request $request)
+    {
+        $countlike = Like::count();
+        $countreview = Review::count();
+        $like = DB::table('like')
+                ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                ->select('like.*', DB::raw('count(*) as total'))
+                 ->groupBy('like.id_pelanggan')
+                 ->groupBy('like.id_produk')
+                 ->get();
+        $likeProduk = DB::table('like')
+                ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                ->select('like.*', DB::raw('count(*) as total'))
+                 ->groupBy('like.id_produk')
+                 ->get();
+        $review = DB::table('review')
+                ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                ->select('review.*', DB::raw('count(*) as total'))
+                 ->groupBy('review.id_pelanggan')
+                 ->groupBy('review.id_produk')
+                 ->get();
+        $reviewProduk = DB::table('review')
+                ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                ->select('review.*', DB::raw('count(*) as total'))
+                 ->groupBy('review.id_produk')
+                 ->get();
+        $search = $request->get('search');
+        $exists = DB::table('produk')
+        ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+        ->where('nama_produk', 'like', "%{$search}%")
+        ->orwhere('nama_kategori', 'like', "%{$search}%")
+        ->orwhere('harga_produk', 'like', "%{$search}%")
+        ->select('*')
+        ->exists();
+       
+        $kategori = DB::table('produk')
+        ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+        ->select(DB::raw('count(produk.nama_produk) as nama_produk, kategori_produk.nama_kategori'))
+        ->distinct()
+        ->groupBy('kategori_produk.nama_kategori')
+        ->orderBy('kategori_produk.nama_kategori', 'asc')
+        ->get();
+
+        if($exists === false){
+            return view('itsfood.Not_Found');
+        }elseif($exists === true){
+            $hasil = DB::table('produk')
+            ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+            ->where('nama_produk', 'like', "%{$search}%")
+            ->orwhere('nama_kategori', 'like', "%{$search}%")
+            ->orwhere('harga_produk', 'like', "%{$search}%")
+            ->select('*')
+            ->get();
+
+            foreach($hasil as $check)
+            {
+                $data = $check->nama_kategori;
+            }
+            
+            if($data == 'Makanan'){
+                $minuman = DB::table('produk')
+                ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+                ->where('nama_kategori', 'Minuman')
+                ->select('*')
+                ->get();
+
+                return view('itsfood.search', compact('hasil', 'minuman', 'kategori', 'countlike', 'countreview', 'like', 'likeProduk', 'review', 'reviewProduk'));
+            }
+            elseif($data == 'Minuman'){
+                $makanan = DB::table('produk')
+                ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+                ->where('nama_kategori', 'Makanan')
+                ->select('*')
+                ->get();
+
+                return view('itsfood.search', compact('hasil', 'makanan', 'kategori', 'countlike', 'countreview', 'like', 'likeProduk', 'review', 'reviewProduk'));
+            }
+            elseif(($data != 'Makanan') && ($data != 'Minuman')){
+                $shop = DB::table('produk')
+                ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+                ->where('nama_kategori', '!=', 'Makanan')
+                ->where('nama_kategori', '!=', 'Minuman')
+                ->where('nama_kategori', '!=', 'Alat Dapur')
+                ->select('*')
+                ->get();
+                
+                return view('itsfood.search', compact('hasil', 'shop', 'kategori', 'countlike', 'countreview', 'like', 'likeProduk', 'review', 'reviewProduk'));
+            }
+        }
+    }
+
+    public function showRegisterForm()
+    {
+        return view('itsfood.register');
+    }
+
+    public function register(Request $request)
+    {
+        $this->validate($request, [
+            'nama_pelanggan' => 'required',
+            'username' => 'required|unique:users_pelanggan',
+            'email_pelanggan' => 'required|email|unique:users_pelanggan',
+            'phone_number' => 'required',
+            'password' => 'required|min:8|confirmed'
+        ]);
+        
+        $userspelanggan = UsersPelanggan::create(request(['nama_pelanggan', 'username', 'email_pelanggan', 'phone_number', 'password']));
+        
+        auth('pelanggan')->login($userspelanggan);
+        
+        if (Session::has('keranjang')) {
+            return redirect()->to('/itsfood/keranjang')->with('login', 'Hai');
+        }
+
+        if (!Session::has('keranjang')) {
+            return redirect()->to('/itsfood')->with('login', 'Hai');
+        }
+    }
+
+    public function showLoginForm()
+    {
+        return view('itsfood.login');
+    }
+
+    public function login()
+    {
+        if (!Session::has('keranjang')) {
+            if (auth('pelanggan')->attempt(request(['email_pelanggan', 'password'])) == false) {
+                return redirect()->route('masuk')->with('fail', 'Email dan Password tidak valid');
+            }
+            return redirect()->to('/itsfood')->with('login', 'Hai');
+        }
+
+        if (Session::has('keranjang')) {
+            if (auth('pelanggan')->attempt(request(['email_pelanggan', 'password'])) == false) {
+                return redirect()->route('masuk')->with('fail', 'Email dan Password tidak valid');
+            }
+            return redirect()->route('keranjang')->with('login', 'Hai');
+        }
+    }
+
+    public function profile(Request $request, $id_pelanggan)
+    {
+        $url = $request->segment(3);
+        if (is_null(auth('pelanggan')->user())){
+            return view('itsfood.login');
+        }
+
+        if (!($url == NULL)){
+            $pelanggan = UsersPelanggan::find($id_pelanggan)->where($url);
+            $order = DB::table('order')
+            ->join('order_details', 'order.id_order', '=', 'order_details.id_order')
+            ->join('produk', 'order_details.id_produk', '=', 'produk.id_produk')
+            ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+            ->where('order.id_pelanggan', $url)
+            ->where('order.status', 'Lunas')
+            ->where('kategori_produk.nama_kategori', 'Makanan')
+            ->orwhere('kategori_produk.nama_kategori', 'Minuman')
+            ->select(DB::raw('SUM(order_details.jumbel_produk) as jumbel_produk, produk.nama_produk'))
+            ->distinct()
+            ->groupBy('produk.nama_produk')
+            ->orderBy('produk.nama_produk', 'asc')
+            ->get();
+
+            $produk = DB::table('order')
+            ->join('order_details', 'order.id_order', '=', 'order_details.id_order')
+            ->join('produk', 'order_details.id_produk', '=', 'produk.id_produk')
+            ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+            ->where('order.id_pelanggan', $url)
+            ->where('kategori_produk.nama_kategori', '!=', 'Makanan')
+            ->where('kategori_produk.nama_kategori', '!=', 'Minuman')
+            ->select(DB::raw('SUM(order_details.jumbel_produk) as jumbel_produk, produk.nama_produk'))
+            ->distinct()
+            ->groupBy('produk.nama_produk')
+            ->orderBy('produk.nama_produk', 'asc')
+            ->get();
+            return view('Itsfood.profile', compact('pelanggan', 'order', 'produk'));
+        }
+    }
+
+    public function logout()
+    {
+        auth('pelanggan')->logout();
+        
+        return redirect()->route('masuk');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function menu()
+    {
+        $countlike = Like::count();
+        $countreview = Review::count();
+        $like = DB::table('like')
+                ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                ->select('like.*', DB::raw('count(*) as total'))
+                 ->groupBy('like.id_pelanggan')
+                 ->groupBy('like.id_produk')
+                 ->get();
+        $likeProduk = DB::table('like')
+                ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                ->select('like.*', DB::raw('count(*) as total'))
+                 ->groupBy('like.id_produk')
+                 ->get();
+        $review = DB::table('review')
+                ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                ->select('review.*', DB::raw('count(*) as total'))
+                 ->groupBy('review.id_pelanggan')
+                 ->groupBy('review.id_produk')
+                 ->get();
+        $reviewProduk = DB::table('review')
+                ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                ->select('review.*', DB::raw('count(*) as total'))
+                 ->groupBy('review.id_produk')
+                 ->get();
+        // $review = Review::all();
+        // dd($reviewProduk);
+        $data = Produk::with('Like')->with('ProdukKegiatan')
+                ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+                ->where('kategori_produk.for_view', '=', 'Ditampilkan')
+                ->paginate(8);
+        // dd($data);
+        // $data = Produk::with('ProdukKegiatan')->get();
+        // dd($data);
+        // $produkkegiatan = ProdukKegiatan::all();
+        // $data = DB::table('produk')
+        // ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+        // ->where('nama_kategori', 'Makanan')
+        // ->orwhere('nama_kategori', 'Minuman')
+        // ->select('*')
+        // ->get();
+        return view('itsfood.menu', compact('data', 'produkkegiatan', 'like', 'likeProduk', 'review', 'reviewProduk', 'countlike', 'countreview'));
+    }
+
+    public function create()
+    {
+        if (!Session::has('keranjang')) {
+            return view ('itsfood.keranjang', ['produks' => null]);
+        }
+        $Keranjanglama = Session::get('keranjang');
+        $keranjang = new Keranjang($Keranjanglama);
+        $produkkegiatan = ProdukKegiatan::all();
+        return view ('itsfood.keranjang', ['produks' => $keranjang->produks, 'produkkegiatan' => $produkkegiatan, 'totalPembelian' => $keranjang->totalPembelian]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function checkout(Request $request)
+    {
+        if (is_null(auth('pelanggan')->user()))
+        {
+            return redirect()->route('masuk')->with('login', 'Harus Login Terlebih Dahulu');
+        }
+        if (!Session::has('keranjang')) {
+            return view ('itsfood.keranjang', ['produks' => null]);
+        }
+        $Keranjanglama = Session::get('keranjang');
+        $keranjang = new Keranjang($Keranjanglama);
+        $produkkegiatan = ProdukKegiatan::all();
+        $valid = DB::table('produk')
+        ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+        ->select('*')
+        ->get();
+        return view ('itsfood.checkout', ['produks' => $keranjang->produks, 'totalPembelian' => $keranjang->totalPembelian, 'produkkegiatan' => $produkkegiatan, 'valid' => $valid]);
+    }
+
+    public function store(Request $request)
+    {
+        $get_nomor = auth('pelanggan')->user()->phone_number;
+        $nomor = substr($get_nomor, 2);
+        $menit = Date('i'); 
+        $tgl = Date('ymd');
+        $kodeOrder = 'OFD'.$tgl.$nomor.$menit;
+
+        $this->validate($request, [
+            'status' => 'required',
+        ]);
+
+        if (!Session::has('keranjang')){
+            return redirect()->to('/itsfood');
+        }
+        
+        $Keranjanglama = Session::get('keranjang');
+        $keranjang = new Keranjang($Keranjanglama);
+
+                        $pesan = new Order();
+                        $pesan->id_pelanggan = auth('pelanggan')->user()->id_pelanggan;
+                        $pesan->kode_order = $kodeOrder;
+                        $pesan->status = "Belum Lunas";
+                        $pesan->total_order = $request->get('total_pembelian');
+                        $pesan->save();
+
+                        if($request->get('alamat')){
+                            $id_produk = $request->id_produk;
+                            $get_status = $request->status;
+                            $explode = explode("|",$get_status);
+                            $status = $explode[0];
+                            $harga_produk = $request->harga_produk;
+                            $bobot_produk = $request->bobot_produk;
+                            $jumbel_produk = $request->jumbel_produk;
+                                for ($i = 0; $i < count($id_produk); $i++){
+                                    $detail = new OrderDetails();
+                                    $detail->id_order = $pesan->id_order;
+                                    $detail->id_produk = $id_produk[$i];
+                                    $detail->catatan = $request->get('alamat');
+                                    $detail->status = $status;
+                                    $detail->ongkir = $request->get('ongkir');
+                                    $detail->harga_produk = $harga_produk[$i];
+                                    $detail->jumbel_produk = $jumbel_produk[$i];
+                                    $detail->bobot_produk = $bobot_produk[$i];
+                                    $detail->save();
+                                }
+                                
+                        Session::forget('keranjang');
+                        return redirect()->to('/itsfood')->with('success', 'Pesanan Anda Telah Dikirim');
+                        }
+                        else{
+                            $id_produk = $request->id_produk;
+                            $get_status = $request->status;
+                            $explode = explode("|",$get_status);
+                            $status = $explode[0];
+                            $harga_produk = $request->harga_produk;
+                            $bobot_produk = $request->bobot_produk;
+                            $jumbel_produk = $request->jumbel_produk;
+                                for ($i = 0; $i < count($id_produk); $i++){
+                                    $detail = new OrderDetails();
+                                    $detail->id_order = $pesan->id_order;
+                                    $detail->id_produk = $id_produk[$i];
+                                    $detail->catatan = $request->get('catatan');
+                                    $detail->status = $status;
+                                    $detail->ongkir = $request->get('ongkir');
+                                    $detail->harga_produk = $harga_produk[$i];
+                                    $detail->jumbel_produk = $jumbel_produk[$i];
+                                    $detail->bobot_produk = $bobot_produk[$i];
+                                    $detail->save();
+                                }
+                                
+                        Session::forget('keranjang');
+                        return redirect()->to('/itsfood')->with('success', 'Pesanan Anda Telah Dikirim');
+                        }        
+                
+        return redirect('/checkout')->with('fail', 'Please Pilih Dikirim atau Pilihan Lain');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $id)
+    {
+        $countlike = Like::count();
+        $countreview = Review::count();
+        $like = DB::table('like')
+                ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                ->select('like.*', DB::raw('count(*) as total'))
+                 ->groupBy('like.id_pelanggan')
+                 ->groupBy('like.id_produk')
+                 ->get();
+        $likeProduk = DB::table('like')
+                ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                ->select('like.*', DB::raw('count(*) as total'))
+                 ->groupBy('like.id_produk')
+                 ->get();
+        $review = DB::table('review')
+                ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                ->select('review.*', DB::raw('count(*) as total'))
+                 ->groupBy('review.id_pelanggan')
+                 ->groupBy('review.id_produk')
+                 ->get();
+        $reviewProduk = DB::table('review')
+                ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                ->select('review.*', DB::raw('count(*) as total'))
+                 ->groupBy('review.id_produk')
+                 ->get();
+        $data = Produk::with('ProdukKegiatan')->find($id);
+        // dd($data);
+        if($data === null){
+            return view('itsfood.Not_Found');
+        }
+        return view('itsfood.detailproduk', compact('data', 'countlike', 'countreview', 'like', 'likeProduk', 'review', 'reviewProduk'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, $id_pelanggan)
+    {
+        $pelanggan = UsersPelanggan::find($id_pelanggan);
+        return view('Itsfood.editprofile', compact('pelanggan'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id_pelanggan)
+    {
+        $id_pelanggan = $request->segment(3);
+        $profil = UsersPelanggan::find($id_pelanggan);
+        
+        $data = $profil->foto_profil;
+        
+        if(empty($request->hasfile('foto_profil')))
+        {
+            $profil->nama_pelanggan = $request->get('nama_pelanggan');
+            $profil->username = $request->get('username');
+            $profil->email_pelanggan = $request->get('email_pelanggan');
+            $profil->phone_number = $request->get('phone_number');
+            $profil->bio = $request->get('bio');
+            $profil->update();
+        }
+
+        if($request->hasfile('foto_profil'))
+        {
+            foreach($request->file('foto_profil') as $image)
+            {
+                $gambar=$image->getClientOriginalName();
+                $image->move(public_path().'/imageforuser/pelanggan', $gambar);  
+            }
+            $profil->nama_pelanggan = $request->get('nama_pelanggan');
+            $profil->username = $request->get('username');
+            $profil->email_pelanggan = $request->get('email_pelanggan');
+            $profil->phone_number = $request->get('phone_number');
+            $profil->foto_profil = $gambar;
+            $profil->bio = $request->get('bio');
+            $profil->update();
+        }
+        elseif($data != NULL && !empty($request->hasfile('foto_profil'))){
+            
+            unlink(public_path().'/imageforuser/pelanggan/'. $profil->foto_profil);
+            foreach($request->file('foto_profil') as $image)
+            {
+                $gambar=$image->getClientOriginalName();
+                $image->move(public_path().'/imageforuser/pelanggan', $gambar);
+            }
+            $profil->nama_pelanggan = $request->get('nama_pelanggan');
+            $profil->username = $request->get('username');
+            $profil->email_pelanggan = $request->get('email_pelanggan');
+            $profil->phone_number = $request->get('phone_number');
+            $profil->foto_profil = $gambar;
+            $profil->bio = $request->get('bio');
+            $profil->update();
+        }
+
+        return redirect('itsfood/profile/' . $id_pelanggan)->with('success', 'Profile Berhasil Diperbaharui');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addKeranjang(Request $request, $id_produk)
+    {
+        $produk = Produk::find($id_produk);
+        $Keranjanglama = Session::has('keranjang') ? Session::get('keranjang') : null;
+        $keranjang = new Keranjang($Keranjanglama);
+        $keranjang->add($produk, $produk->id_produk);
+        $url = $request->segment(3);
+
+        $request->session('keranjang')->put('keranjang', $keranjang);
+
+        $data = DB::table('produk')
+        ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
+        ->where('id_produk', $url)
+        ->select('*')
+        ->get();
+        
+        foreach($data as $result){
+            $test = $result->nama_kategori;
+        }
+        
+        if($test == 'Makanan' || $test == 'Minuman'){
+            return redirect()->to('/itsfood/menu');
+        }
+        elseif($test != 'Makanan' || $test != 'Minuman'){
+            return redirect()->to('/itsfood/shop');
+        }
+    }
+
+    public function tambahKeranjang(Request $request, $id_produk)
+    {
+        $produk = Produk::find($id_produk);
+        $Keranjanglama = Session::has('keranjang') ? Session::get('keranjang') : null;
+        $keranjang = new Keranjang($Keranjanglama);
+        $keranjang->add($produk, $produk->id_produk);
+
+        $request->session('keranjang')->put('keranjang', $keranjang);
+        return redirect()->to('/itsfood/keranjang');
+    }
+    
+    public function kurangiKeranjang($id_produk)
+    {
+        $Keranjanglama = Session::has('keranjang') ? Session::get('keranjang') : null;
+        $keranjang = new Keranjang($Keranjanglama);
+        $keranjang->kurangiSatu($id_produk);
+         
+        if (count($keranjang->produks) > 0){
+            Session::put('keranjang', $keranjang);
+        } else {
+            Session::forget('keranjang');
+        }
+        return redirect()->route('keranjang');
+    }    
+    
+    public function destroy($id_produk)
+    {
+        $Keranjanglama = Session::has('keranjang') ? Session::get('keranjang') : null;
+        $keranjang = new Keranjang($Keranjanglama);
+        $keranjang->hapusSemua($id_produk);
+
+        if (count($keranjang->produks) > 0){
+            Session::put('keranjang', $keranjang);
+        } else {
+            Session::forget('keranjang');
+        }
+        return redirect()->route('keranjang');
+    }
+    
+    public function remove(Request $request, $id_pelanggan)
+    {
+        $id_pelanggan = $request->segment(3);
+        $profil = UsersPelanggan::find($id_pelanggan);
+        $profil->nama_pelanggan = $request->get('nama_pelanggan');
+        $profil->username = $request->get('username');
+        $profil->email_pelanggan = $request->get('email_pelanggan');
+        $profil->phone_number = $request->get('phone_number');
+        $profil->foto_profil = NULL;
+        $profil->bio = $request->get('bio');
+        $profil->update();
+
+        return redirect('itsfood/editprofile/' . $id_pelanggan)->with('success', 'Photo Removed');
+    }
+}
