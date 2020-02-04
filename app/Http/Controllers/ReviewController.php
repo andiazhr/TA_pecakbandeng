@@ -12,10 +12,6 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function index()
     {
@@ -83,11 +79,11 @@ class ReviewController extends Controller
      */
     public function update(Request $request, $id)
     { 
-        $id = $request->get('id_review');
+        $id = $request->get('id_review_edit');
         $review = Review::find($id);
-        $review->id_pelanggan = $request->get('id_pelanggan');
-        $review->id_produk = $request->get('id_produk');
-        $review->review = $request->get('review');
+        $review->id_pelanggan = $request->get('id_pelanggan_edit');
+        $review->id_produk = $request->get('id_produk_edit');
+        $review->review = $request->get('review_edit');
         $review->update();
         return redirect()->back();
     }

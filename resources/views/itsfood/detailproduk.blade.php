@@ -161,11 +161,11 @@
                                                 <form role="form" method="post" action="{{route('update.review', $ulasan->id_review)}}" enctype="multipart/form-data">
                                                 @csrf
                                                     <div class="modal-body">
-                                                        <h5 class="card-title" name="nama_produk" id="nama_produk"></h5>
-                                                        <input hidden type="number" name="id_review" id="id_review" value=""/>
-                                                        <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
-                                                        <input hidden type="number" name="id_produk" id="id_produk" value=""/>
-                                                        <textarea name="review" id="review" class="form-control border-primary" rows="5"></textarea>
+                                                        <h5 class="card-title" name="nama_produk_edit" id="nama_produk_edit"></h5>
+                                                        <input hidden type="number" name="id_review_edit" id="id_review_edit" value=""/>
+                                                        <input hidden type="number" name="id_pelanggan_edit" id="id_pelanggan_edit" value=""/>
+                                                        <input hidden type="number" name="id_produk_edit" id="id_produk_edit" value=""/>
+                                                        <textarea name="review_edit" id="review_edit" class="form-control border-primary" rows="5"></textarea>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-warning" data-dismiss="modal">Kembali</button>

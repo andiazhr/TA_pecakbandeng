@@ -1,9 +1,9 @@
-<div class="col-12 p-3 bg-success text-white" id="about"> <!-- if error add 'h3' -->
+<div class="col-12 p-3 bg-dark text-white" id="about"> <!-- if error add 'h3' -->
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
             <div class="row no-gutters p-0">
-                <div class="col-12" style="font-family:bebas neue">
-                    <img src="{{ asset ('/imageforuser/warung.png') }}" style="width:100px; height:100px; margin-right:10px;"> PECAK BANDENG 59
+                <div class="col-12">
+                    <img src="{{ asset ('/imageforuser/warung.png') }}" style="width:100px; height:100px; margin-right:10px;"> PECAK BANDENG
                 </div>
                 <div class="col-12 d-flex justify-content-center">
                     <div class="row no-gutters p-0">

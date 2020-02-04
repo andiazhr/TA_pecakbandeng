@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<div class="row no-gutters p-3 d-flex justify-content-center">
+<div class="row no-gutters bg-light p-3 d-flex justify-content-center">
   <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-none d-lg-block d-xl-none d-xl-block">
     <div class="spinner"></div>
     <div class="sk-folding-cube d-none d-xl-block">
@@ -123,6 +123,10 @@
               <p>
                 {{$makanan->deskripsi_produk}}
               </p>
+              <div class="slidemakan1 bg-light" style="z-index: -1;"></div>
+              <div class="slidemakan2 bg-light" style="z-index: -1;"></div>
+              <div class="slidemakan3 bg-light" style="z-index: -1;"></div>
+              <div class="slidemakan4 bg-light" style="z-index: -1;"></div>
             </div>
           </div>
         </div>
@@ -201,6 +205,10 @@
               <p>
                 {{$minuman->deskripsi_produk}}
               </p>
+              <div class="slideminum1 bg-light" style="z-index: -1;"></div>
+              <div class="slideminum2 bg-light" style="z-index: -1;"></div>
+              <div class="slideminum3 bg-light" style="z-index: -1;"></div>
+              <div class="slideminum4 bg-light" style="z-index: -1;"></div>
             </div>
           </div>
         </div>
@@ -243,16 +251,16 @@
             @if($makanan->KategoriProduk->nama_kategori == 'Makanan')
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 column makanan">
               <div class="card border-success" style="width: 100%;">
-                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block image image-xlf image-lgf" alt="...">
-                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="300px" alt="...">
-                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-sm-none d-sm-block d-md-none d-lg-none d-xl-none image-smf" alt="...">
+                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block menu-image menu-image-xlf menu-image-lgf" alt="...">
+                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="250px" alt="...">
+                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-sm-none d-sm-block d-md-none d-lg-none d-xl-none menu-image-smf" alt="...">
                 <div class="card-body">
                   <strong>
-                    <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px">
+                    <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                       {{$makanan->nama_produk}}
                     </p>
                   </strong>
-                  <p class="card-title" style="font-size: 15px; font-family: raleway; white-space: nowrap; width: 235px; overflow: hidden; text-overflow: ellipsis;">
+                  <p class="card-title" style="font-size: 14px; font-family: raleway; white-space: nowrap; width: 215px; overflow: hidden; text-overflow: ellipsis;">
                     {{$makanan->deskripsi_produk}}
                   </p>
                   <hr style="width: 100%">
@@ -271,16 +279,16 @@
             @if($makanan->KategoriProduk->nama_kategori == 'Makanan')
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 column makanan">
               <div class="card border-success" style="width: 100%;">
-                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block image image-xlf image-lgf" alt="...">
-                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="300px" alt="...">
-                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-sm-none d-sm-block d-md-none d-lg-none d-xl-none image-smf" alt="...">
+                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block menu-image menu-image-xlf menu-image-lgf" alt="...">
+                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="250px" alt="...">
+                  <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-sm-none d-sm-block d-md-none d-lg-none d-xl-none menu-image-smf" alt="...">
                 <div class="card-body">
                   <strong>
-                    <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px">
+                    <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                       {{$makanan->nama_produk}}
                     </p>
                   </strong>
-                  <p class="card-title" style="font-size: 15px; font-family: raleway; white-space: nowrap; width: 235px; overflow: hidden; text-overflow: ellipsis;">
+                  <p class="card-title" style="font-size: 14px; font-family: raleway; white-space: nowrap; width: 215px; overflow: hidden; text-overflow: ellipsis;">
                     {{$makanan->deskripsi_produk}}
                   </p>
                   <hr style="width: 100%">
@@ -297,16 +305,16 @@
             @if($minuman->KategoriProduk->nama_kategori == 'Minuman')
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 column minuman">
               <div class="card border-success" style="width: 100%;">
-                  <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block image image-xlf image-lgf" alt="...">
-                  <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="300px" alt="...">
-                  <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-sm-none d-sm-block d-md-none d-lg-none d-xl-none image-smf" alt="...">
+                  <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block menu-image menu-image-xlf menu-image-lgf" alt="...">
+                  <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="250px" alt="...">
+                  <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-sm-none d-sm-block d-md-none d-lg-none d-xl-none menu-image-smf" alt="...">
                 <div class="card-body">
                   <strong>
-                    <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px">
+                    <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                       {{$minuman->nama_produk}}
                     </p>
                   </strong>
-                  <p class="card-title" style="font-size: 15px; font-family: raleway; white-space: nowrap; width: 235px; overflow: hidden; text-overflow: ellipsis;">
+                  <p class="card-title" style="font-size: 14px; font-family: raleway; white-space: nowrap; width: 215px; overflow: hidden; text-overflow: ellipsis;">
                     {{$minuman->deskripsi_produk}}
                   </p>
                   <hr style="width: 100%">
@@ -325,16 +333,16 @@
           @if($minuman->KategoriProduk->nama_kategori == 'Minuman')
           <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 column minuman">
             <div class="card border-success" style="width: 100%;">
-                <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block image image-xlf image-lgf" alt="...">
-                <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="300px" alt="...">
-                <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-sm-none d-sm-block d-md-none d-lg-none d-xl-none image-smf" alt="...">
+                <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block menu-image menu-image-xlf menu-image-lgf" alt="...">
+                <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="250px" alt="...">
+                <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-sm-none d-sm-block d-md-none d-lg-none d-xl-none menu-image-smf" alt="...">
               <div class="card-body">
                 <strong>
-                  <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px">
+                  <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     {{$minuman->nama_produk}}
                   </p>
                 </strong>
-                <p class="card-title" style="font-size: 15px; font-family: raleway; white-space: nowrap; width: 235px; overflow: hidden; text-overflow: ellipsis;">
+                <p class="card-title" style="font-size: 14px; font-family: raleway; white-space: nowrap; width: 215px; overflow: hidden; text-overflow: ellipsis;">
                   {{$minuman->deskripsi_produk}}
                 </p>
                 <hr style="width: 100%">

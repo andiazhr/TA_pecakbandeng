@@ -43,18 +43,6 @@ $(document).on("click", ".review", function () {
      $(".modal-body #nama_produk").text( Nama_Produk );
 });
 </script>
-
-<script>
-$(document).on("click", ".reviewsearch", function () {
-     var Id = $(this).data('id');
-     var Id_Produk = $(this).data('idproduk');
-     var Nama_Produk = $(this).data('namaproduk');
-     $(".modal-body #id_pelanggan").val( Id );
-     $(".modal-body #id_produk").val( Id_Produk );
-     $(".modal-body #nama_produk").text( Nama_Produk );
-});
-</script>
-
 <script>
 $(document).on("click", ".reviewedit", function () {
      var Id_Review = $(this).data('idreview');
@@ -62,12 +50,12 @@ $(document).on("click", ".reviewedit", function () {
      var Id_Produk = $(this).data('idproduk');
      var Nama_Produk = $(this).data('namaproduk');
      var Review = $(this).data('review');
-     $(".modal-body #id_review").val( Id_Review );
+     $(".modal-body #id_review_edit").val( Id_Review );
      $(".modal-footer #id_review_delete").val( Id_Review );
-     $(".modal-body #id_pelanggan").val( Id );
-     $(".modal-body #id_produk").val( Id_Produk );
-     $(".modal-body #nama_produk").text( Nama_Produk );
-     $(".modal-body #review").val( Review );
+     $(".modal-body #id_pelanggan_edit").val( Id );
+     $(".modal-body #id_produk_edit").val( Id_Produk );
+     $(".modal-body #nama_produk_edit").text( Nama_Produk );
+     $(".modal-body #review_edit").val( Review );
 });
 </script>
 
