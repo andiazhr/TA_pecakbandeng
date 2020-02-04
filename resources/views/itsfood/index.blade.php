@@ -9,12 +9,6 @@
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/checkout.js') }}"></script>
-    <!-- <script src="{{ asset('js/jquery.slim.min.js') }}"></script> -->
-    <!-- <script src="{{ asset('assetsadmin/bower_components/jquery/dist/jquery.min.js') }}"></script> -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
-    <!-- <script src="https://js.stripe.com/v3/"></script> -->
 </head>
 <body>
 <div class="kolom12">
@@ -86,26 +80,6 @@ $(document).ready(function(){
 });
 </script>
 
-<script>
-  // When the user scrolls the page, execute myFunction
-  window.onscroll = function () { myFunction() };
-
-  // Get the navbar
-  var navbar = document.getElementById("navbar");
-
-  // Get the offset position of the navbar
-  var sticky = navbar.offsetTop;
-
-  // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-  function myFunction() {
-    if (window.pageYOffset >= sticky) {
-      navbar.classList.add("sticky")
-    } else {
-      navbar.classList.remove("sticky");
-    }
-  }
-</script>
-
 <script type="text/javascript">
   function Validate() {
       var nama = document.getElementById("nama_pelanggan").value;
@@ -127,7 +101,6 @@ $(document).ready(function(){
   }
 </script>
 
-<!-- <script src="https://code.jquery.com/jquery-2.1.1.js"></script> -->
 <script>
 $(document).ready(function(){
   
@@ -149,52 +122,6 @@ $(document).ready(function(){
   
 });
 </script>
-
-<!-- <script>
-filterSelection("all")
-function filterSelection(c) {
-  var x, i;
-  x = document.getElementsByClassName("column");
-  if (c == "all") c = "";
-  for (i = 0; i < x.length; i++) {
-    w3RemoveClass(x[i], "show");
-    if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
-  }
-}
-
-function w3AddClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
-  }
-}
-
-function w3RemoveClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    while (arr1.indexOf(arr2[i]) > -1) {
-      arr1.splice(arr1.indexOf(arr2[i]), 1);     
-    }
-  }
-  element.className = arr1.join(" ");
-}
-
-
-// Add active class to the current button (highlight it)
-var btnContainer = document.getElementById("myBtnContainer");
-var btns = btnContainer.getElementsByClassName("btn");
-for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function(){
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
-}
-</script> -->
 
 <script>
 var slideIndexEvent = 0;
@@ -247,8 +174,6 @@ function showSlides2() {
 }
 </script>
 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> -->
-<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script> -->
 <!-- <script>
 $(window).load(function() {
 		// Animate loader off screen
@@ -258,32 +183,7 @@ $(window).load(function() {
 
 <script>
   $("video").prop('muted', true);
-
-  // $("#mute-unmute").click( function (){
-  //   if( $("video").prop('muted') ) {
-  //         $("video").prop('muted', false);
-  //   } else {
-  //     $("video").prop('muted', true);
-  //   }
-  // });
 </script>
-
-<!-- tab -->
-<!-- <script>
-function openOption(evt, cityName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-</script> -->
 
 <script type="text/javascript">
   var checkBoxes = $('#checkpersetujuan');
@@ -299,9 +199,6 @@ function myJasa() {
   var arr = str.split("|");
   var x = document.getElementById("jasa").innerHTML = arr[0];
   if (x === 'Dikirim'){ 
-    // document.getElementById("kota").disabled = false;
-    // document.getElementById("btn-kota").disabled = false;
-    // document.getElementById("jasa_pengiriman").disabled = false;
     document.getElementById("alamat").disabled = false;
     document.getElementById("catatan").disabled = true;
   }
@@ -313,9 +210,6 @@ function myJasa2() {
   var arr = str.split("|");
   var x = document.getElementById("jasa2").innerHTML = arr[0];
   if (x === 'Booking'){ 
-    // document.getElementById("kota").disabled = true;
-    // document.getElementById("btn-kota").disabled = true;
-    // document.getElementById("jasa_pengiriman").disabled = true;
     document.getElementById("alamat").disabled = true;
     document.getElementById("catatan").disabled = false;
   }
@@ -328,9 +222,6 @@ function myJasa3() {
   var arr = str.split("|");
   var x = document.getElementById("jasa3").innerHTML = arr[0];
   if (x === 'Diambil'){ 
-    // document.getElementById("kota").disabled = true;
-    // document.getElementById("btn-kota").disabled = true;
-    // document.getElementById("jasa_pengiriman").disabled = true;
     document.getElementById("alamat").disabled = true;
     document.getElementById("catatan").disabled = false;
   }
@@ -343,9 +234,6 @@ function myDecoy() {
   var arr = str.split("|");
   var x = document.getElementById("decoy").innerHTML = arr[0];
   if (x === 'Decoy'){ 
-    // document.getElementById("kota").disabled = true;
-    // document.getElementById("btn-kota").disabled = true;
-    // document.getElementById("jasa_pengiriman").disabled = true;
     document.getElementById("alamat").disabled = true;
     document.getElementById("catatan").disabled = true;
   }
@@ -436,11 +324,5 @@ $("#decoy").change(function() {
 }).trigger("change");
 </script>
 
-<!-- <script>
-  var priceevent = parseFloat(document.getElementById("priceevent").value);
-  var price = parseFloat(document.getElementById("price").value);
-  var total = document.getElementById("total").value = priceevent + price;
-  $("#Total").text(total);
-</script> -->
 </body>
 </html>
