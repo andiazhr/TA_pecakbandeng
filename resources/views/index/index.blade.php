@@ -61,7 +61,7 @@
 </div>
 
 <div class="row no-gutters bg-light p-3 d-flex justify-content-center">
-  <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-none d-lg-block d-xl-none d-xl-block">
+  <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-none d-lg-block d-xl-none d-xl-block py-5 pr-5">
     <div class="spinner"></div>
     <div class="sk-folding-cube d-none d-xl-block">
       <div class="sk-cube1 sk-cube"></div>
@@ -84,7 +84,7 @@
       @endif
     @endforeach
   </div>
-  <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-none d-lg-block d-xl-none d-xl-block">
+  <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-none d-lg-block d-xl-none d-xl-block py-5 pl-5">
     <div class="spinner2 d-none d-xl-block">
       <div class="cube1"></div>
       <div class="cube2"></div>
@@ -249,7 +249,7 @@
         <div class="tab-pane fade" id="pills-makanan" role="tabpanel" aria-labelledby="pills-makanan-tab">
           @foreach($datamkn as $makanan)
             @if($makanan->KategoriProduk->nama_kategori == 'Makanan')
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 column makanan">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 float-left">
               <div class="card border-success" style="width: 100%;">
                   <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block menu-image menu-image-xlf menu-image-lgf" alt="...">
                   <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="250px" alt="...">
@@ -277,7 +277,7 @@
         <div class="tab-pane fade show active" id="pills-semua" role="tabpanel" aria-labelledby="pills-semua-tab">
           @foreach($datamkn as $makanan)
             @if($makanan->KategoriProduk->nama_kategori == 'Makanan')
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 column makanan">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 float-left">
               <div class="card border-success" style="width: 100%;">
                   <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block menu-image menu-image-xlf menu-image-lgf" alt="...">
                   <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="250px" alt="...">
@@ -303,7 +303,7 @@
           
           @foreach($datamnm as $minuman)
             @if($minuman->KategoriProduk->nama_kategori == 'Minuman')
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 column minuman">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 float-left">
               <div class="card border-success" style="width: 100%;">
                   <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block menu-image menu-image-xlf menu-image-lgf" alt="...">
                   <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="250px" alt="...">
@@ -331,7 +331,7 @@
         <div class="tab-pane fade" id="pills-minuman" role="tabpanel" aria-labelledby="pills-minuman-tab">
           @foreach($datamnm as $minuman)
           @if($minuman->KategoriProduk->nama_kategori == 'Minuman')
-          <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 column minuman">
+          <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 float-left">
             <div class="card border-success" style="width: 100%;">
                 <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block menu-image menu-image-xlf menu-image-lgf" alt="...">
                 <img src="{{ asset('/imageforuser/menu/'. $minuman->gambar_produk) }}" class="d-none d-sm-none d-md-none d-md-block d-lg-none d-xl-none" height="250px" alt="...">

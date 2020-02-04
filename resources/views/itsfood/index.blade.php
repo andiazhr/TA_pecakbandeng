@@ -6,14 +6,15 @@
     <link href="{{ asset('bootstrap/dist/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('js/checkout.js') }}"></script>
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.slim.min.js') }}"></script>
+    <script src="{{ asset('js/checkout.js') }}"></script>
+    <!-- <script src="{{ asset('js/jquery.slim.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('assetsadmin/bower_components/jquery/dist/jquery.min.js') }}"></script> -->
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <!-- <script src="https://js.stripe.com/v3/"></script> -->
 </head>
 <body>
 <div class="kolom12">
@@ -117,7 +118,8 @@ $(document).ready(function(){
       if (persetujuan == false) {
           alert("Anda belum menyetujui persetujuan");
           return false;
-      }elseif(password != confirmPassword){
+      }elseif(password != confirmPassword)
+      {
           alert("Passwords do not match.")
           return false;
       }
@@ -125,7 +127,7 @@ $(document).ready(function(){
   }
 </script>
 
-<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-2.1.1.js"></script> -->
 <script>
 $(document).ready(function(){
   
@@ -148,7 +150,7 @@ $(document).ready(function(){
 });
 </script>
 
-<script>
+<!-- <script>
 filterSelection("all")
 function filterSelection(c) {
   var x, i;
@@ -192,7 +194,7 @@ for (var i = 0; i < btns.length; i++) {
     this.className += " active";
   });
 }
-</script>
+</script> -->
 
 <script>
 var slideIndexEvent = 0;
@@ -245,14 +247,14 @@ function showSlides2() {
 }
 </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
-<script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> -->
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script> -->
+<!-- <script>
 $(window).load(function() {
 		// Animate loader off screen
-		$(".se-pre-con").fadeOut("slow");;
+		$(".se-pre-con").fadeOut("fast");;
   });
-</script>
+</script> -->
 
 <script>
   $("video").prop('muted', true);
@@ -267,7 +269,7 @@ $(window).load(function() {
 </script>
 
 <!-- tab -->
-<script>
+<!-- <script>
 function openOption(evt, cityName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
@@ -281,7 +283,7 @@ function openOption(evt, cityName) {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
-</script>
+</script> -->
 
 <script type="text/javascript">
   var checkBoxes = $('#checkpersetujuan');
