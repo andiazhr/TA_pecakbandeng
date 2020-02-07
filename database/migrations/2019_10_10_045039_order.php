@@ -18,7 +18,7 @@ class Order extends Migration
             $table->unsignedInteger('id_pelanggan');
             $table->foreign('id_pelanggan')->references('id_pelanggan')->on('users_pelanggan')->onDelete('CASCADE');
             $table->string('kode_order');
-            $table->enum('status', ['Lunas', 'Belum Lunas'])->default('Belum Lunas');
+            $table->enum('status', ['0', '1']);
             $table->integer('total_order');
             $table->timestamps();
         });

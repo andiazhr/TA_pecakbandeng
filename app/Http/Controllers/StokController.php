@@ -44,6 +44,10 @@ class StokController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'status' => 'required'
+        ]);
+
         $exists = Stok::where('nama_barang', $request->nama_barang)->exists();
         
         if($exists == true){
@@ -52,6 +56,7 @@ class StokController extends Controller
         $stok = new Stok();
         $stok->nama_barang = $request->get('nama_barang');
         $stok->stok = $request->get('stok');
+        $stok->status = $request->get('status');
         $stok->save();
         return redirect('Stok')->with('success', 'Data berhasil ditambahkan');
     }
@@ -62,9 +67,12 @@ class StokController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function status(Request $request, $id)
     {
-        //
+        $stok = Stok::find($id);
+        $stok->status = $request->get('status');
+        $stok->update();
+        return redirect()->back();
     }
 
     /**
@@ -91,6 +99,7 @@ class StokController extends Controller
         $stok = Stok::find($id);
         $stok->nama_barang = $request->get('nama_barang');
         $stok->stok = $request->get('stok');
+        $stok->status = $request->get('status');
         $stok->update();
         return redirect('Stok')->with('success', 'Data berhasil diubah');
     }

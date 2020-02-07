@@ -11,24 +11,24 @@
               <div class="box-body">
                 @csrf
                 @method('PUT')
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                       <label>Ubah Kategori Produk</label>
                       <input type="text" class="form-control" name="nama_kategori" placeholder="Masukkan Kategori Produk" value="{{$kategori->nama_kategori}}">
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <div class="form-group">
                     <label class="mb-kategori">Untuk Tampilan</label><br>
-                      <input type="radio" name="for_view" class="flat-red" value="Ditampilkan"<?=$kategori['for_view'] == 'Ditampilkan' ? ' checked="checked"' : '';?>>
-                      Ditampilkan dimenu
-                      <input type="radio" name="for_view" class="flat-red" value="Tidak ditampilkan"<?=$kategori['for_view'] == 'Tidak ditampilkan' ? ' checked="checked"' : '';?> style="margin-left: 20px">
-                      Tidak ditampilkan dimenu
+                      <input type="radio" name="status" class="flat-red" value="1"<?=$kategori['status'] == '1' ? ' checked="checked"' : '';?>>
+                      Ditampilkan
+                      <input type="radio" name="status" class="flat-red" value="0"<?=$kategori['status'] == '0' ? ' checked="checked"' : '';?> style="margin-left: 20px">
+                      Tidak Ditampilkan
                   </div>
                 </div>
                 
-                <div class="col-md-12" style="clear: left; text-align: right">
+                <div class="col-md-4 mt-kategori" style="text-align: right">
                     <button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Ubah</button>
                     <a href="{{ url('kategoriProduk') }}"><button type="button" class="btn btn-warning"><i class="fa fa-chevron-left"></i> Kembali</button></a>
                 </div>

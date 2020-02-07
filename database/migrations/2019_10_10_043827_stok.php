@@ -17,6 +17,7 @@ class Stok extends Migration
             $table->Increments('id_stok');
             $table->string('nama_barang')->unique();
             $table->integer('stok');
+            $table->enum('status', ['0', '1']);
             $table->timestamps();
         });
     }

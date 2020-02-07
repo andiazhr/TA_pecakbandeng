@@ -20,11 +20,10 @@ class OrderDetails extends Migration
             $table->unsignedInteger('id_produk');
             $table->foreign('id_produk')->references('id_produk')->on('produk')->onDelete('CASCADE');
             $table->text('catatan')->nullable();
-            $table->enum('status', ['Dikirim', 'Booking', 'Diambil']);
+            $table->enum('status', ['0', '1', '2']);
             $table->integer('ongkir');
             $table->integer('jumbel_produk');
             $table->integer('harga_produk');
-            $table->integer('bobot_produk');
             $table->timestamps();
         });
     }

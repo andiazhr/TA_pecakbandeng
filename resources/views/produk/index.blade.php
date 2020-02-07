@@ -4,9 +4,9 @@
 <section class="content">
       <div class="row">
         <div class="col-xs-12">
-          <div class="box">
+          <div class="box box-success">
             <div class="box-header">
-              <h3 class="box-title">Produk Table</h3> <a href="{{route('add.produk')}}"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i></button></a>
+              <h3 class="box-title">Produk Table</h3> <a href="{{route('add.produk')}}"><button type="button" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></button></a>
               
               @if(session()->get('success'))
                 <div class="col-12 d-flex justify-content-center">
@@ -41,6 +41,7 @@
                   <th>Deskripsi Produk</th>
                   <th>Harga Produk(Rp)</th>
                   <th>Stok Produk</th>
+                  <th>Status</th>
                   <th colspan="2" style="text-align: center;">Action</th>
                 </tr>
                 @foreach($data as $no => $produk)
@@ -52,24 +53,45 @@
                   <td>{{$produk->deskripsi_produk}}</td>
                   <td>{{number_format($produk->harga_produk)}}</td>
                   <td>
-                    @if($produk->Stok->stok == 0)  
-                      <span class="label label-danger">Stok habis</span>
-                    @elseif($produk->Stok->stok <= 5)
-                      <span class="label label-warning">{{$produk->Stok->stok}}</span>
+                    @if($produk->id_stok == NULL)
+                        <span class="label label-success">Stok tersedia</span>
                     @else
-                      <span class="label label-success">{{$produk->Stok->stok}}</span>
+                      @if($produk->Stok->stok == 0)  
+                        <span class="label label-danger">Stok habis</span>
+                      @elseif($produk->Stok->stok <= 5)
+                        <span class="label label-warning">{{$produk->Stok->stok}}</span>
+                      @else
+                        <span class="label label-success">{{$produk->Stok->stok}}</span>
+                      @endif
+                    @endif  
+                  </td>
+                  <td>
+                    @if($produk->status == 1)
+                    <form action="{{ route('status.produk', $produk->id_produk)}}" method="post">
+                      @csrf
+                      @method('PUT')
+                      <input type="number" hidden name="status" id="status" value="0">
+                      <button type="submit" class="btn btn-xs btn-primary">Ditampilkan</button>
+                    </form>
+                    @else
+                    <form action="{{ route('status.produk', $produk->id_produk)}}" method="post">
+                      @csrf
+                      @method('PUT')
+                      <input type="number" hidden name="status" id="status" value="1">
+                      <button type="submit" class="btn btn-xs btn-danger">Tidak Ditampilkan</button>
+                    </form>
                     @endif
                   </td>
                   <td style="text-align: right;">
                     <a href="{{ route('edit.produk', $produk->id_produk)}}">
-                      <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                      <button type="button" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
                     </a>
                   </td>
                   <td>
                     <form action="{{ route('delete.produk', $produk->id_produk)}}" method="post">
                       @csrf
                       @method('DELETE')
-                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                     </form>
                   </td>
                 </tr>

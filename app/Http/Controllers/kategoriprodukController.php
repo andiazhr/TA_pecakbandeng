@@ -43,9 +43,9 @@ class kategoriprodukController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'nama_kategori' => 'required|unique:kategori_produk'
-        // ]);
+        $this->validate($request, [
+            'status' => 'required'
+        ]);
 
         $exists = KategoriProduk::where('nama_kategori', $request->nama_kategori)->exists();
         
@@ -55,7 +55,7 @@ class kategoriprodukController extends Controller
 
         $kategori = new KategoriProduk([
             'nama_kategori' => $request->get('nama_kategori'),
-            'for_view' => $request->get('for_view')
+            'status' => $request->get('status')
           ]);
         $kategori->save();
         return redirect()->to('/kategoriProduk')->with('success', 'Data ditambahkan');
@@ -67,9 +67,12 @@ class kategoriprodukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function status(Request $request, $id)
     {
-        //
+        $kategori = KategoriProduk::find($id);
+        $kategori->status = $request->get('status');
+        $kategori->update();
+        return redirect()->back();
     }
 
     /**
@@ -98,7 +101,7 @@ class kategoriprodukController extends Controller
     {
         $kategori = KategoriProduk::find($id);
         $kategori->nama_kategori = $request->get('nama_kategori');
-        $kategori->for_view = $request->get('for_view');
+        $kategori->status = $request->get('status');
         $kategori->update();
         return redirect()->to('/kategoriProduk')->with('success', 'Data diubah');
     }

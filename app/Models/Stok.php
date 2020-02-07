@@ -10,7 +10,8 @@ class Stok extends Model
     protected $primaryKey = 'id_stok';
     protected $fillable = [
         'nama_barang',
-        'stok'
+        'stok',
+        'status'
       ];
       
     public function Produk()

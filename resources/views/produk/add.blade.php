@@ -77,18 +77,28 @@
 
                         <p class="help-block">Ukuran gambar max 2mb.</p>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label>Harga Produk</label>
-                        <input type="number" class="form-control{{ $errors->has('harga_produk') ? ' is-invalid' : '' }}" name="harga_produk" placeholder="Masukkan Harga Produk" value="{{ old('harga_produk') }}">
+                        <label>Deskripsi Produk</label>
+                        <textarea type="text" rows="3" class="form-control{{ $errors->has('deskripsi_produk') ? ' is-invalid' : '' }}" name="deskripsi_produk" placeholder="Masukkan Deskripsi Produk">{{ old('deskripsi_produk') }}</textarea>
                     </div>
                 </div>
                   
                 <div class="col-md-6">
                     
                     <div class="form-group">
+                        <label>Kategori Produk</label>
+                        <select onchange="mySelectKategori()" id="kategori" name="id_kategori" class="form-control select2" style="width: 100%;">
+                            <option selected="-" disabled selected>Pilih Kategori Produk</option>
+                            @foreach($data as $kategori)
+                            <option value="{{$kategori->id_kategori}}|{{$kategori->nama_kategori}}">{{$kategori->nama_kategori}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label>Bahan Utama</label>
-                        <select id="id_stok" name="id_stok" class="form-control select2" style="width: 100%;">
+                        <select disabled id="id_stok" name="id_stok" class="form-control select2" style="width: 100%;">
                             <option selected="-" disabled selected>Pilih Bahan Utama</option>
                             @foreach($stok as $sisa)
                             <option value="{{$sisa->id_stok}}">{{$sisa->nama_barang}}</option>
@@ -97,18 +107,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Kategori Produk</label>
-                        <select id="kategori" name="id_kategori" class="form-control select2" style="width: 100%;">
-                            <option selected="-" disabled selected>Pilih Kategori Produk</option>
-                            @foreach($data as $kategori)
-                            <option value="{{$kategori->id_kategori}}|{{$kategori->nama_kategori}}">{{$kategori->nama_kategori}}</option>
-                            @endforeach
-                        </select>
+                        <label>Harga Produk</label>
+                        <input type="number" class="form-control{{ $errors->has('harga_produk') ? ' is-invalid' : '' }}" name="harga_produk" placeholder="Masukkan Harga Produk" value="{{ old('harga_produk') }}">
                     </div>
-                    
+                
                     <div class="form-group">
-                        <label>Deskripsi Produk</label>
-                        <textarea type="text" rows="3" class="form-control{{ $errors->has('deskripsi_produk') ? ' is-invalid' : '' }}" name="deskripsi_produk" placeholder="Masukkan Deskripsi Produk">{{ old('deskripsi_produk') }}</textarea>
+                      <label class="mb-kategori">Untuk Tampilan</label><br>
+                        <input type="radio" name="status" class="flat-red" value="1">
+                        Ditampilkan
+                        <input type="radio" name="status" class="flat-red" value="0" style="margin-left: 20px">
+                        Tidak Ditampilkan
                     </div>
                     <!-- /.input group -->
                 </div>

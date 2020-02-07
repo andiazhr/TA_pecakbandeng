@@ -56,15 +56,34 @@
 
                         <p class="help-block">Ukuran gambar max 2mb.</p>
                     </div>
+
+                  <div class="form-group">
+                      <label>Harga Produk</label>
+                      <input type="number" class="form-control" name="harga_produk" placeholder="Masukkan Harga Produk" value="{{$produk->harga_produk}}">
+                  </div>
                 </div>
                   
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Kategori Produk</label>
-                        <select id="kategori" name="id_kategori" class="form-control select2" style="width: 100%;">
+                        <select onchange="mySelectKategori()" id="kategori" name="id_kategori" class="form-control select2" style="width: 100%;">
                             <option selected="-" disabled selected>Pilih Kategori Produk</option>
                             @foreach($data as $kategori)
                             <option value="{{$kategori->id_kategori}}|{{$kategori->nama_kategori}}"<?=$produk['id_kategori'] == $kategori['id_kategori'] ? ' selected="selected"' : '';?>>{{$kategori->nama_kategori}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bahan Utama</label>
+                        @if($produk->KategoriProduk->nama_kategori != 'Makanan')
+                        <select disabled id="id_stok" name="id_stok" class="form-control select2" style="width: 100%;">
+                        @else
+                        <select id="id_stok" name="id_stok" class="form-control select2" style="width: 100%;">
+                        @endif
+                            <option selected="-" disabled selected>Pilih Kategori Produk</option>
+                            @foreach($data2 as $stok)
+                            <option value="{{$stok->id_stok}}|{{$stok->nama_barang}}"<?=$produk['id_stok'] == $stok['id_stok'] ? ' selected="selected"' : '';?>>{{$stok->nama_barang}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -73,15 +92,13 @@
                         <label>Deskripsi Produk</label>
                         <textarea type="text" rows="3" class="form-control" name="deskripsi_produk" placeholder="Masukkan Deskripsi Produk">{{$produk->deskripsi_produk}}</textarea>
                     </div>
-
-                    <div class="form-group">
-                        <label>Harga Produk</label>
-                        <input type="number" class="form-control" name="harga_produk" placeholder="Masukkan Harga Produk" value="{{$produk->harga_produk}}">
-                    </div>
                     
                     <div class="form-group">
-                        <label>Stok Produk</label>
-                        <input type="number" class="form-control" name="stok_produk" placeholder="Masukkan Bobot Produk" value="{{$produk->stok_produk}}">
+                      <label class="mb-kategori">Untuk Tampilan</label><br>
+                        <input type="radio" name="status" class="flat-red" value="1"<?=$produk['status'] == '1' ? ' checked="checked"' : '';?>>
+                        Ditampilkan
+                        <input type="radio" name="status" class="flat-red" value="0"<?=$produk['status'] == '0' ? ' checked="checked"' : '';?> style="margin-left: 20px">
+                        Tidak Ditampilkan
                     </div>
                     <!-- /.input group -->
                 </div>

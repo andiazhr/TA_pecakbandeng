@@ -10,7 +10,7 @@ class KategoriProduk extends Model
     protected $primaryKey = 'id_kategori';
     protected $fillable = [
         'nama_kategori',
-        'for_view'
+        'status'
       ];
 
     public function Produk()

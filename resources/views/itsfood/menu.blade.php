@@ -15,11 +15,21 @@
     </div>
 </div>
 <div class="row no-gutters p-3" style="margin-top: -40px">
+@if($countProduk == 0)
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex justify-content-center p-5" style="height:400px;">
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 pt-5 text-center" style="margin-top: 50px;">
+            <h3 style="font-family: raleway;">Produk is not available</h3>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex justify-content-center p-5" style="height:400px;">
+        <img src="{{ asset ('/imageforuser/error-4042.png') }}" alt="Jet" style="width:256px;height:256px;">
+    </div>
+@else
     @foreach($data as $menu)
-        <?php $check = 0 ?>
-        <?php $checkrating = 0 ?>
-        <?php $checklike = 0 ?>
-        <?php $checkreview = 0 ?>
+    <?php $check = 0 ?>
+    <?php $checkrating = 0 ?>
+    <?php $checklike = 0 ?>
+    <?php $checkreview = 0 ?>
     <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 px-3 mt-4">
         <div class="card border-warning" style="width: 100%;">
             <img src="{{ asset('/imageforuser/menu/'. $menu->gambar_produk) }}" class="card-img-top d-none d-sm-none d-md-none d-lg-none d-lg-block d-xl-none d-xl-block image image-xlf image-lgf" alt="...">
@@ -583,15 +593,21 @@
                 <!-- end review and like -->
                 @endif
                 <a href="{{ route('detailproduk', $menu->id_produk)}}" style="clear: left" class="btn btn-info float-right animateBtn"><span>Detail <i class="fa fa-info-circle"></i></span></a>
-                @if($menu->Stok->stok == 0)
-                <a href="{{ route('addkeranjang', ['id_produk' => $menu->id_produk])}}" class="btn btn-danger float-right mr-1 animateBtn disabled">Stok Habis <i class="fa fa-utensils"></i></a>
-                @else
+                @if($menu->id_stok == NULL)
                 <a href="{{ route('addkeranjang', ['id_produk' => $menu->id_produk])}}" class="btn btn-warning float-right mr-1 animateBtn">Add To Cart <i class="fa fa-utensils"></i></a>
+                @else
+                    @if($menu->Stok->stok == 0)
+                    <a href="{{ route('addkeranjang', ['id_produk' => $menu->id_produk])}}" class="btn btn-danger float-right mr-1 animateBtn disabled">Stok Habis <i class="fa fa-utensils"></i></a>
+                    @else
+                    <a href="{{ route('addkeranjang', ['id_produk' => $menu->id_produk])}}" class="btn btn-warning float-right mr-1 animateBtn">Add To Cart <i class="fa fa-utensils"></i></a>
+                    @endif
                 @endif
             </div>
         </div>
     </div>
     @endforeach
+
+@endif
     
     <div class="col-12 d-flex justify-content-center mt-3">
         <span>{{$data->links()}}</span>

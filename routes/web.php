@@ -28,6 +28,7 @@ Route::prefix('kategoriProduk')->group(function(){
     Route::post('/add', 'kategoriprodukController@store')->name('submit.kategoriProduk');
     Route::get('/edit/{id}', 'kategoriprodukController@edit')->name('edit.kategoriProduk');
     Route::put('/edit/{id}', 'kategoriprodukController@update')->name('update.kategoriProduk');
+    Route::put('/status/{id}', 'kategoriprodukController@status')->name('status.kategoriProduk');
     Route::delete('/delete/{id}', 'kategoriprodukController@destroy')->name('delete.kategoriProduk');
 });
 
@@ -38,6 +39,7 @@ Route::prefix('Stok')->group(function(){
     Route::post('/add', 'StokController@store')->name('submit.stok');
     Route::get('/edit/{id}', 'StokController@edit')->name('edit.stok');
     Route::put('/edit/{id}', 'StokController@update')->name('update.stok');
+    Route::put('/status/{id}', 'StokController@status')->name('status.stok');
     Route::delete('/delete/{id}', 'StokController@destroy')->name('delete.stok');
 });
 
@@ -48,6 +50,7 @@ Route::prefix('produk')->group(function(){
     Route::post('/add', 'produkController@store')->name('submit.produk');
     Route::get('/edit/{id}', 'produkController@edit')->name('edit.produk');
     Route::put('/edit/{id}', 'produkController@update')->name('update.produk');
+    Route::put('/status/{id}', 'produkController@status')->name('status.produk');
     Route::delete('/delete/{id}', 'produkController@destroy')->name('delete.produk');
 });
 

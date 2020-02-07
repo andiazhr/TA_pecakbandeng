@@ -109,7 +109,7 @@ class orderController extends Controller
     public function update(Request $request)
     {
         $kode = $request->kode_pembayaran;
-        $query = DB::select("UPDATE tugasakhir.order SET status = 'Lunas' WHERE kode_order = '$kode'");
+        $query = DB::select("UPDATE tugasakhir.order SET status = '1' WHERE kode_order = '$kode'");
         $detail = Stok::join('produk', 'produk.id_stok', '=', 'stok.id_stok')
                 ->join('order_details', 'order_details.id_produk', '=', 'produk.id_produk')
                 ->join('order', 'order.id_order', '=', 'order_details.id_order')

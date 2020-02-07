@@ -11,7 +11,8 @@ class Order extends Model
     protected $fillable = [
         'id_pelanggan',
         'kode_order',
-        'total_order'
+        'total_order',
+        'status'
       ];
 
     public function Pelanggan()

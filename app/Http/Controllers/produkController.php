@@ -53,6 +53,7 @@ class produkController extends Controller
             'gambar_produk.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'deskripsi_produk' => 'required',
             'harga_produk' => 'required|integer',
+            'status' => 'required',
         ]);
 
         $exists = Produk::where('nama_produk', $request->nama_produk)->exists();
@@ -86,6 +87,7 @@ class produkController extends Controller
                 'gambar_produk'=> $gambar,
                 'deskripsi_produk'=> $request->get('deskripsi_produk'),
                 'harga_produk'=> $request->get('harga_produk'),
+                'status'=> $request->get('status'),
             ]);
 
             $produk->save();
@@ -101,9 +103,12 @@ class produkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function status(Request $request, $id)
     {
-        //
+        $produk = Produk::find($id);
+        $produk->status = $request->get('status');
+        $produk->update();
+        return redirect()->back();
     }
 
     /**
@@ -115,8 +120,9 @@ class produkController extends Controller
     public function edit($id)
     {
         $data = KategoriProduk::all();
+        $data2 = Stok::all();
         $produk = Produk::find($id);
-        return view('produk.edit', compact('produk', 'data'));
+        return view('produk.edit', compact('produk', 'data', 'data2'));
     }
 
     /**
@@ -136,6 +142,7 @@ class produkController extends Controller
             $produk->id_stok = $request->get('id_stok');
             $produk->deskripsi_produk = $request->get('deskripsi_produk');
             $produk->harga_produk = $request->get('harga_produk');
+            $produk->status = $request->get('status');
             $produk->update();
         }
 
@@ -153,6 +160,7 @@ class produkController extends Controller
             $produk->deskripsi_produk = $request->get('deskripsi_produk');
             $produk->gambar_produk = $gambar;
             $produk->harga_produk = $request->get('harga_produk');
+            $produk->status = $request->get('status');
             $produk->update();
         }
 

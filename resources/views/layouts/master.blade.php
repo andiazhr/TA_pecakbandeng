@@ -68,6 +68,18 @@
           .btn-kegiatan{
             margin-top: 6px;
           }
+          .mt-kategori{
+            margin-top: 25px;
+          }
+          .mt-kategori-edit{
+            margin-top: 25px;
+          }
+          .mt-stok{
+            margin-top: 25px;
+          }
+          .mt-stok-edit{
+            margin-top: 25px;
+          }
           .mt-produk{
             margin-top: 24px;
           }
@@ -90,6 +102,18 @@
           .btn-kegiatan{
             margin-top: 0;
           }
+          .mt-kategori{
+            margin-top: 0;
+          }
+          .mt-kategori-edit{
+            margin-top: 0;
+          }
+          .mt-stok{
+            margin-top: 0;
+          }
+          .mt-stok-edit{
+            margin-top: 0;
+          }
           .mt-produk{
             margin-top: 0;
           }
@@ -107,6 +131,18 @@
             margin-bottom: 20px;
           }
           .btn-kegiatan{
+            margin-top: 0;
+          }
+          .mt-kategori{
+            margin-top: 0;
+          }
+          .mt-kategori-edit{
+            margin-top: 0;
+          }
+          .mt-stok{
+            margin-top: 0;
+          }
+          .mt-stok-edit{
             margin-top: 0;
           }
           .mt-produk{
@@ -419,19 +455,19 @@ startTime();
         
           </script>
 
-<!-- <script>
+<script>
 function mySelectKategori() {
   var x = document.getElementById("kategori").value;
   var kategori = x.split("|");
   var pecah = kategori[1];
-  if (pecah === 'Alat Dapur'){ 
-  document.getElementById("jenis_alat_dapur").disabled = false;
+  if (pecah === 'Makanan'){ 
+  document.getElementById("id_stok").disabled = false;
   }
   else{
-  document.getElementById("jenis_alat_dapur").disabled = true;
+  document.getElementById("id_stok").disabled = true;
   }
 }
-</script> -->
+</script>
 
 <!-- chart -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js" charset="utf-8"></script>

@@ -256,6 +256,7 @@ class ItsFoodController extends Controller
      */
     public function menu()
     {
+        $countProduk = Produk::count();
         $countrating = Rating::count();
         $countlike = Like::count();
         $countreview = Review::count();
@@ -297,7 +298,8 @@ class ItsFoodController extends Controller
         // dd($reviewProduk);
         $data = Produk::with('Like')->with('ProdukKegiatan')
                 ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
-                ->where('kategori_produk.for_view', '=', 'Ditampilkan')
+                ->where('kategori_produk.status', '=', '1')
+                ->where('produk.status', '=', '1')
                 ->paginate(8);
         // dd($data);
         // $data = Produk::with('ProdukKegiatan')->get();
@@ -309,7 +311,7 @@ class ItsFoodController extends Controller
         // ->orwhere('nama_kategori', 'Minuman')
         // ->select('*')
         // ->get();
-        return view('itsfood.menu', compact('data', 'produkkegiatan', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk', 'countrating', 'countlike', 'countreview'));
+        return view('itsfood.menu', compact('data', 'countProduk', 'produkkegiatan', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk', 'countrating', 'countlike', 'countreview'));
     }
 
     public function create()
@@ -372,7 +374,7 @@ class ItsFoodController extends Controller
                         $pesan = new Order();
                         $pesan->id_pelanggan = auth('pelanggan')->user()->id_pelanggan;
                         $pesan->kode_order = $kodeOrder;
-                        $pesan->status = "Belum Lunas";
+                        $pesan->status = "0";
                         $pesan->total_order = $request->get('total_pembelian');
                         $pesan->save();
 
@@ -393,7 +395,6 @@ class ItsFoodController extends Controller
                                     $detail->ongkir = $request->get('ongkir');
                                     $detail->harga_produk = $harga_produk[$i];
                                     $detail->jumbel_produk = $jumbel_produk[$i];
-                                    $detail->bobot_produk = $bobot_produk[$i];
                                     $detail->save();
                                 }
                                     
@@ -425,7 +426,6 @@ class ItsFoodController extends Controller
                                     $detail->ongkir = $request->get('ongkir');
                                     $detail->harga_produk = $harga_produk[$i];
                                     $detail->jumbel_produk = $jumbel_produk[$i];
-                                    $detail->bobot_produk = $bobot_produk[$i];
                                     $detail->save();
                                 }
                                 

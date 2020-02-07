@@ -16,7 +16,7 @@ class KategoriProduk extends Migration
         Schema::create('kategori_produk', function (Blueprint $table) {
             $table->Increments('id_kategori');
             $table->string('nama_kategori', 25)->unique();
-            $table->enum('for_view', ['Ditampilkan', 'Tidak ditampilkan'])->default('Tidak ditampilkan');
+            $table->enum('status', ['0', '1']);
             $table->timestamps();
         });
     }
