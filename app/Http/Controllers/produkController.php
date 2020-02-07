@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\KategoriProduk;
-use App\Models\JenisAlatDapur;
+use App\Models\Stok;
 
 class produkController extends Controller
 {
@@ -35,7 +35,8 @@ class produkController extends Controller
     public function create()
     {
         $data = KategoriProduk::all();
-        return view('produk.add', compact('data'));
+        $stok = Stok::all();
+        return view('produk.add', compact('data', 'stok'));
     }
 
     /**
@@ -52,7 +53,6 @@ class produkController extends Controller
             'gambar_produk.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'deskripsi_produk' => 'required',
             'harga_produk' => 'required|integer',
-            'stok_produk' => 'required|integer'
         ]);
 
         $exists = Produk::where('nama_produk', $request->nama_produk)->exists();
@@ -82,10 +82,10 @@ class produkController extends Controller
             $produk = new Produk([
                 'nama_produk' => $request->get('nama_produk'),
                 'id_kategori'=> $id_kategori,
+                'id_stok'=> $request->get('id_stok'),
                 'gambar_produk'=> $gambar,
                 'deskripsi_produk'=> $request->get('deskripsi_produk'),
                 'harga_produk'=> $request->get('harga_produk'),
-                'stok_produk'=> $request->get('stok_produk')
             ]);
 
             $produk->save();
@@ -133,9 +133,9 @@ class produkController extends Controller
         {
             $produk->nama_produk = $request->get('nama_produk');
             $produk->id_kategori = $request->get('id_kategori');
+            $produk->id_stok = $request->get('id_stok');
             $produk->deskripsi_produk = $request->get('deskripsi_produk');
             $produk->harga_produk = $request->get('harga_produk');
-            $produk->stok_produk = $request->get('stok_produk');
             $produk->update();
         }
 
@@ -149,10 +149,10 @@ class produkController extends Controller
             }
             $produk->nama_produk = $request->get('nama_produk');
             $produk->id_kategori = $request->get('id_kategori');
+            $produk->id_stok = $request->get('id_stok');
             $produk->deskripsi_produk = $request->get('deskripsi_produk');
             $produk->gambar_produk = $gambar;
             $produk->harga_produk = $request->get('harga_produk');
-            $produk->stok_produk = $request->get('stok_produk');
             $produk->update();
         }
 

@@ -12,7 +12,7 @@
             <?php $checklike = 0 ?>
             <?php $checkreview = 0 ?>
             <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 p-3">
-                <div class="card">
+                <div class="card border-warning">
                     <div class="card-body">
                         <h5 class="card-title float-left">{{$data->nama_produk}}</h5>
                         @if($data->nama_kategori == 'Makanan')
@@ -44,6 +44,7 @@
                                     <div class="no-gutters p-0 mb-3 col-6 float-left" style="clear: left">
                                         <form role="form" method="post" action="{{ route('delete.like', $suka->id_like) }}" enctype="multipart/form-data">
                                             @csrf
+                                            @method('DELETE')
                                             <button class="btn grow">
                                                 <i class="fas fa-heart fa-lg mr-1" style="color: red"></i>
                                                 @foreach($likeProduk as $sukaProduk)
@@ -142,6 +143,7 @@
                                                     </div>
                                                     <form role="form" method="post" action="{{route('update.review', $ulasan->id_review)}}" enctype="multipart/form-data">
                                                     @csrf
+                                                    @method('PUT')
                                                         <div class="modal-body">
                                                             <h5 class="card-title" name="nama_produk_edit" id="nama_produk_edit"></h5>
                                                             <input hidden type="number" name="id_review_edit" id="id_review_edit" value=""/>
@@ -155,6 +157,7 @@
                                                     </form>
                                                         <form role="form" method="post" action="{{route('delete.review', $ulasan->id_review)}}" enctype="multipart/form-data">
                                                             @csrf
+                                                            @method('DELETE')
                                                             <input hidden type="number" name="id_review_delete" id="id_review_delete" value=""/>
                                                             <button type="submit" class="btn btn-danger">Hapus Review</button>
                                                         </form>
@@ -291,7 +294,7 @@
 
     <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 p-2">
         <div class="col-12 p-3">
-            <div class="card" style="width: 100%;">
+            <div class="card border-success" style="width: 100%;">
                 <div class="card-header bg-success">
                     <h5 class="card-title text-white">Kategori</h5>
                 </div>
@@ -304,7 +307,7 @@
         </div>
         @if($data->nama_kategori == 'Makanan')
             <div class="col-12 p-3">
-                <div class="card" style="width: 100%;">
+                <div class="card border-warning" style="width: 100%;">
                     <div class="card-header bg-warning">
                         <h5 class="card-title">Suggestion Menu</h5>
                     </div>
@@ -355,6 +358,10 @@
                 </div>
             </div>
         @endif
+    </div>
+
+    <div class="col-12 d-flex justify-content-center">
+        <span>{{$hasil->links()}}</span>
     </div>
 </div>
 @endsection

@@ -86,6 +86,7 @@
                     <hr class="bg-success" style="width: 100%;">
                     @if(Session::has('keranjang'))
                     <?php $sum_keranjang = 0 ?>
+                    <?php $jumbel = 0 ?>
                         @foreach($produks as $produk)
                             <?php $check = 0 ?>
                             <img src="{{ asset('/imageforuser/menu/'. $produk['produk']['gambar_produk']) }}" style="width:70px; height: 40px;">
@@ -96,16 +97,23 @@
                                     @if($produk['produk']['id_produk'] == $produkevent->id_produk)
                                         <?php $check++ ?>
                                         <input hidden type="number" name="harga_produk[]" value="{{$produk['jumbel']*($produk['produk']['harga_produk']-($produk['produk']['harga_produk']*$produkevent->discount/100))}}">
+                                        <input hidden type="number" name="harga_produk[]" value="{{$produk['jumbel']}}">
                                         <?php $sum_keranjang += ($produk['produk']['harga_produk']-($produk['produk']['harga_produk']*$produkevent->discount/100)) * $produk['jumbel']?>
+                                        <?php $jumbel += $produk['jumbel']?>
                                     @endif
                                 @endif
                             @endforeach
                             @if($check == 0)
                                 <input hidden type="number" name="harga_produk[]" value="{{$produk['jumbel']*($produk['produk']['harga_produk'])}}">
+                                <input hidden type="number" name="harga_produk[]" value="{{$produk['jumbel']}}">
                                 <?php $sum_keranjang += $produk['produk']['harga_produk'] * $produk['jumbel'] ?>
+                                <?php $jumbel += $produk['jumbel']?>
                             @endif
                             <input type="number" hidden name="jumbel_produk[]" value="{{ $produk['jumbel']}}">
                             <input type="number" hidden name="bobot_produk[]" value="{{ $produk['produk']['bobot_produk']}}">
+                            <input type="number" name="id_stok[{{$loop->index}}][id]" value="{{ $produk['produk']['id_stok']}}">
+                            <input type="number" name="id_stok[{{$loop->index}}][stok]" value="{{ $produk['produk']['stok']['stok']}}">
+                            <input type="number" name="id_stok[{{$loop->index}}][jumbel]" value="{{ $produk['jumbel']}}">
                             <br><br>
                         @endforeach
                     @else
@@ -123,6 +131,7 @@
                     <div class="col-12 p-0" style="font-size: 18px ">
                         Total Harga ({{ Session::has('keranjang') ? Session::get('keranjang')->totalJumbel : ''}} Menu)
                         <input hidden type="text" id="totalpembelian" value="{{$sum_keranjang}}">
+                        <!-- <input hidden type="text" id="totalpembelian" name="min_jumbel" value="{{$jumbel}}"> -->
                         <h5 class="card-title float-right" style="color: #28a745;">Rp. {{ number_format($sum_keranjang)}}</h5><br><br>
                         Total Ongkir
                         <input hidden type="text" name="ongkir" id="totalongkir">

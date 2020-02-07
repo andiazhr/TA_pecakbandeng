@@ -9,21 +9,21 @@
     <?php $checklike = 0 ?>
     <?php $checkreview = 0 ?>
     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-5 p-3">
-        <div class="card" style="width: 100%;">
+        <div class="card border-warning" style="width: 100%;">
             <img src="{{ asset('/imageforuser/menu/'. $data->gambar_produk) }}" class="card-img-top grow" alt="...">
         </div>
     </div>
 
     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-5 p-3">
-        <div class="card" style="width: 100%;">
+        <div class="card border-warning" style="width: 100%;">
             <div class="card-body">
                 <h5 class="card-title">{{$data->nama_produk}}</h5>
                 @foreach($data->ProdukKegiatan as $produkevent)
                     @if($produkevent->Kegiatan->periode_awal <= Carbon\Carbon::now()->format('Y-m-d') && $produkevent->Kegiatan->periode_akhir >= Carbon\Carbon::now()->format('Y-m-d'))
                         @if($data->id_produk == $produkevent->id_produk)
                             <?php $check++ ?>
-                            <h3 class="card-title" style="color: orange">@foreach($data->ProdukKegiatan as $produkevent){{ number_format($data->harga_produk - ($data->harga_produk*$produkevent->discount/100))}} IDR @endforeach</h3>
-                            <h3 class="card-title" style="color: orange; text-decoration: line-through">{{ number_format($data->harga_produk)}} IDR</h3>
+                            <h3 class="card-title" style="color: orange"><span class="badge badge-success">@foreach($data->ProdukKegiatan as $produkevent){{ number_format($data->harga_produk - ($data->harga_produk*$produkevent->discount/100))}} IDR @endforeach</span></h3>
+                            <h3 class="card-title" style="text-decoration: line-through"><span class="badge badge-danger"><del>{{ number_format($data->harga_produk)}} IDR</del></span></h3>
                         @endif
                     @endif
                 @endforeach
@@ -62,6 +62,7 @@
                                 <form role="form" method="post" action="{{ route('delete.like', $suka->id_like) }}" enctype="multipart/form-data">
                                     <div class="no-gutters p-0 mb-1 col-6 float-left" style="clear: left">
                                         @csrf
+                                        @method('DELETE')
                                         <button class="btn grow">
                                             <i class="fas fa-heart fa-lg mr-1" style="color: red"></i>
                                             @foreach($likeProduk as $sukaProduk)
@@ -160,6 +161,7 @@
                                                 </div>
                                                 <form role="form" method="post" action="{{route('update.review', $ulasan->id_review)}}" enctype="multipart/form-data">
                                                 @csrf
+                                                @method('PUT')
                                                     <div class="modal-body">
                                                         <h5 class="card-title" name="nama_produk_edit" id="nama_produk_edit"></h5>
                                                         <input hidden type="number" name="id_review_edit" id="id_review_edit" value=""/>
@@ -173,6 +175,7 @@
                                                 </form>
                                                     <form role="form" method="post" action="{{route('delete.review', $ulasan->id_review)}}" enctype="multipart/form-data">
                                                         @csrf
+                                                        @method('DELETE')
                                                         <input hidden type="number" name="id_review_delete" id="id_review_delete" value=""/>
                                                         <button type="submit" class="btn btn-danger">Hapus Review</button>
                                                     </form>
@@ -290,7 +293,11 @@
                     @endif
                 <!-- end review and like -->
                 @endif
+                @if($data->Stok->stok == 0)
+                <a href="{{ route('addkeranjang', ['id_produk' => $data->id_produk])}}" class="btn btn-danger float-right mr-1 animateBtn disabled">Stok habis <i class="fa fa-utensils"></i></a>
+                @else
                 <a href="{{ route('addkeranjang', ['id_produk' => $data->id_produk])}}" class="btn btn-warning float-right mr-1 animateBtn">Add To Cart <i class="fa fa-utensils"></i></a>
+                @endif
             </div>
         </div>
     </div>

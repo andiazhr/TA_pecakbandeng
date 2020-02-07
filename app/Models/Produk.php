@@ -10,17 +10,21 @@ class Produk extends Model
     protected $primaryKey = 'id_produk';
     protected $fillable = [
         'id_kategori',
-        'id_jenis_alat_dapur',
+        'id_stok',
         'nama_produk',
         'deskripsi_produk',
         'gambar_produk',
         'harga_produk',
-        'stok_produk'
       ];
 
     public function KategoriProduk()
     {
         return $this->belongsTo(KategoriProduk::class, 'id_kategori', 'id_kategori');
+    }
+
+    public function Stok()
+    {
+        return $this->belongsTo(Stok::class, 'id_stok', 'id_stok');
     }
 
     public function JenisAlatDapur()

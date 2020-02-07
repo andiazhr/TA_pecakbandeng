@@ -78,13 +78,24 @@
                         <p class="help-block">Ukuran gambar max 2mb.</p>
                     </div>
 
-                    <div class="form-group mt-produk">
+                    <div class="form-group">
                         <label>Harga Produk</label>
                         <input type="number" class="form-control{{ $errors->has('harga_produk') ? ' is-invalid' : '' }}" name="harga_produk" placeholder="Masukkan Harga Produk" value="{{ old('harga_produk') }}">
                     </div>
                 </div>
                   
                 <div class="col-md-6">
+                    
+                    <div class="form-group">
+                        <label>Bahan Utama</label>
+                        <select id="id_stok" name="id_stok" class="form-control select2" style="width: 100%;">
+                            <option selected="-" disabled selected>Pilih Bahan Utama</option>
+                            @foreach($stok as $sisa)
+                            <option value="{{$sisa->id_stok}}">{{$sisa->nama_barang}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label>Kategori Produk</label>
                         <select id="kategori" name="id_kategori" class="form-control select2" style="width: 100%;">
@@ -98,11 +109,6 @@
                     <div class="form-group">
                         <label>Deskripsi Produk</label>
                         <textarea type="text" rows="3" class="form-control{{ $errors->has('deskripsi_produk') ? ' is-invalid' : '' }}" name="deskripsi_produk" placeholder="Masukkan Deskripsi Produk">{{ old('deskripsi_produk') }}</textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Stok Produk</label>
-                        <input type="number" class="form-control{{ $errors->has('bobot_produk') ? ' is-invalid' : '' }}" name="stok_produk" placeholder="Masukkan Bobot Produk" value="{{ old('stok_produk') }}">
                     </div>
                     <!-- /.input group -->
                 </div>

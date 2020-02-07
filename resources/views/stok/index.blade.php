@@ -6,17 +6,17 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Kategori Produk Table</h3> 
-              <form role="form" method="post" action="{{ route('submit.kategoriProduk') }}" enctype="multipart/form-data">
+              <h3 class="box-title">Stok Table</h3> 
+              <form role="form" method="post" action="{{ route('submit.stok') }}" enctype="multipart/form-data">
               <div class="box-body">
               @csrf
                 <div class="col-md-6">
                     <div class="form-group">
-                      <label>Tambah Kategori Produk</label>
-                      <input type="text" class="form-control{{ $errors->has('nama_kategori') ? ' is-invalid' : '' }}" name="nama_kategori" required placeholder="Masukkan Kategori Produk" value="{{ old('nama_kategori') }}">
-                      @if ($errors->has('nama_kategori'))
+                      <label>Nama Barang</label>
+                      <input type="text" class="form-control{{ $errors->has('nama_barang') ? ' is-invalid' : '' }}" name="nama_barang" required placeholder="Masukkan Nama Barang" value="{{ old('nama_barang') }}">
+                      @if ($errors->has('nama_barang'))
                         <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('nama_kategori') }}</strong>
+                            <strong>{{ $errors->first('nama_barang') }}</strong>
                         </span>
                       @endif
                     </div>
@@ -24,11 +24,11 @@
 
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label class="mb-kategori">Untuk Tampilan</label><br>
-                      <input type="radio" name="for_view" class="flat-red" value="Ditampilkan">
-                      Ditampilkan dimenu
-                      <input type="radio" name="for_view" class="flat-red" value="Tidak ditampilkan" style="margin-left: 20px">
-                      Tidak ditampilkan dimenu
+                    <label class="">Stok</label>
+                      <input type="number" class="form-control{{ $errors->has('stok') ? ' is-invalid' : '' }}" name="stok" required placeholder="Masukkan stok" value="{{ old('stok') }}">
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('stok') }}</strong>
+                        </span>
                   </div>
                 </div>
                 
@@ -77,22 +77,22 @@
               <table class="table table-hover table-striped">
                 <tr>
                   <th>No</th>
-                  <th>Kategori Produk</th>
-                  <th>Untuk Tampilan</th>
+                  <th>Nama Barang</th>
+                  <th>Stok</th>
                   <th colspan="2" style="text-align: center;">Action</th>
                 </tr>
-                @foreach($data as $no => $kategori)
+                @foreach($data as $no => $stok)
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$kategori->nama_kategori}}</td>
-                  <td><span class="label label-success">{{$kategori->for_view}}</span></td>
+                  <td>{{$stok->nama_barang}}</td>
+                  <td>{{$stok->stok}}</td>
                   <td style="text-align: right;">
-                    <a href="{{ route('edit.kategoriProduk', $kategori->id_kategori)}}">
+                    <a href="{{ route('edit.stok', $stok->id_stok)}}">
                       <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>
                     </a>
                   </td>
                   <td>
-                    <form action="{{ route('delete.kategoriProduk', $kategori->id_kategori)}}" method="post">
+                    <form action="{{ route('delete.stok', $stok->id_stok)}}" method="post">
                       @csrf
                       @method('DELETE')
                       <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>

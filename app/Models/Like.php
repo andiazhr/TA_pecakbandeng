@@ -12,7 +12,12 @@ class Like extends Model
         'id_pelanggan',
         'id_produk'
       ];
-      
+    
+    public function Pelanggan()
+    {
+        return $this->belongsTo(UsersPelanggan::class, 'id_pelanggan', 'id_pelanggan');
+    } 
+     
     public function Produk()
     {
         return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');

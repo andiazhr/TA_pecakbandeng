@@ -16,7 +16,6 @@ class OrderDetails extends Model
         'ongkir',
         'jumbel_produk',
         'harga_produk',
-        'bobot_produk'
       ];
 
     public function Order()

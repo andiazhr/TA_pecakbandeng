@@ -31,6 +31,16 @@ Route::prefix('kategoriProduk')->group(function(){
     Route::delete('/delete/{id}', 'kategoriprodukController@destroy')->name('delete.kategoriProduk');
 });
 
+Route::prefix('Stok')->group(function(){
+    Route::get('/', 'StokController@index');
+    Route::get('/search', 'StokController@search')->name('search.stok');
+    Route::get('/add', 'StokController@create')->name('add.stok');
+    Route::post('/add', 'StokController@store')->name('submit.stok');
+    Route::get('/edit/{id}', 'StokController@edit')->name('edit.stok');
+    Route::put('/edit/{id}', 'StokController@update')->name('update.stok');
+    Route::delete('/delete/{id}', 'StokController@destroy')->name('delete.stok');
+});
+
 Route::prefix('produk')->group(function(){
     Route::get('/', 'produkController@index');
     Route::get('/search', 'produkController@search')->name('search.produk');
@@ -108,11 +118,22 @@ Route::prefix('itsfood')->group(function(){
     Route::post('/masuk', 'ItsFoodController@login')->name('masuk.submit');
     Route::get('/keluar', 'ItsFoodController@logout')->name('keluar');
     Route::get('/menu', 'ItsFoodController@menu')->name('menu');
+    Route::post('/menu/rating', 'RatingController@store')->name('submit.rating');
+    // Route::post('/menu/rating2', 'RatingController@storeRating2')->name('submit.rating2');
+    // Route::post('/menu/rating3', 'RatingController@storeRating3')->name('submit.rating3');
+    // Route::post('/menu/rating4', 'RatingController@storeRating4')->name('submit.rating4');
+    // Route::post('/menu/rating5', 'RatingController@storeRating5')->name('submit.rating5');
+    Route::put('/menu/edit/rating/{id}', 'RatingController@update')->name('update.rating');
+    // Route::put('/menu/edit/rating1/{id}', 'RatingController@updateRating2')->name('update.rating2');
+    // Route::put('/menu/edit/rating1/{id}', 'RatingController@updateRating3')->name('update.rating3');
+    // Route::put('/menu/edit/rating1/{id}', 'RatingController@updateRating4')->name('update.rating4');
+    // Route::put('/menu/edit/rating1/{id}', 'RatingController@updateRating5')->name('update.rating5');
+    Route::delete('/menu/rating/{id}', 'RatingController@destroy')->name('delete.rating');
     Route::post('/menu/like', 'LikeController@store')->name('submit.like');
-    Route::post('/menu/like/{id}', 'LikeController@destroy')->name('delete.like');
+    Route::delete('/menu/like/{id}', 'LikeController@destroy')->name('delete.like');
     Route::post('/menu/review', 'ReviewController@store')->name('submit.review');
-    Route::post('/menu/edit/review/{id}', 'ReviewController@update')->name('update.review');
-    Route::post('/menu/review/{id}', 'ReviewController@destroy')->name('delete.review');
+    Route::put('/menu/edit/review/{id}', 'ReviewController@update')->name('update.review');
+    Route::delete('/menu/review/{id}', 'ReviewController@destroy')->name('delete.review');
     Route::get('/checkout', 'ItsFoodController@checkout')->name('checkout');
     Route::post('/checkout', 'ItsfoodController@store')->name('checkout.submit');
     Route::get('/detailproduk/{id}', 'ItsFoodController@show')->name('detailproduk');

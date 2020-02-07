@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UsersPelanggan;
 use App\Models\Kegiatan;
+use App\Models\Stok;
 use App\Models\Produk;
 use App\Models\ProdukKegiatan;
 use App\Models\Keranjang;
 use App\Models\Order;
 use App\Models\OrderDetails;
+use App\Models\Rating;
 use App\Models\Like;
 use App\Models\Review;
 use Stripe\Stripe;
@@ -26,8 +28,27 @@ class ItsFoodController extends Controller
      */
     public function index()
     {
+        // $five = 10;
+        // $four = 8;
+        // $three = 6;
+        // $two = 4;
+        // $one = 2;
+        // $sum = round(($one + $one + $two)/3);
+        // if($sum  > 8 && $sum <= 10){
+        //     print_r('bintang 5');
+        // }elseif($sum  > 6 && $sum <= 8){
+        //     print_r('bintang 4');
+        // }
+        // elseif($sum  > 4 && $sum <= 6){
+        //     print_r('bintang 3');
+        // }
+        // elseif($sum  > 2 && $sum <= 4){
+        //     print_r('bintang 2');
+        // }
+        // else{
+        //     print_r('bintang 1');
+        // }
 
-    
         $data = Produk::all();
         $datamkn = Produk::join('kategori_produk', 'kategori_produk.id_kategori', '=', 'produk.id_kategori')->where('kategori_produk.nama_kategori', '=', 'Makanan')->limit(4)->get();
         $datamnm = Produk::join('kategori_produk', 'kategori_produk.id_kategori', '=', 'produk.id_kategori')->where('kategori_produk.nama_kategori', '=', 'Minuman')->limit(4)->get();
@@ -93,7 +114,7 @@ class ItsFoodController extends Controller
             ->orwhere('nama_kategori', 'like', "%{$search}%")
             ->orwhere('harga_produk', 'like', "%{$search}%")
             ->select('*')
-            ->get();
+            ->paginate(4);
 
             foreach($hasil as $check)
             {
@@ -235,8 +256,21 @@ class ItsFoodController extends Controller
      */
     public function menu()
     {
+        $countrating = Rating::count();
         $countlike = Like::count();
         $countreview = Review::count();
+        $rating = DB::table('rating')
+                ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                ->select('rating.*', DB::raw('count(*) as total'))
+                ->groupBy('rating.id_pelanggan')
+                ->groupBy('rating.id_produk')
+                ->get();
+        $ratingProduk = DB::table('rating')
+                ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                ->select('rating.*', DB::raw('count(*) as total, sum(nilai) as hasil'))
+                ->groupBy('rating.id_produk')
+                ->get();
+                // dd($ratingProduk);
         $like = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
                 ->select('like.*', DB::raw('count(*) as total'))
@@ -275,7 +309,7 @@ class ItsFoodController extends Controller
         // ->orwhere('nama_kategori', 'Minuman')
         // ->select('*')
         // ->get();
-        return view('itsfood.menu', compact('data', 'produkkegiatan', 'like', 'likeProduk', 'review', 'reviewProduk', 'countlike', 'countreview'));
+        return view('itsfood.menu', compact('data', 'produkkegiatan', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk', 'countrating', 'countlike', 'countreview'));
     }
 
     public function create()
@@ -321,6 +355,8 @@ class ItsFoodController extends Controller
         $menit = Date('i'); 
         $tgl = Date('ymd');
         $kodeOrder = 'OFD'.$tgl.$nomor.$menit;
+        $jumbel = $request->get('min_jumbel');
+        $menu = $request->get('menu');
 
         $this->validate($request, [
             'status' => 'required',
@@ -360,6 +396,14 @@ class ItsFoodController extends Controller
                                     $detail->bobot_produk = $bobot_produk[$i];
                                     $detail->save();
                                 }
+                                    
+                                    // $min_stok = $request->input('id_stok');  //here scores is the input array param 
+                                    // dd($min_stok);
+                                //     foreach($min_stok as $row){
+                                //     $stok = Stok::find($row['id']); 
+                                //     $stok->stok = $row['stok'] - $row['jumbel'];
+                                //     $stok->save(); 
+                                // }
                                 
                         Session::forget('keranjang');
                         return redirect()->to('/itsfood')->with('success', 'Pesanan Anda Telah Dikirim');
@@ -384,6 +428,14 @@ class ItsFoodController extends Controller
                                     $detail->bobot_produk = $bobot_produk[$i];
                                     $detail->save();
                                 }
+                                
+                                    // $min_stok = $request->input('id_stok');  //here scores is the input array param 
+                                    // dd($min_stok);
+                                    // foreach($min_stok as $row){
+                                    // $stok = Stok::find($row['id']); 
+                                    // $stok->stok = $row['stok'] - $row['jumbel'];
+                                    // $stok->save(); 
+                                // }
                                 
                         Session::forget('keranjang');
                         return redirect()->to('/itsfood')->with('success', 'Pesanan Anda Telah Dikirim');

@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Models;
+namespace App\models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class Rating extends Model
 {
-    protected $table = 'review';
-    protected $primaryKey = 'id_review';
+    protected $table = 'rating';
+    protected $primaryKey = 'id_rating';
     protected $fillable = [
         'id_pelanggan',
         'id_produk',
-        'review'
+        'nilai'
       ];
 
     public function Pelanggan()
     {
         return $this->belongsTo(UsersPelanggan::class, 'id_pelanggan', 'id_pelanggan');
     }
-      
+          
     public function Produk()
     {
         return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');

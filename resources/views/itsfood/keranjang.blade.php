@@ -12,6 +12,7 @@
                 @if(Session::has('keranjang'))
                 <!-- <ol class="card-title"> -->
                 <?php $sum_keranjang = 0 ?>
+                <?php $jumbel = 0 ?>
                     @foreach($produks as $produk)
                         <?php $check = 0 ?>
                         <div class="row no-gutters p-0">
@@ -67,6 +68,7 @@
                                                     <p style="color: #28a745">{{ number_format($produk['produk']['harga_produk']-($produk['produk']['harga_produk']*$produkevent->discount/100))}} IDR</p>
                                                     <input hidden type="number" id="priceevent" value="{{$produk['jumbel']*($produk['produk']['harga_produk']-($produk['produk']['harga_produk']*$produkevent->discount/100))}}">
                                                     <?php $sum_keranjang += ($produk['produk']['harga_produk']-($produk['produk']['harga_produk']*$produkevent->discount/100)) * $produk['jumbel']?>
+                                                    <?php $jumbel += $produk['jumbel']?>
                                                 @endif
                                             @endif
                                         @endforeach
@@ -75,6 +77,7 @@
                                             <p style="color: #28a745">{{ number_format($produk['produk']['harga_produk'])}} IDR</p>
                                             <input hidden type="number" id="price" value="{{$produk['jumbel']*$produk['produk']['harga_produk']}}">
                                             <?php $sum_keranjang += $produk['produk']['harga_produk'] * $produk['jumbel'] ?>
+                                            <?php $jumbel += $produk['jumbel']?>
                                         @endif
                                     </div>
                                     <div class="col-12 d-none d-sm-none d-md-block d-lg-none d-xl-none" style="margin-top: -10px;">
@@ -133,7 +136,9 @@
                 @endforeach
                 <hr class="bg-success" style="width: 100%;"> -->
                 <div class="col-12 p-0">
-                    <h5 class="float-left">Total Harga : </h5>
+                    <h5 class="float-left">Jumlah Beli : </h5>
+                    <h5 class="card-title float-right" style="color: #28a745">{{ number_format($jumbel)}} QTY</h5>
+                    <h5 class="float-left" style="clear:right;">Total Harga : </h5>
                     <h5 class="card-title float-right" style="color: #28a745">{{ number_format($sum_keranjang)}} IDR</h5>
                     <!-- <input type="number" name="id_produk[]" value="{{$sum_keranjang}}"> -->
                 </div>

@@ -51,7 +51,15 @@
                   <td><img src="{{ asset('/imageforuser/menu/'. $produk->gambar_produk) }}" alt="" width="150px" height="100px"></td>
                   <td>{{$produk->deskripsi_produk}}</td>
                   <td>{{number_format($produk->harga_produk)}}</td>
-                  <td>{{$produk->stok_produk}}</td>
+                  <td>
+                    @if($produk->Stok->stok == 0)  
+                      <span class="label label-danger">Stok habis</span>
+                    @elseif($produk->Stok->stok <= 5)
+                      <span class="label label-warning">{{$produk->Stok->stok}}</span>
+                    @else
+                      <span class="label label-success">{{$produk->Stok->stok}}</span>
+                    @endif
+                  </td>
                   <td style="text-align: right;">
                     <a href="{{ route('edit.produk', $produk->id_produk)}}">
                       <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i></button>

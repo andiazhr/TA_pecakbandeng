@@ -28,6 +28,7 @@
 <script>$('div.alert').delay(5000).slideUp(300);</script>
 <script src="{{ asset('bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/video.js') }}"></script>
+
 <script>
 $(document).on("click", ".review", function () {
      var Id = $(this).data('id');
@@ -38,6 +39,7 @@ $(document).on("click", ".review", function () {
      $(".modal-body #nama_produk").text( Nama_Produk );
 });
 </script>
+
 <script>
 $(document).on("click", ".reviewedit", function () {
      var Id_Review = $(this).data('idreview');
@@ -51,6 +53,32 @@ $(document).on("click", ".reviewedit", function () {
      $(".modal-body #id_produk_edit").val( Id_Produk );
      $(".modal-body #nama_produk_edit").text( Nama_Produk );
      $(".modal-body #review_edit").val( Review );
+});
+</script>
+
+<script>
+$(document).on("click", ".rating", function () {
+     var Id = $(this).data('id');
+     var IdRating = $(this).data('idrating');
+     var Id_Produk = $(this).data('idproduk');
+     var Nama_Produk = $(this).data('namaproduk');
+     var nilai = $(this).data('nilai');
+     $(".modal-body #id_pelanggan").val( Id );
+     $(".modal-body #id_rating").val( IdRating );
+     $(".modal-body #id_produk").val( Id_Produk );
+     $(".modal-header #nama_produk").text( Nama_Produk );
+     $(".modal-body #ifnilai").val( nilai );
+});
+</script>
+
+<script>
+$(document).on("click", ".ratingnew", function () {
+     var Id = $(this).data('id');
+     var Id_Produk = $(this).data('idproduk');
+     var Nama_Produk = $(this).data('namaproduk');
+     $(".modal-body #id_pelanggan").val( Id );
+     $(".modal-body #id_produk").val( Id_Produk );
+     $(".modal-header #nama_produk").text( Nama_Produk );
 });
 </script>
 

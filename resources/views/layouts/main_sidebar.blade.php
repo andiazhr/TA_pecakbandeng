@@ -15,13 +15,13 @@
         @if(Request::segment(1) == 'home')
         <li class="active">
           <a href="{{ url('home')}}">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-bar-chart"></i> <span>Dashboard</span>
           </a>
         </li>
         @else
         <li>
           <a href="{{ url('home')}}">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-bar-chart"></i> <span>Dashboard</span>
           </a>
         </li>
         @endif
@@ -39,17 +39,31 @@
           </a>
         </li>
         @endif
+
+        @if(Request::segment(1) == 'Stok')
+        <li class="active">
+          <a href="{{ url('Stok')}}">
+            <i class="fas fa-box" style="margin-right: 7px"></i> <span>Stok</span>
+          </a>
+        </li>
+        @else
+        <li>
+          <a href="{{ url('Stok')}}">
+            <i class="fas fa-box" style="margin-right: 7px"></i> <span>Stok</span>
+          </a>
+        </li>
+        @endif
         
         @if(Request::segment(1) == 'produk')
         <li class="active">
           <a href="{{ url('produk')}}">
-            <i class="fa fa-table"></i> <span>Produk</span>
+            <i class="fas fa-drumstick-bite" style="margin-right: 7px"></i> <span>Produk</span>
           </a>
         </li>
         @else
         <li>
           <a href="{{ url('produk')}}">
-            <i class="fa fa-table"></i> <span>Produk</span>
+            <i class="fas fa-drumstick-bite" style="margin-right: 7px"></i> <span>Produk</span>
           </a>
         </li>
         @endif
@@ -57,13 +71,13 @@
         @if(Request::segment(1) == 'kegiatan')
         <li class="active">
           <a href="{{ url('kegiatan')}}">
-            <i class="fa fa-table"></i> <span>Kegiatan</span>
+            <i class="fas fa-calendar-day" style="margin-right: 7px"></i> <span>Kegiatan</span>
           </a>
         </li>
         @else
         <li>
           <a href="{{ url('kegiatan')}}">
-            <i class="fa fa-table"></i> <span>Kegiatan</span>
+            <i class="fas fa-calendar-day" style="margin-right: 7px"></i> <span>Kegiatan</span>
           </a>
         </li>
         @endif
@@ -71,13 +85,13 @@
         @if(Request::segment(1) == 'order')
         <li class="active">
           <a href="{{ url('order')}}">
-            <i class="fa fa-table"></i> <span>Order</span>
+            <i class="fa fa-list-ul"></i> <span>Order</span>
           </a>
         </li>
         @else
         <li>
           <a href="{{ url('order')}}">
-            <i class="fa fa-table"></i> <span>Order</span>
+            <i class="fa fa-list-ul"></i> <span>Order</span>
           </a>
         </li>
         @endif
@@ -85,57 +99,57 @@
         @if(Request::segment(2) == 'pendpPerHari')
         <li class="treeview active">
           <a href="#">
-            <i class="fa fa-money"></i> <span>Pendapatan</span>
+            <i class="fa fa-book"></i> <span>Pendapatan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="{{ url('Pendapatan/pendpPerHari') }}"><i class="fa fa-money"></i> Pendapatan Harian</a></li>
-            <li><a href="{{ url('Pendapatan/pendpPerBulan') }}"><i class="fa fa-money"></i> Pendapatan Bulanan</a></li>
-            <li><a href="{{ url('Pendapatan/pendpPerTahun') }}"><i class="fa fa-money"></i> Pendapatan Tahunan</a></li>
+            <li class="active"><a href="{{ url('Pendapatan/pendpPerHari') }}"><i class="fa fa-book"></i> Pendapatan Harian</a></li>
+            <li><a href="{{ url('Pendapatan/pendpPerBulan') }}"><i class="fa fa-book"></i> Pendapatan Bulanan</a></li>
+            <li><a href="{{ url('Pendapatan/pendpPerTahun') }}"><i class="fa fa-book"></i> Pendapatan Tahunan</a></li>
           </ul>
         </li>
         @elseif(Request::segment(2) == 'pendpPerBulan')
         <li class="treeview active">
           <a href="#">
-            <i class="fa fa-money"></i> <span>Pendapatan</span>
+            <i class="fa fa-book"></i> <span>Pendapatan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ url('Pendapatan/pendpPerHari') }}"><i class="fa fa-money"></i> Pendapatan Harian</a></li>
-            <li class="active"><a href="{{ url('Pendapatan/pendpPerBulan') }}"><i class="fa fa-money"></i> Pendapatan Bulanan</a></li>
-            <li><a href="{{ url('Pendapatan/pendpPerTahun') }}"><i class="fa fa-money"></i> Pendapatan Tahunan</a></li>
+            <li><a href="{{ url('Pendapatan/pendpPerHari') }}"><i class="fa fa-book"></i> Pendapatan Harian</a></li>
+            <li class="active"><a href="{{ url('Pendapatan/pendpPerBulan') }}"><i class="fa fa-book"></i> Pendapatan Bulanan</a></li>
+            <li><a href="{{ url('Pendapatan/pendpPerTahun') }}"><i class="fa fa-book"></i> Pendapatan Tahunan</a></li>
           </ul>
         </li>
         @elseif(Request::segment(2) == 'pendpPerTahun')
         <li class="treeview active">
           <a href="#">
-            <i class="fa fa-money"></i> <span>Pendapatan</span>
+            <i class="fa fa-book"></i> <span>Pendapatan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ url('Pendapatan/pendpPerHari') }}"><i class="fa fa-money"></i> Pendapatan Harian</a></li>
-            <li><a href="{{ url('Pendapatan/pendpPerBulan') }}"><i class="fa fa-money"></i> Pendapatan Bulanan</a></li>
-            <li class="active"><a href="{{ url('Pendapatan/pendpPerTahun') }}"><i class="fa fa-money"></i> Pendapatan Tahunan</a></li>
+            <li><a href="{{ url('Pendapatan/pendpPerHari') }}"><i class="fa fa-book"></i> Pendapatan Harian</a></li>
+            <li><a href="{{ url('Pendapatan/pendpPerBulan') }}"><i class="fa fa-book"></i> Pendapatan Bulanan</a></li>
+            <li class="active"><a href="{{ url('Pendapatan/pendpPerTahun') }}"><i class="fa fa-book"></i> Pendapatan Tahunan</a></li>
           </ul>
         </li>
         @else
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-money"></i> <span>Pendapatan</span>
+            <i class="fa fa-book"></i> <span>Pendapatan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ url('Pendapatan/pendpPerHari') }}"><i class="fa fa-money"></i> Pendapatan Harian</a></li>
-            <li><a href="{{ url('Pendapatan/pendpPerBulan') }}"><i class="fa fa-money"></i> Pendapatan Bulanan</a></li>
-            <li><a href="{{ url('Pendapatan/pendpPerTahun') }}"><i class="fa fa-money"></i> Pendapatan Tahunan</a></li>
+            <li><a href="{{ url('Pendapatan/pendpPerHari') }}"><i class="fa fa-book"></i> Pendapatan Harian</a></li>
+            <li><a href="{{ url('Pendapatan/pendpPerBulan') }}"><i class="fa fa-book"></i> Pendapatan Bulanan</a></li>
+            <li><a href="{{ url('Pendapatan/pendpPerTahun') }}"><i class="fa fa-book"></i> Pendapatan Tahunan</a></li>
           </ul>
         </li>
         @endif
