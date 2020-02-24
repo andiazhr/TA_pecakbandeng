@@ -38,7 +38,7 @@
             <div class="card-body">
                 <div class="row no-gutters">
                     <div class="col-10">
-                        <h5 class="card-title float-left" style="font-size: 18px; white-space: nowrap; width: 100%; overflow: hidden; text-overflow: ellipsis;">{{$menu->nama_produk}}</h5>
+                        <h5 class="card-title float-left" style="Fdiscountwhite-space: nowrap; width: 100%; overflow: hidden; text-overflow: ellipsis;">{{$menu->nama_produk}}</h5>
                     </div>    
                     <!-- Login star -->
                     @if( auth('pelanggan')->check() )
@@ -153,8 +153,6 @@
                                             <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                                 <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
                                                     @csrf
-                                                    <input type="number" name="ifnilai" id="ifnilai" value=""/>
-                                                    {{\Request::get('ifnilai')}}
                                                     <input hidden type="number" name="id_rating" id="id_rating" value=""/>
                                                     <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
                                                     <input hidden type="number" name="id_produk" id="id_produk" value=""/>
@@ -205,6 +203,12 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-warning" data-dismiss="modal">Kembali</button>
+                                            <form role="form" method="post" action="{{route('delete.rating', $star->id_rating)}}" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                <button onclick="return confirm('Yakin ingin menghapus rating anda?')" type="submit" class="btn btn-danger">Hapus Review</button>
+                                            </form>
                                         </div>
                                         </div>
                                     </div>
@@ -294,7 +298,7 @@
                             <div class="col-2 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px"">
                                 <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                     @csrf
-                                    <button type="submit" class="btn grow"><i class="fas fa-star text-dark fa-lg"></i>3</button>
+                                    <button type="submit" class="btn grow ml-sm-3"><i class="fas fa-star text-dark fa-lg mr-sm-1"></i>3</button>
                                 </form>
                             </div>
                         @else
@@ -304,7 +308,7 @@
                                     <div class="col-2 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px"">
                                         <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                             @csrf
-                                            <button type="submit" class="btn grow"><i class="fas fa-star text-dark fa-lg"></i>
+                                            <button type="submit" class="btn grow ml-sm-3"><i class="fas fa-star text-dark fa-lg mr-sm-1"></i>
                                             @foreach($ratingProduk as $starProduk)
                                                 @if($starProduk->id_produk == $menu->id_produk)
                                                     {{round(($starProduk->hasil+3)/($starProduk->total+1), 2)}}
@@ -319,7 +323,7 @@
                                 <div class="col-2 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px"">
                                     <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                         @csrf
-                                        <button type="submit" class="btn grow"><i class="fas fa-star text-dark fa-lg"></i>3</button>
+                                        <button type="submit" class="btn grow ml-sm-3"><i class="fas fa-star text-dark fa-lg mr-sm-1"></i>3</button>
                                     </form>
                                 </div>
                             @endif
@@ -333,15 +337,14 @@
                     @if($produkevent->Kegiatan->periode_awal <= Carbon\Carbon::now()->format('Y-m-d') && $produkevent->Kegiatan->periode_akhir >= Carbon\Carbon::now()->format('Y-m-d'))
                         @if($menu->id_produk == $produkevent->id_produk)
                             <?php $check++ ?>
-                            <h6 class="card-title bg-warning pt-1 pb-1 pl-2 pr-2 text-danger rounded float-left mr-3" style="font-size: 15px;">Harga Event <p class="bg-danger rounded text-white mt-1 p-2" style="font-size: 14px;">{{ number_format($menu->harga_produk - ($menu->harga_produk*$produkevent->discount/100))}} IDR</p></h6>
-                            <h6 class="card-title bg-warning pt-1 pb-1 pl-2 pr-2 float-left text-danger rounded" style="font-size: 15px;"> Harga Normal <p class="bg-danger rounded text-white mt-1 p-2" style="font-size: 14px; text-decoration: line-through">{{ number_format($menu->harga_produk)}} IDR</p></h6>
-                        @else
-                            <!-- <h6 class="card-title bg-warning pt-1 pb-1 pl-2 pr-2 float-left text-danger rounded" style="font-size: 15px;"> Harga Normal <p class="bg-danger rounded text-white mt-1 p-2" style="font-size: 14px;">{{ number_format($menu->harga_produk)}} IDR</p></h6> -->
+                            <h6 class="card-title bg-warning py-1 px-2 text-dark rounded float-left ml-2" style="margin-top: -10px">{{ $produkevent->discount}}%</h6>
+                            <h6 class="card-title py-1 px-2 float-left text-secondary rounded" style="text-decoration: line-through; margin-top: -10px">{{ number_format($menu->harga_produk)}} IDR</h6>
+                            <h4 class="card-title text-danger pb-3 float-left ml-2" style="clear: left;"><span class="badge badge-warning">{{ number_format($menu->harga_produk - ($menu->harga_produk*$produkevent->discount/100))}} IDR </span></h4>
                         @endif
                     @endif
                 @endforeach
                 @if($check == 0)
-                    <h6 class="card-title bg-warning pt-1 pb-1 pl-2 pr-2 float-left text-danger rounded" style="font-size: 15px;"> Harga Normal <p class="bg-danger rounded text-white mt-1 p-2" style="font-size: 14px;">{{ number_format($menu->harga_produk)}} IDR</p></h6>
+                    <h4 class="card-title float-left text-danger pb-3 rounded mb-md-5 mb-xl-5 ml-2" style=" margin-top: -10px"><span class="badge badge-warning"> {{ number_format($menu->harga_produk)}} IDR </span></h4>
                 @endif
                 <!-- end event harga -->
                 <!-- Login review and like -->
@@ -477,7 +480,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <input hidden type="number" name="id_review_delete" id="id_review_delete" value=""/>
-                                                        <button type="submit" class="btn btn-danger">Hapus Review</button>
+                                                        <button onclick="return confirm('Yakin ingin menghapus comment anda?')" type="submit" class="btn btn-danger">Hapus Review</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -592,7 +595,7 @@
                     @endif
                 <!-- end review and like -->
                 @endif
-                <a href="{{ route('detailproduk', $menu->id_produk)}}" style="clear: left" class="btn btn-info float-right animateBtn"><span>Detail <i class="fa fa-info-circle"></i></span></a>
+                <a href="{{ route('detailproduk', $menu->id_produk)}}" style="clear: left" class="btn btn-info float-right mb-lg-2 animateBtn"><span>Detail <i class="fa fa-info-circle"></i></span></a>
                 @if($menu->id_stok == NULL)
                 <a href="{{ route('addkeranjang', ['id_produk' => $menu->id_produk])}}" class="btn btn-warning float-right mr-1 animateBtn">Add To Cart <i class="fa fa-utensils"></i></a>
                 @else

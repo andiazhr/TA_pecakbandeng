@@ -106,32 +106,14 @@ class orderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $kode = $request->kode_pembayaran;
-        $query = DB::select("UPDATE tugasakhir.order SET status = '1' WHERE kode_order = '$kode'");
-        $detail = Stok::join('produk', 'produk.id_stok', '=', 'stok.id_stok')
-                ->join('order_details', 'order_details.id_produk', '=', 'produk.id_produk')
-                ->join('order', 'order.id_order', '=', 'order_details.id_order')
-                ->select('stok.*', 'order_details.jumbel_produk')
-                ->where('order.kode_order', $kode)->get();
-                
-        foreach($detail as $details){
-            $id_stok[] = [$details->id_stok , $details->stok, $details->jumbel_produk];
-            // $stok[] = $details->stok;
-            // $jumbel[] = $details->jumbel_produk;
-        }
-        // dd($id_stok);
-        // $get_stok = $stok;
-        // $get_jumbel = $jumbel;
-        $min_stok = $id_stok;  //here scores is the input array param 
-        foreach($min_stok as $row){
-            $stok = Stok::find($row[0]); 
-            $stok->stok = $row[1] - $row[2];
-            $stok->save(); 
-        }
+        $order = Order::find($id);
+        $order->status = $request->get('status');
+        $order->update();
         
-        $select = Order::where('kode_order', $kode)->get();
+        $select = Order::where('id_order', $id)->get();
         foreach($select as $jumlah){
             $total_order = $jumlah->total_order;
         }

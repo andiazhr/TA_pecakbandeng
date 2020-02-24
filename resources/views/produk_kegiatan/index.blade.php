@@ -76,7 +76,7 @@
                   <th>Nama Kegiatan</th>
                   <th>Nama Produk</th>
                   <th>Diskon(%)</th>
-                  <th colspan="2" style="text-align: center;">Action</th>
+                  <th colspan="2" style="text-align: center;">Aksi</th>
                 </tr>
                 @foreach($data as $no => $produkKegiatan)
                 <tr>

@@ -1,5 +1,6 @@
 @extends('itsfood.index')
 @section('content')
+<body>
 <div class="bd-example">
 @if(session()->get('login'))
   <div class="col-12 d-flex justify-content-center">
@@ -372,4 +373,52 @@
   </div>
 </div>
 
+<script>
+var slideIndexEvent = 0;
+showSlidesEvent();
+function showSlidesEvent() {
+  var iEvent;
+  var slidesEvent = document.getElementsByClassName("mySlidesEvent");
+  for (iEvent = 0; iEvent < slidesEvent.length; iEvent++) {
+    slidesEvent[iEvent].style.display = "none";  
+  }
+  slideIndexEvent++;
+  if (slideIndexEvent > slidesEvent.length) {slideIndexEvent = 1}
+  slidesEvent[slideIndexEvent-1].style.display = "block";
+  setTimeout(showSlidesEvent, 7000); // Change image every 2 seconds
+}
+</script>
+
+<script>
+var slideIndex = 0;
+showSlides();
+function showSlides() {
+  var i;
+  var slides = document.getElementsByClassName("mySlidesMakanan");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}
+  slides[slideIndex-1].style.display = "block";
+  setTimeout(showSlides, 5000); // Change image every 2 seconds
+}
+</script>
+
+<script>
+var slideIndex2 = 0;
+showSlides2();
+function showSlides2() {
+  var i2;
+  var slides2 = document.getElementsByClassName("mySlidesMinuman");
+  for (i2 = 0; i2 < slides2.length; i2++) {
+    slides2[i2].style.display = "none";  
+  }
+  slideIndex2++;
+  if (slideIndex2 > slides2.length) {slideIndex2 = 1}
+  slides2[slideIndex2-1].style.display = "block";
+  setTimeout(showSlides2, 3000); // Change image every 2 seconds
+}
+</script>
+</body>
 @endsection

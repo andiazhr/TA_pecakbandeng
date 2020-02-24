@@ -53,18 +53,45 @@
           </a>
         </li>
         @endif
-        
-        @if(Request::segment(1) == 'produk')
-        <li class="active">
-          <a href="{{ url('produk')}}">
+
+        @if(Request::segment(1) == 'produk' && Request::segment(2) == NULL)
+        <li class="treeview active">
+          <a href="#">
             <i class="fas fa-drumstick-bite" style="margin-right: 7px"></i> <span>Produk</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="{{ url('produk') }}"><i class="fas fa-drumstick-bite" style="margin-right: 7px"></i> Produk</a></li>
+            <li><a href="{{ url('produk/review') }}"><i class="fa fa-comment" style="margin-right: 2px"></i> Review Produk</a></li>
+          </ul>
+        </li>
+        @elseif(Request::segment(2) == 'review')
+        <li class="treeview active">
+          <a href="#">
+            <i class="fas fa-drumstick-bite" style="margin-right: 7px"></i> <span>Produk</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ url('produk') }}"><i class="fas fa-drumstick-bite" style="margin-right: 7px"></i> Produk</a></li>
+            <li class="active"><a href="{{ url('produk/review') }}"><i class="fa fa-comment"style="margin-right: 2px"></i> Review Produk</a></li>
+          </ul>
         </li>
         @else
-        <li>
-          <a href="{{ url('produk')}}">
+        <li class="treeview">
+          <a href="#">
             <i class="fas fa-drumstick-bite" style="margin-right: 7px"></i> <span>Produk</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ url('produk') }}"><i class="fas fa-drumstick-bite" style="margin-right: 7px"></i> Produk</a></li>
+            <li><a href="{{ url('produk/review') }}"><i class="fa fa-comment"style="margin-right: 2px"></i> Review Produk</a></li>
+          </ul>
         </li>
         @endif
         
@@ -154,5 +181,34 @@
         </li>
         @endif
         
+        
+        @if(Request::segment(1) == 'pengeluaran')
+        <li class="active">
+          <a href="{{ url('pengeluaran')}}">
+            <i class="fa fa-book"></i> <span>Pengeluaran</span>
+          </a>
+        </li>
+        @else
+        <li>
+          <a href="{{ url('pengeluaran')}}">
+            <i class="fa fa-book"></i> <span>Pengeluaran</span>
+          </a>
+        </li>
+        @endif
+
+        
+        @if(Request::segment(1) == 'labaBersih')
+        <li class="active">
+          <a href="{{ url('labaBersih')}}">
+            <i class="fa fa-book"></i> <span>Laba Bersih</span>
+          </a>
+        </li>
+        @else
+        <li>
+          <a href="{{ url('labaBersih')}}">
+            <i class="fa fa-book"></i> <span>Laba Bersih</span>
+          </a>
+        </li>
+        @endif
     </section>
     <!-- /.sidebar -->

@@ -51,8 +51,29 @@
             </div>
             <div class="box-footer clearfix">
               <ul class="pagination pagination-sm no-margin pull-right">
-              <a href="{{ route('cetak_pdf', $order->id_order) }}"><button type="button" class="btn btn-info"><i class="fa fa-print"></i> Cetak </button></a>
-              <a href="{{ url('order') }}"><button type="button" class="btn btn-warning"><i class="fa fa-chevron-left"></i> Kembali</button></a>
+              <div class="col-1" style="float: left; margin-right: 5px">
+              @if($order->Order->status == 1)
+                  <button type="submit" class="btn btn-success">Lunas</button>
+                @else
+                <form action="{{ route('status.order', $order->id_order)}}" method="post">
+                  @csrf
+                  @method('PUT')
+                  <input type="text" hidden name="kode_pembayaran" id="kode_pembayaran" value="{{$order->Order->kode_order}}">
+                  <input type="number" hidden name="status" id="status" value="1">
+                  <button type="submit" class="btn btn-danger">Belum Lunas</button>
+                </form>
+              @endif
+              </div>
+              <div class="col-1" style="float: left; margin-right: 5px">
+                @if($order->Order->status == 1)
+                  <a href="{{ route('cetak_pdf', $order->id_order) }}"><button type="button" class="btn btn-default"><i class="fa fa-print"></i> Cetak </button></a>
+                @else
+                  <button disabled type="button" class="btn btn-default" ><i class="fa fa-print"></i> Cetak </button>
+                @endif
+              </div>
+              <div class="col-1" style="float: left;">
+                <a href="{{ url('order') }}"><button type="button" class="btn btn-warning"><i class="fa fa-chevron-left"></i> Kembali</button></a>
+              </div>
               </ul>
             </div>
             <!-- /.box-body -->

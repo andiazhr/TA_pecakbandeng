@@ -64,8 +64,20 @@ class ItsFoodController extends Controller
 
     public function search(Request $request)
     {
+        $countrating = Rating::count();
         $countlike = Like::count();
         $countreview = Review::count();
+        $rating = DB::table('rating')
+                ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                ->select('rating.*', DB::raw('count(*) as total'))
+                ->groupBy('rating.id_pelanggan')
+                ->groupBy('rating.id_produk')
+                ->get();
+        $ratingProduk = DB::table('rating')
+                ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                ->select('rating.*', DB::raw('count(*) as total, sum(nilai) as hasil'))
+                ->groupBy('rating.id_produk')
+                ->get();
         $like = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
                 ->select('like.*', DB::raw('count(*) as total'))
@@ -128,7 +140,7 @@ class ItsFoodController extends Controller
                 ->select('*')
                 ->get();
 
-                return view('itsfood.search', compact('hasil', 'minuman', 'kategori', 'countlike', 'countreview', 'like', 'likeProduk', 'review', 'reviewProduk'));
+                return view('itsfood.search', compact('hasil', 'minuman', 'countrating', 'kategori', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk'));
             }
             elseif($data == 'Minuman'){
                 $makanan = DB::table('produk')
@@ -137,7 +149,7 @@ class ItsFoodController extends Controller
                 ->select('*')
                 ->get();
 
-                return view('itsfood.search', compact('hasil', 'makanan', 'kategori', 'countlike', 'countreview', 'like', 'likeProduk', 'review', 'reviewProduk'));
+                return view('itsfood.search', compact('hasil', 'makanan', 'countrating', 'kategori', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk'));
             }
             elseif(($data != 'Makanan') && ($data != 'Minuman')){
                 $shop = DB::table('produk')
@@ -148,7 +160,7 @@ class ItsFoodController extends Controller
                 ->select('*')
                 ->get();
                 
-                return view('itsfood.search', compact('hasil', 'shop', 'kategori', 'countlike', 'countreview', 'like', 'likeProduk', 'review', 'reviewProduk'));
+                return view('itsfood.search', compact('hasil', 'shop', 'kategori', 'countrating', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk'));
             }
         }
     }
@@ -271,7 +283,6 @@ class ItsFoodController extends Controller
                 ->select('rating.*', DB::raw('count(*) as total, sum(nilai) as hasil'))
                 ->groupBy('rating.id_produk')
                 ->get();
-                // dd($ratingProduk);
         $like = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
                 ->select('like.*', DB::raw('count(*) as total'))
@@ -371,75 +382,61 @@ class ItsFoodController extends Controller
         $Keranjanglama = Session::get('keranjang');
         $keranjang = new Keranjang($Keranjanglama);
 
-                        $pesan = new Order();
-                        $pesan->id_pelanggan = auth('pelanggan')->user()->id_pelanggan;
-                        $pesan->kode_order = $kodeOrder;
-                        $pesan->status = "0";
-                        $pesan->total_order = $request->get('total_pembelian');
-                        $pesan->save();
+            $pesan = new Order();
+            $pesan->id_pelanggan = auth('pelanggan')->user()->id_pelanggan;
+            $pesan->kode_order = $pesan->id_order.$kodeOrder;
+            $pesan->status = "0";
+            $pesan->total_order = $request->get('total_pembelian');
+            $pesan->save();
 
-                        if($request->get('alamat')){
-                            $id_produk = $request->id_produk;
-                            $get_status = $request->status;
-                            $explode = explode("|",$get_status);
-                            $status = $explode[0];
-                            $harga_produk = $request->harga_produk;
-                            $bobot_produk = $request->bobot_produk;
-                            $jumbel_produk = $request->jumbel_produk;
-                                for ($i = 0; $i < count($id_produk); $i++){
-                                    $detail = new OrderDetails();
-                                    $detail->id_order = $pesan->id_order;
-                                    $detail->id_produk = $id_produk[$i];
-                                    $detail->catatan = $request->get('alamat');
-                                    $detail->status = $status;
-                                    $detail->ongkir = $request->get('ongkir');
-                                    $detail->harga_produk = $harga_produk[$i];
-                                    $detail->jumbel_produk = $jumbel_produk[$i];
-                                    $detail->save();
-                                }
-                                    
-                                    // $min_stok = $request->input('id_stok');  //here scores is the input array param 
-                                    // dd($min_stok);
-                                //     foreach($min_stok as $row){
-                                //     $stok = Stok::find($row['id']); 
-                                //     $stok->stok = $row['stok'] - $row['jumbel'];
-                                //     $stok->save(); 
-                                // }
-                                
-                        Session::forget('keranjang');
-                        return redirect()->to('/itsfood')->with('success', 'Pesanan Anda Telah Dikirim');
+            if($request->get('catatan')){
+                $id_produk = $request->id_produk;
+                $get_status = $request->status;
+                $explode = explode("|",$get_status);
+                $status = $explode[0];
+                $harga_produk = $request->harga_produk;
+                $bobot_produk = $request->bobot_produk;
+                $jumbel_produk = $request->jumbel_produk;
+                    for ($i = 0; $i < count($id_produk); $i++){
+                        $detail = new OrderDetails();
+                        $detail->id_order = $pesan->id_order;
+                        $detail->id_produk = $id_produk[$i];
+                        $detail->catatan = $request->get('catatan');
+                        $detail->status = $status;
+                        $detail->ongkir = $request->get('ongkir');
+                        $detail->harga_produk = $harga_produk[$i];
+                        $detail->jumbel_produk = $jumbel_produk[$i];
+                        $detail->save();
+                    }
+
+                    $detail = Stok::join('produk', 'produk.id_stok', '=', 'stok.id_stok')
+                        ->join('order_details', 'order_details.id_produk', '=', 'produk.id_produk')
+                        ->join('order', 'order.id_order', '=', 'order_details.id_order')
+                        ->select('stok.*', 'order_details.jumbel_produk')
+                        ->where('order.kode_order', $kodeOrder)->exists();
+                    
+                    if($detail == true){
+                        $detail = Stok::join('produk', 'produk.id_stok', '=', 'stok.id_stok')
+                            ->join('order_details', 'order_details.id_produk', '=', 'produk.id_produk')
+                            ->join('order', 'order.id_order', '=', 'order_details.id_order')
+                            ->select('stok.*', 'order_details.jumbel_produk', DB::raw('sum(jumbel_produk) as jumbel'))
+                            ->groupBy('stok.id_stok')
+                            ->where('order.kode_order', $kodeOrder)->get();
+            
+                            foreach($detail as $details){
+                                $id_stok[] = [$details->id_stok , $details->stok, $details->jumbel];
+                            }
+                            $min_stok = $id_stok;  //here scores is the input array param 
+                            foreach($min_stok as $row){
+                                $stok = Stok::find($row[0]); 
+                                $stok->stok = $row[1] - $row[2];
+                                $stok->save(); 
+                            }
                         }
-                        else{
-                            $id_produk = $request->id_produk;
-                            $get_status = $request->status;
-                            $explode = explode("|",$get_status);
-                            $status = $explode[0];
-                            $harga_produk = $request->harga_produk;
-                            $bobot_produk = $request->bobot_produk;
-                            $jumbel_produk = $request->jumbel_produk;
-                                for ($i = 0; $i < count($id_produk); $i++){
-                                    $detail = new OrderDetails();
-                                    $detail->id_order = $pesan->id_order;
-                                    $detail->id_produk = $id_produk[$i];
-                                    $detail->catatan = $request->get('catatan');
-                                    $detail->status = $status;
-                                    $detail->ongkir = $request->get('ongkir');
-                                    $detail->harga_produk = $harga_produk[$i];
-                                    $detail->jumbel_produk = $jumbel_produk[$i];
-                                    $detail->save();
-                                }
-                                
-                                    // $min_stok = $request->input('id_stok');  //here scores is the input array param 
-                                    // dd($min_stok);
-                                    // foreach($min_stok as $row){
-                                    // $stok = Stok::find($row['id']); 
-                                    // $stok->stok = $row['stok'] - $row['jumbel'];
-                                    // $stok->save(); 
-                                // }
-                                
-                        Session::forget('keranjang');
-                        return redirect()->to('/itsfood')->with('success', 'Pesanan Anda Telah Dikirim');
-                        }        
+                    
+            Session::forget('keranjang');
+            return redirect()->to('/itsfood')->with('success', 'Pesanan Anda Telah Dikirim');
+            }        
                 
         return redirect('/checkout')->with('fail', 'Please Pilih Dikirim atau Pilihan Lain');
     }
@@ -452,8 +449,20 @@ class ItsFoodController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $countrating = Rating::count();
         $countlike = Like::count();
         $countreview = Review::count();
+        $rating = DB::table('rating')
+                ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                ->select('rating.*', DB::raw('count(*) as total'))
+                ->groupBy('rating.id_pelanggan')
+                ->groupBy('rating.id_produk')
+                ->get();
+        $ratingProduk = DB::table('rating')
+                ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                ->select('rating.*', DB::raw('count(*) as total, sum(nilai) as hasil'))
+                ->groupBy('rating.id_produk')
+                ->get();
         $like = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
                 ->select('like.*', DB::raw('count(*) as total'))
@@ -477,11 +486,12 @@ class ItsFoodController extends Controller
                  ->groupBy('review.id_produk')
                  ->get();
         $data = Produk::with('ProdukKegiatan')->find($id);
+        $getUlasan = Review::where('status', '1')->get();
         // dd($data);
         if($data === null){
             return view('itsfood.Not_Found');
         }
-        return view('itsfood.detailproduk', compact('data', 'countlike', 'countreview', 'like', 'likeProduk', 'review', 'reviewProduk'));
+        return view('itsfood.detailproduk', compact('data', 'countrating', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk', 'getUlasan'));
     }
 
     /**

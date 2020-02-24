@@ -13,9 +13,22 @@
 
 // Catatan pada file database.php strict sebelumnya true bukan false
 
+Auth::routes();
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/home', 'HomeController@index')->name('dashboard');
+Route::get('/home/terjualhariIni', 'HomeController@terjualhariIni')->name('terjualhariIni');
+Route::get('/home/pendphariIni', 'HomeController@pendphariIni')->name('pendphariIni');
+Route::get('/home/newOrder', 'HomeController@newOrder')->name('newOrder');
+Route::get('/home/produkTerjual', 'HomeController@produkTerjual')->name('produkTerjual');
+Route::get('/home/byProdukterjualMakanan','HomeController@byProdukterjualMakanan');
+Route::get('/home/byProdukterjualMinuman','HomeController@byProdukterjualMinuman');
+Route::get('/home/byPendpHarian','HomeController@byPendpHarian');
+Route::get('/home/byPendpBulanan','HomeController@byPendpBulanan');
+Route::get('/home/byPendpTahunan','HomeController@byPendpTahunan');
 
 Route::prefix('admin')->group(function(){
     Route::get('/profil/{id}', 'AdminController@profile')->name('profil');
@@ -30,6 +43,12 @@ Route::prefix('kategoriProduk')->group(function(){
     Route::put('/edit/{id}', 'kategoriprodukController@update')->name('update.kategoriProduk');
     Route::put('/status/{id}', 'kategoriprodukController@status')->name('status.kategoriProduk');
     Route::delete('/delete/{id}', 'kategoriprodukController@destroy')->name('delete.kategoriProduk');
+});
+
+Route::prefix('produk/review')->group(function(){
+    Route::get('/', 'ReviewController@index');
+    Route::put('/status/{id}', 'ReviewController@status')->name('review.status');
+    Route::delete('/delete/{id}', 'ReviewController@destroy')->name('delete.review');
 });
 
 Route::prefix('Stok')->group(function(){
@@ -82,6 +101,7 @@ Route::prefix('order')->group(function(){
     Route::post('/', 'orderController@update')->name('edit.order');
     Route::get('/search', 'orderController@search')->name('search.order');
     Route::get('/order_details/{id}', 'orderController@show')->name('order.details');
+    Route::put('/status/{id}', 'orderController@update')->name('status.order');
     Route::get('/cetak_pdf/{id}', 'orderController@cetak_pdf')->name('cetak_pdf');
     Route::delete('/delete/{id}', 'orderController@destroy')->name('delete.order');
 });
@@ -107,6 +127,28 @@ Route::prefix('Pendapatan/pendpPerTahun')->group(function(){
     Route::delete('/delete/{id}', 'pendapatanController@destroypendpPerTahun')->name('delete.pendpPerTahun');
 });
 
+Route::prefix('pengeluaran')->group(function(){
+    Route::get('/', 'PengeluaranController@index');
+    Route::get('/search', 'PengeluaranController@search')->name('search.pengeluaran');
+    Route::get('/searchtotal', 'PengeluaranController@searchtotalPengeluaran')->name('search.totalpengeluaran');
+    Route::get('/add', 'PengeluaranController@create')->name('add.pengeluaran');
+    Route::post('/add', 'PengeluaranController@store')->name('submit.pengeluaran');
+    Route::get('/edit/{id}', 'PengeluaranController@edit')->name('edit.pengeluaran');
+    Route::put('/edit/{id}', 'PengeluaranController@update')->name('update.pengeluaran');
+    Route::delete('/delete/{id}', 'PengeluaranController@destroy')->name('delete.pengeluaran');
+});
+
+Route::prefix('labaBersih')->group(function(){
+    Route::get('/', 'LabaBersihController@index');
+    Route::get('/search', 'LabaBersihController@search')->name('search.labaBersih');
+    Route::get('/searchlabaBersih', 'LabaBersihController@searchtotalLabaBersih')->name('search.totallabaBersih');
+    Route::get('/add', 'LabaBersihController@create')->name('add.labaBersih');
+    Route::post('/add', 'LabaBersihController@store')->name('submit.labaBersih');
+    Route::get('/edit/{id}', 'LabaBersihController@edit')->name('edit.labaBersih');
+    Route::put('/edit/{id}', 'LabaBersihController@update')->name('update.labaBersih');
+    Route::delete('/delete/{id}', 'LabaBersihController@destroy')->name('delete.labaBersih');
+});
+
 Route::prefix('itsfood')->group(function(){
     Route::get('/', 'ItsFoodController@index');
     Route::get('/search', 'ItsfoodController@search')->name('search');
@@ -122,15 +164,7 @@ Route::prefix('itsfood')->group(function(){
     Route::get('/keluar', 'ItsFoodController@logout')->name('keluar');
     Route::get('/menu', 'ItsFoodController@menu')->name('menu');
     Route::post('/menu/rating', 'RatingController@store')->name('submit.rating');
-    // Route::post('/menu/rating2', 'RatingController@storeRating2')->name('submit.rating2');
-    // Route::post('/menu/rating3', 'RatingController@storeRating3')->name('submit.rating3');
-    // Route::post('/menu/rating4', 'RatingController@storeRating4')->name('submit.rating4');
-    // Route::post('/menu/rating5', 'RatingController@storeRating5')->name('submit.rating5');
     Route::put('/menu/edit/rating/{id}', 'RatingController@update')->name('update.rating');
-    // Route::put('/menu/edit/rating1/{id}', 'RatingController@updateRating2')->name('update.rating2');
-    // Route::put('/menu/edit/rating1/{id}', 'RatingController@updateRating3')->name('update.rating3');
-    // Route::put('/menu/edit/rating1/{id}', 'RatingController@updateRating4')->name('update.rating4');
-    // Route::put('/menu/edit/rating1/{id}', 'RatingController@updateRating5')->name('update.rating5');
     Route::delete('/menu/rating/{id}', 'RatingController@destroy')->name('delete.rating');
     Route::post('/menu/like', 'LikeController@store')->name('submit.like');
     Route::delete('/menu/like/{id}', 'LikeController@destroy')->name('delete.like');
@@ -147,15 +181,3 @@ Route::prefix('itsfood')->group(function(){
     Route::get('/hapus/{id_produk}', 'ItsfoodController@destroy')->name('hapusSemua');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('dashboard');
-Route::get('/home/terjualhariIni', 'HomeController@terjualhariIni')->name('terjualhariIni');
-Route::get('/home/pendphariIni', 'HomeController@pendphariIni')->name('pendphariIni');
-Route::get('/home/newOrder', 'HomeController@newOrder')->name('newOrder');
-Route::get('/home/produkTerjual', 'HomeController@produkTerjual')->name('produkTerjual');
-Route::get('/home/byProdukterjualMakanan','HomeController@byProdukterjualMakanan');
-Route::get('/home/byProdukterjualMinuman','HomeController@byProdukterjualMinuman');
-Route::get('/home/byPendpHarian','HomeController@byPendpHarian');
-Route::get('/home/byPendpBulanan','HomeController@byPendpBulanan');
-Route::get('/home/byPendpTahunan','HomeController@byPendpTahunan');

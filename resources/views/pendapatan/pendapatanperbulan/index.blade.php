@@ -30,19 +30,19 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover table-striped">
+              <table class="table table-hover table-striped table-bordered">
                 <tr>
                   <th>No</th>
-                  <th>Bulan</th>
-                  <th>Total Pendapatan</th>
-                  <th>Action</th>
+                  <th>Bulan Pendapatan</th>
+                  <th style="text-align: right; padding-right: 25px">Total Pendapatan(IDR)</th>
+                  <th style="text-align: center;">Aksi</th>
                 </tr>
                 @foreach($data as $no => $pendpBulanan)
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$pendpBulanan->tahun}}</td>
-                  <td>{{$pendpBulanan->total_pendpperbulan}}</td>
-                  <td>
+                  <td><?php echo date('F Y', strtotime($pendpBulanan->bulan))?></td>
+                  <td style="text-align: right; padding-right: 25px">{{number_format($pendpBulanan->total_pendpperbulan)}}</td>
+                  <td style="text-align: center;">
                     <form action="{{ route('delete.pendpPerBulan', $pendpBulanan->id_pendpPerBulan)}}" method="post">
                       @csrf
                       @method('DELETE')
@@ -54,12 +54,11 @@
               </table>
             </div>
             <div class="box-footer clearfix">
-            <div class="box-footer clearfix">
-                <div class="col-lg-8">
-                  <div class="col-lg-6">
+                <div class="col-md-8">
+                  <div class="col-md-6">
                     <form action="{{ route('search.pendpPerBulan') }}">
                       <div class="form-group">
-                        <label>Date:</label>
+                        <label>Cari Total Pendapatan:</label>
 
                         <div class="input-group date">
                           <div class="input-group-addon">
@@ -75,11 +74,11 @@
                         <!-- /.input group -->
                       </div>
                   </div>
-                  <div class="col-lg-6">
+                  <div class="col-md-6">
                         <button class="btn btn-info mt" type="submit"><i class="fa fa-info"></i> Tampilkan Pendapatan</button>
                   </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-md-12">
                   <center>
                       @if(app('request')->input('tanggal') == NULL)
                         <p style="color: red;">Pilih Tahun Terlebih Dahulu! <br> Untuk Mengetahui Total Pendapatan Tahunan</p>
@@ -103,8 +102,8 @@
                         @foreach($totalBlnIni as $pendpTahunan)
                         <input hidden type="number" name="tahun" value="{{$pendpTahunan->tahun}}">
                         <input hidden type="number" name="total_pendptahunan" value="{{$pendpTahunan->total_pendptahunan}}">
-                        <button class="btn btn-success" type="submit" style="float: right;"><i class="fa fa-check"></i> Masukkan Pendapatan Tahun {{$pendpTahunan->tahun}}</button>
-                        <a href="{{ url('Pendapatan/pendpPerHari') }}" class="btn btn-danger" style="float:right; margin-right: 7px"><i class="fa fa-times"></i> Cancel</a>
+                        <button class="btn btn-success" type="submit" style="float: right; margin-top: 15px"><i class="fa fa-check"></i> Masukkan Pendapatan Tahun {{$pendpTahunan->tahun}}</button>
+                        <a href="{{ url('Pendapatan/pendpPerHari') }}" class="btn btn-danger" style="float:right; margin-right: 7px; margin-top: 15px"><i class="fa fa-times"></i> Cancel</a>
                         @endforeach
                       </form>
                     @endif
@@ -113,7 +112,6 @@
                 <ul class="pagination pagination-sm no-margin pull-right">
                     <span></span>
                 </ul>
-            </div>
             </div>
             <!-- /.box-body -->
           </div>

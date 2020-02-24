@@ -6,7 +6,7 @@
   <title>Owner | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet" type="text/css" />
   <!-- Bootstrap 3.3.7 -->
   <link href="{{ asset('css/error.css') }}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.css') }}">

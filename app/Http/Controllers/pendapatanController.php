@@ -46,7 +46,8 @@ class pendapatanController extends Controller
         // $data = pendpPerBulan::when($request->search, function ($query) use ($request) {
         //     $query->where('nama_produk', 'like', "%{$request->search}%");
         // })->get();
-        $data = DB::select("SELECT id_pendpPerBulan, CONCAT(MONTHNAME(bulan), '-', YEAR(bulan)) AS tahun, total_pendpperbulan FROM `pendpperbulan`");
+        // $data = DB::select("SELECT id_pendpPerBulan, CONCAT(MONTHNAME(bulan), '-', YEAR(bulan)) AS tahun, total_pendpperbulan FROM `pendpperbulan`");
+        $data = DB::select("SELECT id_pendpPerBulan, bulan, total_pendpperbulan FROM `pendpperbulan`");
         return view('pendapatan.pendapatanperbulan.index', compact('data'));
     }
 

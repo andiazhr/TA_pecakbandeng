@@ -20,6 +20,7 @@ class Review extends Migration
             $table->unsignedInteger('id_produk');
             $table->foreign('id_produk')->references('id_produk')->on('produk')->onDelete('CASCADE');
             $table->text('review');
+            $table->enum('status', ['0', '1']);
             $table->timestamps();
         });
     }

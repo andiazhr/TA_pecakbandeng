@@ -8,7 +8,7 @@
     <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/checkout.js') }}"></script>
+    <!-- <script src="{{ asset('js/checkout.js') }}"></script> -->
 </head>
 <body>
 <div class="kolom12">
@@ -27,7 +27,7 @@
 </div>
 <script>$('div.alert').delay(5000).slideUp(300);</script>
 <script src="{{ asset('bootstrap/dist/js/bootstrap.min.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/video.js') }}"></script>
+<!-- <script type="text/javascript" src="{{ asset('js/video.js') }}"></script> -->
 
 <script>
 $(document).on("click", ".review", function () {
@@ -67,15 +67,17 @@ $(document).on("click", ".rating", function () {
      $(".modal-body #id_rating").val( IdRating );
      $(".modal-body #id_produk").val( Id_Produk );
      $(".modal-header #nama_produk").text( Nama_Produk );
-     $(".modal-body #ifnilai").val( nilai );
+     $(".modal-footer #id_rating").val( IdRating );
 });
 </script>
 
 <script>
 $(document).on("click", ".ratingnew", function () {
+     var StarId = $(this).data('starid');
      var Id = $(this).data('id');
      var Id_Produk = $(this).data('idproduk');
      var Nama_Produk = $(this).data('namaproduk');
+     $(".modal-body #id_rating").val( StarId );
      $(".modal-body #id_pelanggan").val( Id );
      $(".modal-body #id_produk").val( Id_Produk );
      $(".modal-header #nama_produk").text( Nama_Produk );
@@ -151,57 +153,6 @@ $(document).ready(function(){
 });
 </script>
 
-<script>
-var slideIndexEvent = 0;
-showSlidesEvent();
-
-function showSlidesEvent() {
-  var iEvent;
-  var slidesEvent = document.getElementsByClassName("mySlidesEvent");
-  for (iEvent = 0; iEvent < slidesEvent.length; iEvent++) {
-    slidesEvent[iEvent].style.display = "none";  
-  }
-  slideIndexEvent++;
-  if (slideIndexEvent > slidesEvent.length) {slideIndexEvent = 1}
-  slidesEvent[slideIndexEvent-1].style.display = "block";
-  setTimeout(showSlidesEvent, 7000); // Change image every 2 seconds
-}
-</script>
-
-<script>
-var slideIndex = 0;
-showSlides();
-
-function showSlides() {
-  var i;
-  var slides = document.getElementsByClassName("mySlidesMakanan");
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";  
-  }
-  slideIndex++;
-  if (slideIndex > slides.length) {slideIndex = 1}
-  slides[slideIndex-1].style.display = "block";
-  setTimeout(showSlides, 5000); // Change image every 2 seconds
-}
-</script>
-
-<script>
-var slideIndex2 = 0;
-showSlides2();
-
-function showSlides2() {
-  var i2;
-  var slides2 = document.getElementsByClassName("mySlidesMinuman");
-  for (i2 = 0; i2 < slides2.length; i2++) {
-    slides2[i2].style.display = "none";  
-  }
-  slideIndex2++;
-  if (slideIndex2 > slides2.length) {slideIndex2 = 1}
-  slides2[slideIndex2-1].style.display = "block";
-  setTimeout(showSlides2, 3000); // Change image every 2 seconds
-}
-</script>
-
 <!-- <script>
 $(window).load(function() {
 		// Animate loader off screen
@@ -222,23 +173,11 @@ $(window).load(function() {
 </script>
 
 <script>
-function myJasa() {
-  var str = document.getElementById("jasa").value;
-  var arr = str.split("|");
-  var x = document.getElementById("jasa").innerHTML = arr[0];
-  if (x === 'Dikirim'){ 
-    document.getElementById("alamat").disabled = false;
-    document.getElementById("catatan").disabled = true;
-  }
-}
-</script>
-<script>
 function myJasa2() {
   var str = document.getElementById("jasa2").value;
   var arr = str.split("|");
   var x = document.getElementById("jasa2").innerHTML = arr[0];
-  if (x === 'Booking'){ 
-    document.getElementById("alamat").disabled = true;
+  if (x === '1'){ 
     document.getElementById("catatan").disabled = false;
   }
 }
@@ -249,8 +188,7 @@ function myJasa3() {
   var str = document.getElementById("jasa3").value;
   var arr = str.split("|");
   var x = document.getElementById("jasa3").innerHTML = arr[0];
-  if (x === 'Diambil'){ 
-    document.getElementById("alamat").disabled = true;
+  if (x === '2'){ 
     document.getElementById("catatan").disabled = false;
   }
 }
@@ -262,7 +200,6 @@ function myDecoy() {
   var arr = str.split("|");
   var x = document.getElementById("decoy").innerHTML = arr[0];
   if (x === 'Decoy'){ 
-    document.getElementById("alamat").disabled = true;
     document.getElementById("catatan").disabled = true;
   }
 }

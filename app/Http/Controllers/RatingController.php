@@ -101,8 +101,12 @@ class RatingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $id = $request->get('id_rating');
+        $rating = Rating::find($id);
+        $rating->delete();
+        
+        return redirect()->back();
     }
 }

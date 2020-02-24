@@ -30,25 +30,23 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover table-striped">
+              <table class="table table-hover table-striped table-bordered">
                 <tr>
                   <th>No</th>
                   <th>Kode Pendapatan</th>
-                  <th>Total Pendapatan</th>
-                  <th>Tanggal Pembelian</th>
-                  <th>Action</th>
+                  <th style="text-align: right; padding-right: 25px">Total Pendapatan(IDR)</th>
+                  <th style="text-align: center;">Tanggal Pendapatan</th>
+                  <th style="text-align: center;">Aksi</th>
                 </tr>
                 @foreach($data as $no => $pendpHarian)
                 <tr>
                   <td>{{$no +1}}</td>
                   <td>{{$pendpHarian->kode_pendpperhari}}</td>
-                  <td>{{$pendpHarian->total_pendpperhari}}</td>
-                  <td>
-                    <?php
-                      echo substr($pendpHarian->created_at, 0, 10);
-                    ?>
+                  <td style="text-align: right; padding-right: 25px">{{number_format($pendpHarian->total_pendpperhari)}}</td>
+                  <td style="text-align: center">
+                    <?php echo date('d F Y', strtotime(substr($pendpHarian->created_at, 0, 10)))?>
                   </td>
-                  <td>
+                  <td style="text-align: center;">
                     <form action="{{ route('delete.pendpPerHari', $pendpHarian->id_pendpperhari)}}" method="post">
                       @csrf
                       @method('DELETE')
@@ -60,11 +58,11 @@
               </table>
             </div>
             <div class="box-footer clearfix">
-                <div class="col-lg-8">
-                  <div class="col-lg-6">
+                <div class="col-md-8">
+                  <div class="col-md-6">
                     <form action="{{ route('search.pendpPerHari') }}">
                       <div class="form-group">
-                        <label>Date:</label>
+                        <label>Cari Total Pendapatan:</label>
 
                         <div class="input-group date">
                           <div class="input-group-addon">
@@ -80,11 +78,11 @@
                         <!-- /.input group -->
                       </div>
                   </div>
-                  <div class="col-lg-6">
+                  <div class="col-md-6">
                         <button class="btn btn-info mt" type="submit"><i class="fa fa-info"></i> Tampilkan Pendapatan</button>
                   </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-md-12">
                   <center>
                       @if(app('request')->input('tanggal') == NULL)
                         <p style="color: red;">Pilih Bulan Terlebih Dahulu! <br> Untuk Mengetahui Total Pendapatan Bulanan</p>
@@ -108,8 +106,8 @@
                         @foreach($totalBlnIni as $pendpBulanan)
                         <input hidden type="text" name="bulan" value="{{app('request')->input('tanggal')}}">
                         <input hidden type="number" name="total_pendpBulanan" value="{{$pendpBulanan->total_pendpBulanan}}">
-                        <button class="btn btn-success" type="submit" style="float: right;"><i class="fa fa-check"></i> Masukkan Pendapatan Bulan {{$pendpBulanan->bulan}}</button>
-                        <a href="{{ url('Pendapatan/pendpPerHari') }}" class="btn btn-danger" style="float:right; margin-right: 7px"><i class="fa fa-times"></i> Cancel</a>
+                        <button class="btn btn-success" type="submit" style="float: right; margin-top: 15px"><i class="fa fa-check"></i> Masukkan Pendapatan Bulan {{$pendpBulanan->bulan}}</button>
+                        <a href="{{ url('Pendapatan/pendpPerHari') }}" class="btn btn-danger" style="float:right; margin-right: 7px; margin-top: 15px"><i class="fa fa-times"></i> Cancel</a>
                         @endforeach
                       </form>
                     @endif

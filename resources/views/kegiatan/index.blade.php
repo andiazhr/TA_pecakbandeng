@@ -91,7 +91,7 @@
               <div class="box-tools">
                 <form action="{{ url()->current() }}">
                   <div class="input-group input-group-sm" style="width: 200px;">
-                    <input type="text" name="search" class="form-control pull-right" placeholder="Search">
+                    <input type="text" name="search" class="form-control pull-right" placeholder="Search" value="{{ app('request')->input('search') }}">
 
                     <div class="input-group-btn">
                       <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -102,14 +102,14 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover table-striped">
+              <table class="table table-hover table-striped table-bordered">
                 <tr>
                   <th>No</th>
                   <th>Nama Kegiatan</th>
                   <th>Deskripsi Kegiatan</th>
                   <th style="text-align: center;">Periode Awal Kegiatan</th>
                   <th style="text-align: center;">Periode Akhir Kegiatan</th>
-                  <th colspan="4" style="text-align: center;">Action</th>
+                  <th colspan="4" style="text-align: center;">Aksi</th>
                 </tr>
                 @foreach($data as $no => $kegiatan)
                     @if(Carbon\Carbon::now()->between(Carbon\Carbon::parse($kegiatan->periode_awal), Carbon\Carbon::parse($kegiatan->periode_akhir)))

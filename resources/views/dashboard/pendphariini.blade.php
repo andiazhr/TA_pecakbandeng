@@ -10,17 +10,17 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover table-striped">
+              <table class="table table-hover table-striped table-bordered">
                 <tr>
                   <th>No</th>
                   <th>Kode Pendapatan</th>
-                  <th style="text-align: right; padding-right: 25px">Total Pendapatan</th>
+                  <th style="text-align: right; padding-right: 25px">Total Pendapatan(IDR)</th>
                 </tr>
                 @foreach($data as $no => $pendpHarian)
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$pendpHarian->kode_pendpPerHari}}</td>
-                  <td style="text-align: right; padding-right: 25px">{{$pendpHarian->total_pendpPerHari}}</td>
+                  <td>{{$pendpHarian->kode_pendpperhari}}</td>
+                  <td style="text-align: right; padding-right: 25px">{{number_format($pendpHarian->total_pendpperhari)}}</td>
                 </tr>
                 @endforeach
                 @foreach($sum as $total)
@@ -32,7 +32,7 @@
               </table>
             </div>
             <div class="box-footer clearfix">
-              <a href="{{ route('dashboard') }}" class="btn btn-warning" style="float:right;">Back</a>
+              <a href="{{ route('dashboard') }}" class="btn btn-default" style="float:right;">Back</a>
                 <ul class="pagination pagination-sm no-margin pull-right">
                 </ul>
             </div>

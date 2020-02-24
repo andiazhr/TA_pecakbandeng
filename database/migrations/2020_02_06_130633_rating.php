@@ -20,6 +20,7 @@ class Rating extends Migration
             $table->unsignedInteger('id_produk');
             $table->foreign('id_produk')->references('id_produk')->on('produk')->onDelete('CASCADE');
             $table->text('nilai');
+            $table->enum('status', ['1', '0']);
             $table->timestamps();
         });
     }

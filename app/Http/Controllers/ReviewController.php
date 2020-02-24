@@ -15,7 +15,24 @@ class ReviewController extends Controller
 
     public function index()
     {
-        //
+        if (is_null(auth()->user()))
+        {
+            return redirect()->route('login')->with('login', 'Harus Login Terlebih Dahulu');
+        }
+        $data = Review::all();
+        return view('review.index', compact('data'));
+    }
+
+    public function status(Request $request, $id)
+    {
+        if (is_null(auth()->user()))
+        {
+            return redirect()->route('login')->with('login', 'Harus Login Terlebih Dahulu');
+        }
+        $review = Review::find($id);
+        $review->status = $request->get('status');
+        $review->update();
+        return redirect()->back();
     }
 
     /**

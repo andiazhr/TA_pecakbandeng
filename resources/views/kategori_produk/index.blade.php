@@ -63,7 +63,7 @@
               <div class="box-tools">
                 <form action="{{ url()->current() }}">
                   <div class="input-group input-group-sm" style="width: 200px;">
-                    <input type="text" name="search" class="form-control pull-right" placeholder="Search">
+                    <input type="text" name="search" class="form-control pull-right" placeholder="Search" value="{{ app('request')->input('search') }}">
 
                     <div class="input-group-btn">
                       <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -74,44 +74,47 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover table-striped">
+              <table class="table table-hover table-striped table-bordered">
                 <tr>
                   <th>No</th>
                   <th>Kategori Produk</th>
-                  <th>Status</th>
-                  <th colspan="2" style="text-align: center;">Action</th>
+                  <th style="text-align: center;">Status</th>
+                  <th style="text-align: center; width: 190px">Aksi</th>
                 </tr>
                 @foreach($data as $no => $kategori)
                 <tr>
                   <td>{{$no +1}}</td>
                   <td>{{$kategori->nama_kategori}}</td>
+                  <td style="text-align: center;">
+                    @if($kategori->status == 1)
+                        <button type="submit" class="btn btn-xs btn-success">Ditampilkan</button>
+                      @else
+                        <button type="submit" class="btn btn-xs btn-danger">Tidak Ditampilkan</button>
+                    @endif
+                  </td>
                   <td>
+                    <a href="{{ route('edit.kategoriProduk', $kategori->id_kategori)}}">
+                      <button type="button" class="btn btn-sm btn-warning" style="float: left;"><i class="fa fa-edit"></i></button>
+                    </a>
                     @if($kategori->status == 1)
                       <form action="{{ route('status.kategoriProduk', $kategori->id_kategori)}}" method="post">
                         @csrf
                         @method('PUT')
                         <input type="number" hidden name="status" id="status" value="0">
-                        <button type="submit" class="btn btn-xs btn-primary">Ditampilkan</button>
+                        <button type="submit" class="btn btn-sm btn-primary" style="float: left; margin-left: 10px;">Ubah Status</button>
                       </form>
                       @else
                       <form action="{{ route('status.kategoriProduk', $kategori->id_kategori)}}" method="post">
                         @csrf
                         @method('PUT')
                         <input type="number" hidden name="status" id="status" value="1">
-                        <button type="submit" class="btn btn-xs btn-danger">Tidak Ditampilkan</button>
+                        <button type="submit" class="btn btn-sm btn-danger" style="float: left; margin-left: 10px;">Ubah Status</button>
                       </form>
                     @endif
-                  </td>
-                  <td style="text-align: right;">
-                    <a href="{{ route('edit.kategoriProduk', $kategori->id_kategori)}}">
-                      <button type="button" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
-                    </a>
-                  </td>
-                  <td>
                     <form action="{{ route('delete.kategoriProduk', $kategori->id_kategori)}}" method="post">
                       @csrf
                       @method('DELETE')
-                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-sm btn-danger" style="float: left; margin-left: 10px;"><i class="fa fa-trash"></i></button>
                     </form>
                   </td>
                 </tr>

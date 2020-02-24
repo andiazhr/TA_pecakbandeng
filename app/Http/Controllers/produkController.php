@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use App\Models\Rating;
+use App\Models\Like;
+use App\Models\Review;
 use App\Models\KategoriProduk;
 use App\Models\Stok;
+use DB;
 
 class produkController extends Controller
 {
@@ -21,10 +25,30 @@ class produkController extends Controller
     
     public function index(Request $request)
     {
-        $data = Produk::when($request->search, function ($query) use ($request) {
+        $countrating = Rating::count();
+        $countlike = Like::count();
+        $countreview = Review::count();
+        $rating = DB::table('rating')
+                ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                ->select('rating.*', DB::raw('count(*) as total, sum(nilai) as hasil'))
+                ->groupBy('rating.id_produk')
+                ->get();
+        $like = DB::table('like')
+                ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                ->select('like.*', DB::raw('count(*) as total'))
+                 ->groupBy('like.id_produk')
+                 ->get();
+        $review = DB::table('review')
+                ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                ->select('review.*', DB::raw('count(*) as total'))
+                 ->groupBy('review.id_produk')
+                 ->get();
+        $data = Produk::with('ProdukKegiatan')->join('kategori_produk', 'kategori_produk.id_kategori', '=', 'produk.id_kategori')
+            ->when($request->search, function ($query) use ($request) {
             $query->where('nama_produk', 'like', "%{$request->search}%");
-        })->paginate(5);
-        return view('produk.index', compact('data'));
+            $query->orwhere('kategori_produk.nama_kategori', 'like', "%{$request->search}%");
+            })->select('produk.*')->paginate(5);
+        return view('produk.index', compact('data', 'countrating', 'countlike', 'countreview', 'rating', 'like', 'review'));
     }
 
     /**

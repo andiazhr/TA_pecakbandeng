@@ -9,20 +9,316 @@
         <div class="row no-gutters">
             @foreach($hasil as $data)
             <?php $check = 0 ?>
+            <?php $checkrating = 0 ?>
             <?php $checklike = 0 ?>
             <?php $checkreview = 0 ?>
             <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 p-3">
                 <div class="card border-warning">
                     <div class="card-body">
-                        <h5 class="card-title float-left">{{$data->nama_produk}}</h5>
-                        @if($data->nama_kategori == 'Makanan')
-                        <h6 class="card-title float-right"><span class="badge badge-danger">{{$data->nama_kategori}}</span></h6>
-                        @elseif($data->nama_kategori == 'Minuman')
-                        <h6 class="card-title float-right"><span class="badge badge-primary">{{$data->nama_kategori}}</span></h6>
-                        @else
-                        <h6 class="card-title float-right"><span class="badge badge-secondary">{{$data->nama_kategori}}</span></h6>
-                        @endif
-                        <p class="card-text float-left" style="clear: left;">{{$data->deskripsi_produk}}</p>
+                        <div class="row no-gutters">
+                            <div class="col-7">
+                            <h5 class="card-title float-left">{{$data->nama_produk}}</h5>
+                            </div>
+                            <div class="col-2">
+                                @if($data->nama_kategori == 'Makanan')
+                                <h6 class="card-title float-right"><span class="badge badge-danger">{{$data->nama_kategori}}</span></h6>
+                                @elseif($data->nama_kategori == 'Minuman')
+                                <h6 class="card-title float-right"><span class="badge badge-primary">{{$data->nama_kategori}}</span></h6>
+                                @else
+                                <h6 class="card-title float-right"><span class="badge badge-secondary">{{$data->nama_kategori}}</span></h6>
+                                @endif
+                            </div>
+                            @if( auth('pelanggan')->check() )
+                                @if($countrating == 0)
+                                <div class="col-3 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px">
+                                        <a data-toggle="modal"
+                                            data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
+                                            data-idproduk="{{$data->id_produk}}" 
+                                            data-namaproduk="{{$data->nama_produk}}" 
+                                            href="#rating" 
+                                            class="btn grow rating">
+                                            <i class="fas fa-star fa-lg mr-1 text-dark"></i>3
+                                        </a>
+                                        <div class="modal fade" id="rating" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title float-left mr-2">Berikan Rating Menu</h5><h5 class="card-title float-left mt-1 text-warning" name="nama_produk" id="nama_produk"></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body d-flex justify-content-center">
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="1"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x text-warning"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="2"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x text-warning"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="3"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x text-warning"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="4"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="5"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x"></i></button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Kembali</button>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    @foreach($rating as $star)
+                                    @if($star->id_pelanggan == auth('pelanggan')->user()->id_pelanggan && $star->id_produk == $data->id_produk)
+                                    <?php $checkrating++ ?>
+                                    <div class="col-3 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px">
+                                        <a data-toggle="modal"
+                                            data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
+                                            data-idrating="{{$star->id_rating}}" 
+                                            data-idproduk="{{$data->id_produk}}" 
+                                            data-namaproduk="{{$data->nama_produk}}" 
+                                            data-nilai="{{$star->nilai}}" 
+                                            href="#rating" 
+                                            class="btn grow rating">
+                                            <i class="fas fa-star fa-lg mr-1 text-warning"></i>
+                                            @foreach($ratingProduk as $starProduk)
+                                                @if($starProduk->id_produk == $data->id_produk)
+                                                    {{round(($starProduk->hasil+3)/($starProduk->total+1), 2)}}
+                                                @endif
+                                            @endforeach
+                                        </a>
+                                        <div class="modal fade" id="rating" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title float-left mr-2">Berikan Rating Menu</h5><h5 class="card-title float-left mt-1 text-warning" name="nama_produk" id="nama_produk"></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body d-flex justify-content-center">
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="1"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x text-warning"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="2"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x text-warning"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="3"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x text-warning"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="4"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="5"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x"></i></button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Kembali</button>
+                                                    <form role="form" method="post" action="{{route('delete.rating', $star->id_rating)}}" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <input hidden type="number" name="id_rating" id="id_rating" value=""/>
+                                                        <button onclick="return confirm('Yakin ingin menghapus rating anda?')" type="submit" class="btn btn-danger">Hapus Review</button>
+                                                    </form>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                    @if($checkrating == 0)
+                                    <div class="col-3 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px">
+                                        <a data-toggle="modal"
+                                            data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
+                                            data-idproduk="{{$data->id_produk}}" 
+                                            data-namaproduk="{{$data->nama_produk}}" 
+                                            href="#ratingnew" 
+                                            class="btn grow ratingnew">
+                                            <i class="fas fa-star fa-lg mr-1 text-dark"></i>3
+                                        </a>
+                                        <div class="modal fade" id="ratingnew" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title float-left mr-2">Berikan Rating Menu</h5><h5 class="card-title float-left mt-1 text-warning" name="nama_produk" id="nama_produk"></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body d-flex justify-content-center">
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="1"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x text-warning"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="2"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x text-warning"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="3"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x text-warning"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="4"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x"></i></button>
+                                                        </div>
+                                                    </form>
+                                                    <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                        <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
+                                                            @csrf
+                                                            <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
+                                                            <input hidden type="number" name="id_produk" id="id_produk" value=""/>
+                                                            <input hidden type="number" name="nilai" id="nilai" value="5"/>
+                                                            <button type="submit" class="btn grow"><i class="fas fa-star fa-4x"></i></button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Kembali</button>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                @endif
+                                <!-- end login star -->
+                            @else
+                                <!-- star -->
+                                @if($countrating == 0)
+                                    <div class="col-2 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px"">
+                                        <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                            @csrf
+                                            <button type="submit" class="btn grow ml-sm-3"><i class="fas fa-star text-dark fa-lg mr-sm-1"></i>3</button>
+                                        </form>
+                                    </div>
+                                @else
+                                    @foreach($ratingProduk as $starProduk)
+                                        @if($starProduk->id_produk == $data->id_produk)
+                                        <?php $checkrating++ ?>
+                                            <div class="col-2 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px"">
+                                                <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <button type="submit" class="btn grow ml-sm-3"><i class="fas fa-star text-dark fa-lg mr-sm-1"></i>
+                                                    @foreach($ratingProduk as $starProduk)
+                                                        @if($starProduk->id_produk == $data->id_produk)
+                                                            {{round(($starProduk->hasil+3)/($starProduk->total+1), 2)}}
+                                                        @endif
+                                                    @endforeach
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    @if($checkrating == 0)
+                                        <div class="col-2 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px"">
+                                            <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
+                                                @csrf
+                                                <button type="submit" class="btn grow ml-sm-3"><i class="fas fa-star text-dark fa-lg mr-sm-1"></i>3</button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                @endif
+                                
+                            @endif
+                            <p class="card-text float-left" style="clear: left;">{{$data->deskripsi_produk}}</p>
+                        </div>
                     </div>
                     <hr style="width: 100%;">
                     <div class="row no-gutters">
@@ -159,7 +455,7 @@
                                                             @csrf
                                                             @method('DELETE')
                                                             <input hidden type="number" name="id_review_delete" id="id_review_delete" value=""/>
-                                                            <button type="submit" class="btn btn-danger">Hapus Review</button>
+                                                            <button onclick="return confirm('Yakin ingin menghapus comment anda?')" type="submit" class="btn btn-danger">Hapus Review</button>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -218,8 +514,6 @@
                             <div class="no-gutters p-0 mb-3 col-6 float-left" style="clear: left">
                                 <form role="form" method="post" action="{{ route('submit.like') }}" enctype="multipart/form-data">
                                     @csrf
-                                    <input hidden type="number" class="form-control" name="id_pelanggan" value="{{ auth('pelanggan')->user()->id_pelanggan }}">
-                                    <input hidden type="number" class="form-control" name="id_produk" value="{{ $data->id_produk }}">
                                     <button type="submit" class="btn grow"><i class="far fa-heart fa-lg mr-1"></i></button>
                                 </form>
                             </div>

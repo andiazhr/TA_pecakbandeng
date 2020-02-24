@@ -32,9 +32,9 @@ class HomeController extends Controller
         $tgl = Date("Y-m-d");
         $userRegistrations = UsersPelanggan::count('*');
         $totalProduk = Produk::count('*');
-        $neworder = Order::where('created_at', 'like', "%{$tgl}%")->where('status', 'Belum Lunas')->count('*');
-        $jumbelProduk = OrderDetails::join('order', 'order_details.id_order', '=', 'order.id_order')->where(DB::raw('substr(order_details.created_at, 1, 10)'), '=', $tgl)->where('order.status', '=', 'Lunas')->sum('jumbel_produk');
-        $Produkterjual = OrderDetails::join('order', 'order_details.id_order', '=', 'order.id_order')->where('order.status', '=', 'Lunas')->sum('jumbel_produk', 'as', 'jumbel_produk');
+        $neworder = Order::where('created_at', 'like', "%{$tgl}%")->where('status', '0')->count('*');
+        $jumbelProduk = OrderDetails::join('order', 'order_details.id_order', '=', 'order.id_order')->where(DB::raw('substr(order_details.created_at, 1, 10)'), '=', $tgl)->where('order.status', '=', '1')->sum('jumbel_produk');
+        $Produkterjual = OrderDetails::join('order', 'order_details.id_order', '=', 'order.id_order')->where('order.status', '=', '1')->sum('jumbel_produk', 'as', 'jumbel_produk');
         $pendpHrIni = PendpPerHari::where('created_at', 'like', "%{$tgl}%")->sum('total_pendpPerHari');
         return view('dashboard.content',
         compact('userRegistrations',
@@ -51,11 +51,11 @@ class HomeController extends Controller
         $tgl = Date("Y-m-d");
         $data = OrderDetails::join('order', 'order_details.id_order', '=', 'order.id_order')
                 ->where(DB::raw('substr(order_details.created_at, 1, 10)'), '=', $tgl)
-                ->where('order.status', '=', 'Lunas')
+                ->where('order.status', '=', '1')
                 ->get();
         $sum = OrderDetails::join('order', 'order_details.id_order', '=', 'order.id_order')
                 ->where(DB::raw('substr(order_details.created_at, 1, 10)'), '=', $tgl)
-                ->where('order.status', '=', 'Lunas')
+                ->where('order.status', '=', '1')
                 ->select(DB::raw('SUM(jumbel_produk) as jumbel_produk'))
                 ->get();
         return view('dashboard.terjualhariini', compact('data', 'sum'));
@@ -74,10 +74,10 @@ class HomeController extends Controller
         $tgl = Date("Y-m-d");
         $data = Produk::join('order_details', 'produk.id_produk', '=', 'order_details.id_produk')
                 ->join('order', 'order_details.id_order', '=', 'order.id_order')
-                ->where('order.status', '=', 'Lunas')->groupBy('order_details.id_produk')
+                ->where('order.status', '=', '1')->groupBy('order_details.id_produk')
                 ->select(DB::raw('SUM(jumbel_produk) as jumbel_produk, produk.nama_produk'))
                 ->get();
-        $sum = OrderDetails::join('order', 'order_details.id_order', '=', 'order.id_order')->where('order.status', '=', 'Lunas')
+        $sum = OrderDetails::join('order', 'order_details.id_order', '=', 'order.id_order')->where('order.status', '=', '1')
                 ->select(DB::raw('SUM(jumbel_produk) as jumbel_produk'))
                 ->get();
         return view('dashboard.produkterjual', compact('data', 'sum'));
@@ -86,7 +86,7 @@ class HomeController extends Controller
     public function newOrder()
     {
         $tgl = Date("Y-m-d");
-        $data = Order::where('created_at', 'like', "%{$tgl}%")->where('status', 'Belum Lunas')->get();
+        $data = Order::where('created_at', 'like', "%{$tgl}%")->where('status', '0')->get();
         return view('dashboard.neworder', compact('data'));
     }
 
@@ -97,7 +97,7 @@ class HomeController extends Controller
                                 INNER JOIN order_details using(id_order)
                                 INNER JOIN produk USING(id_produk)
                                 INNER JOIN kategori_produk USING(id_kategori)
-                                WHERE `order`.`status` = 'Lunas' AND kategori_produk.nama_kategori = 'Makanan'
+                                WHERE `order`.`status` = '1' AND kategori_produk.nama_kategori = 'Makanan'
                                 GROUP BY order_details.id_produk ORDER BY jumbel_produk DESC");
         return response()->json($result);
     }
@@ -109,7 +109,7 @@ class HomeController extends Controller
                                 INNER JOIN order_details using(id_order)
                                 INNER JOIN produk USING(id_produk)
                                 INNER JOIN kategori_produk USING(id_kategori)
-                                WHERE `order`.`status` = 'Lunas' AND kategori_produk.nama_kategori = 'Minuman'
+                                WHERE `order`.`status` = '1' AND kategori_produk.nama_kategori = 'Minuman'
                                 GROUP BY order_details.id_produk ORDER BY jumbel_produk DESC");
         return response()->json($result);
     }

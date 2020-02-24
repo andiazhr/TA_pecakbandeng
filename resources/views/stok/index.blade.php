@@ -73,7 +73,7 @@
               <div class="box-tools">
                 <form action="{{ url()->current() }}">
                   <div class="input-group input-group-sm" style="width: 200px;">
-                    <input type="text" name="search" class="form-control pull-right" placeholder="Search">
+                    <input type="text" name="search" class="form-control pull-right" placeholder="Search" value="{{ app('request')->input('search') }}">
 
                     <div class="input-group-btn">
                       <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -84,46 +84,49 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover table-striped">
+              <table class="table table-hover table-striped table-bordered">
                 <tr>
                   <th>No</th>
                   <th>Nama Bahan Utama</th>
                   <th>Stok</th>
-                  <th>Status Bahan Lain</th>
-                  <th colspan="2" style="text-align: center;">Action</th>
+                  <th style="text-align: center;">Status Bahan Lain</th>
+                  <th style="text-align: center; width: 190px">Aksi</th>
                 </tr>
                 @foreach($data as $no => $stok)
                 <tr>
                   <td>{{$no +1}}</td>
                   <td>{{$stok->nama_barang}}</td>
                   <td>{{$stok->stok}}</td>
-                  <td>
+                  <td style="text-align: center">
+                    @if($stok->status == 1)
+                        <button type="submit" class="btn btn-xs btn-success">Tersedia</button>
+                      @else
+                        <button type="submit" class="btn btn-xs btn-danger">Tidak Tersedia</button>
+                    @endif
+                  </td>
+                  <td style="text-align: center;">
+                    <a href="{{ route('edit.stok', $stok->id_stok)}}">
+                      <button type="button" class="btn btn-sm btn-warning" style="float: left;"><i class="fa fa-edit"></i></button>
+                    </a>
                     @if($stok->status == 1)
                       <form action="{{ route('status.stok', $stok->id_stok)}}" method="post">
                         @csrf
                         @method('PUT')
                         <input type="number" hidden name="status" id="status" value="0">
-                        <button type="submit" class="btn btn-xs btn-primary">Tersedia</button>
+                        <button type="submit" class="btn btn-sm btn-primary" style="float: left; margin-left: 10px;">Ubah Status</button>
                       </form>
                       @else
                       <form action="{{ route('status.stok', $stok->id_stok)}}" method="post">
                         @csrf
                         @method('PUT')
                         <input type="number" hidden name="status" id="status" value="1">
-                        <button type="submit" class="btn btn-xs btn-danger">Tidak Tersedia</button>
+                        <button type="submit" class="btn btn-sm btn-danger" style="float: left; margin-left: 10px;">Ubah Status</button>
                       </form>
                     @endif
-                  </td>
-                  <td style="text-align: right;">
-                    <a href="{{ route('edit.stok', $stok->id_stok)}}">
-                      <button type="button" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
-                    </a>
-                  </td>
-                  <td>
                     <form action="{{ route('delete.stok', $stok->id_stok)}}" method="post">
                       @csrf
                       @method('DELETE')
-                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-sm btn-danger" style="float: left; margin-left: 10px;"><i class="fa fa-trash"></i></button>
                     </form>
                   </td>
                 </tr>

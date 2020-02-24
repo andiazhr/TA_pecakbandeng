@@ -99,7 +99,7 @@ class kegiatanController extends Controller
         $exists = ProdukKegiatan::where('id_kegiatan', $id_kegiatan)->where('id_produk', $id_produk)->exists();
         
         if($exists == true){
-            return redirect()->to('/kegiatan/addprodukkegiatan/'.$id_kegiatan)->with(['fail' => 'Nama kegiatan dan nama produk telah dimasukkan']);
+            return redirect()->to('/kegiatan/addprodukkegiatan/'.$id_kegiatan)->with(['fail' => 'Produk telah dimasukkan dalam kegiatan']);
         }
 
         $input = $request->get('discount');
