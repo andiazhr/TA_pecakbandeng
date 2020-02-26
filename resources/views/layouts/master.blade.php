@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="shortcut icon" href="{{ asset ('imageforuser/dashboard.svg') }}" />
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Owner | Dashboard</title>
@@ -9,7 +10,7 @@
   <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet" type="text/css" />
   <!-- Bootstrap 3.3.7 -->
   <link href="{{ asset('css/error.css') }}" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.css') }}">
+  <!-- <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.css') }}"> -->
 
   <link rel="stylesheet" href="{{ asset('assetsadmin/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
   <!-- Font Awesome -->
@@ -38,9 +39,10 @@
 
   <link rel="stylesheet" href="{{ asset('assetsadmin/plugins/iCheck/flat/blue.css') }}">
   
-  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
   
-  <script src="{{ asset('js/custom.js') }}"></script>
+  <script src="{{ asset('js/jquery-latest.min.js') }}"></script>
+  <!-- <script src="{{ asset('js/custom.js') }}"></script> -->
   
 
 
@@ -62,6 +64,7 @@
           {
           box-sizing:border-box;
           }
+          /* .main-sidebar { background-color: #f9fafc !important }. */
           .mt{
             margin-top: 25px;
           }
@@ -169,7 +172,7 @@
     @include('Layouts.main_header')
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
+  <aside class="main-sidebar sidebar-light-primary">
     @include('Layouts.main_sidebar')
   </aside>
 
@@ -197,11 +200,11 @@
 
 <!-- jQuery 3 -->
 <!-- jQuery UI 1.11.4 -->
-<script src="{{ asset('assetsadmin/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+<!-- <script src="{{ asset('assetsadmin/bower_components/jquery-ui/jquery-ui.min.js') }}"></script> -->
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
+<!-- <script>
   $.widget.bridge('uibutton', $.ui.button);
-</script>
+</script> -->
 <script src="{{ asset('assetsadmin/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{ asset('assetsadmin/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -224,11 +227,11 @@
 <!-- jQuery Knob Chart -->
 <script src="{{ asset('assetsadmin/bower_components/jquery-knob/dist/jquery.knob.min.js') }}"></script>
 <!-- datepicker -->
-<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script> -->
 <!-- Bootstrap WYSIHTML5 -->
-<script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<!-- <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script> -->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('assetsadmin/dist/js/pages/dashboard2.js') }}"></script>
+<!-- <script src="{{ asset('assetsadmin/dist/js/pages/dashboard2.js') }}"></script> -->
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('assetsadmin/dist/js/demo.js') }}"></script>
 
@@ -397,7 +400,7 @@
 </script>
 <script>$('div.alert').delay(3000).slideUp(300);</script>
 
-<link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.js') }}">
+<!-- <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.js') }}">
 <script>
 $('#btnAlert').click(function(e){
   swal({
@@ -407,53 +410,53 @@ $('#btnAlert').click(function(e){
     confirmButtonText: 'Cool'
   })
 });
-</script>
+</script> 
+
+<script type="text/javascript">
+  
+$('.test').click(function () {
+  var postId = $(this).data('id');
+      swal({
+      title: "Are you sure?",
+      text: "You will not be able to recover this data!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonClass: 'btn-danger waves-effect waves-light',
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      closeOnConfirm: true,
+      closeOnCancel: true
+      },
+      function(){
+        window.location.href = "itsfood.delete" + postId;
+      });
+    });
+  
+</script>-->
 
 <script>
   function checkTime(i) {
-  if (i < 10) {
-    i = "0" + i;
-  }
-  return i;
-}
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    }
 
-function startTime() {
-  var today = new Date();
-  var h = today.getHours();
-  var m = today.getMinutes();
-  var s = today.getSeconds();
-  // add a zero in front of numbers<10
-  m = checkTime(m);
-  s = checkTime(s);
-  document.getElementById('jam').innerHTML = h + ":" + m + ":" + s;
-  t = setTimeout(function() {
-    startTime()
-  }, 500);
-}
-startTime();
-    </script>
-
-<script type="text/javascript">
-        
-        $('.test').click(function () {
-           var postId = $(this).data('id');
-                swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this data!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: 'btn-danger waves-effect waves-light',
-                confirmButtonText: "Delete",
-                cancelButtonText: "Cancel",
-                closeOnConfirm: true,
-                closeOnCancel: true
-                },
-                function(){
-                  window.location.href = "itsfood.delete" + postId;
-                });
-              });
-        
-          </script>
+    function startTime() {
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      // add a zero in front of numbers<10
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('jam').innerHTML = h + ":" + m + ":" + s;
+      t = setTimeout(function() {
+        startTime()
+      }, 500);
+    }
+    startTime();
+</script>
 
 <script>
 function mySelectKategori() {
@@ -470,10 +473,20 @@ function mySelectKategori() {
 </script>
 
 <!-- chart -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js" charset="utf-8"></script>
-
+@if(Request::Segment(1) == 'dashboard')
+<script src="{{ asset('js/Chart.js') }}"></script>
 <script>
-var urlMakanan = "{{url('home/byProdukterjualMakanan')}}";
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+</script>
+<script>
+var urlMakanan = "{{url('/dashboard/byProdukterjualMakanan')}}";
 var Makanan = new Array();
 var Jumbel = new Array();
 $(document).ready(function(){
@@ -510,14 +523,14 @@ $(document).ready(function(){
 </script>
 
 <script>
-var urlMinuman = "{{url('home/byProdukterjualMinuman')}}";
+var urlMinuman = "{{url('/dashboard/byProdukterjualMinuman')}}";
 var Minuman = new Array();
-var Jumbel = new Array();
+var JumbelMinum = new Array();
 $(document).ready(function(){
   $.get(urlMinuman, function(response){
     response.forEach(function(data){
       Minuman.push(data.nama_produk);
-      Jumbel.push(data.jumbel_produk);
+      JumbelMinum.push(data.jumbel_produk);
     });
     var ctx = document.getElementById('Minuman').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -526,7 +539,7 @@ $(document).ready(function(){
               labels: Minuman,
               datasets: [{
                   label: 'Jumlah Beli',
-                  data: Jumbel,
+                  data: JumbelMinum,
                   backgroundColor: 'rgba(255, 99, 132, 0.2)',
   	              borderColor: 'rgba(255, 99, 132, 1)',
                   borderWidth: 1
@@ -547,7 +560,7 @@ $(document).ready(function(){
 </script>
 <!-- pendapatan harian -->
 <script>
-var urlPendpHarian = "{{url('home/byPendpHarian')}}";
+var urlPendpHarian = "{{url('/dashboard/byPendpHarian')}}";
 var PendpHarian = new Array();
 var TglPendpHarian = new Array();
 $(document).ready(function(){
@@ -584,7 +597,7 @@ $(document).ready(function(){
 </script>
 <!-- pendapatan bulanan -->
 <script>
-var urlPendpBulanan = "{{url('home/byPendpBulanan')}}";
+var urlPendpBulanan = "{{url('/dashboard/byPendpBulanan')}}";
 var PendpBulanan = new Array();
 var BulanPendp = new Array();
 $(document).ready(function(){
@@ -599,7 +612,7 @@ $(document).ready(function(){
           data: {
               labels: BulanPendp,
               datasets: [{
-                  label: 'Pendapatan Harian',
+                  label: 'Pendapatan Bulanan',
                   data: PendpBulanan,
                   backgroundColor: 'rgba(46, 204, 113, 0.2)',
   	              borderColor: 'rgba(46, 204, 113, 1)',
@@ -621,7 +634,7 @@ $(document).ready(function(){
 </script>
 <!-- pendapatan tahunan -->
 <script>
-var urlPendpTahunan = "{{url('home/byPendpTahunan')}}";
+var urlPendpTahunan = "{{url('/dashboard/byPendpTahunan')}}";
 var PendpTahunan = new Array();
 var TahunPendp = new Array();
 $(document).ready(function(){
@@ -636,7 +649,7 @@ $(document).ready(function(){
           data: {
               labels: TahunPendp,
               datasets: [{
-                  label: 'Pendapatan Harian',
+                  label: 'Pendapatan Tahunan',
                   data: PendpTahunan,
                   backgroundColor: 'rgba(0, 204, 255, 0.2)',
   	              borderColor: 'rgba(0, 204, 255, 1)',
@@ -656,7 +669,82 @@ $(document).ready(function(){
   });
 });
 </script>
-
+<!-- Pengeluaran -->
+<script>
+var urlPengeluaran = "{{url('/dashboard/Pengeluaran')}}";
+var Pengeluaran = new Array();
+var BulanPengeluaran = new Array();
+$(document).ready(function(){
+  $.get(urlPengeluaran, function(response){
+    response.forEach(function(data){
+      Pengeluaran.push(data.Pengeluaran);
+      BulanPengeluaran.push(data.bulan);
+    });
+    var ctx = document.getElementById('Pengeluaran').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: BulanPengeluaran,
+              datasets: [{
+                  label: 'Pengeluaran Bulanan',
+                  data: Pengeluaran,
+                  backgroundColor: 'rgba(255, 204, 0, 0.2)',
+  	              borderColor: 'rgba(255, 204, 0, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
+          }
+      });
+  });
+});
+</script>
+<!-- Laba Bersih -->
+<script>
+var urlLabaBersih = "{{url('/dashboard/LabaBersih')}}";
+var LabaBersih = new Array();
+var BulanLabaBersih = new Array();
+$(document).ready(function(){
+  $.get(urlLabaBersih, function(response){
+    response.forEach(function(data){
+      LabaBersih.push(data.LabaBersih);
+      BulanLabaBersih.push(data.bulan);
+    });
+    var ctx = document.getElementById('Laba_Bersih').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: BulanLabaBersih,
+              datasets: [{
+                  label: 'Laba Bersih Bulanan',
+                  data: LabaBersih,
+                  backgroundColor: 'rgba(51, 102, 255, 0.2)',
+  	              borderColor: 'rgba(51, 102, 255, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
+          }
+      });
+  });
+});
+</script>
+@endif
+<!-- end chart -->
 <script>
 function my30pendpHarian() {
   var x = document.getElementById("pendpHarian");
@@ -667,5 +755,27 @@ function my30pendpHarian() {
   }
 }
 </script>
+
+<script>
+        $('#myTab a').click(function(e) {
+          var scrollHeight = $(document).scrollTop();
+
+          $(this).tab('show');
+
+          // setTimeout(function() {
+              $(window).scrollTop(scrollHeight );
+          // }, 5);
+        });
+
+        // store the currently selected tab in the hash value
+        $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+        var id = $(e.target).attr("href").substr(1);
+        window.location.hash = id;
+        });
+
+        // on load of the page: switch to the currently selected tab
+        var hash = window.location.hash;
+        $('#myTab a[href="' + hash + '"]').tab('show');
+    </script>
 </body>
 </html>

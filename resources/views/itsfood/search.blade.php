@@ -10,16 +10,19 @@
             @foreach($hasil as $data)
             <?php $check = 0 ?>
             <?php $checkrating = 0 ?>
+            <?php $checkeditrating = 0 ?>
+            <?php $totaleditrating = 0 ?>
             <?php $checklike = 0 ?>
             <?php $checkreview = 0 ?>
+            <?php $checkeditreview = 0 ?>
             <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 p-3">
                 <div class="card border-warning">
                     <div class="card-body">
                         <div class="row no-gutters">
-                            <div class="col-7">
+                            <div class="col-6 col-xl-6 col-lg-8 col-md-6 col-sm-6">
                             <h5 class="card-title float-left">{{$data->nama_produk}}</h5>
                             </div>
-                            <div class="col-2">
+                            <div class="col-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 mt-1">
                                 @if($data->nama_kategori == 'Makanan')
                                 <h6 class="card-title float-right"><span class="badge badge-danger">{{$data->nama_kategori}}</span></h6>
                                 @elseif($data->nama_kategori == 'Minuman')
@@ -30,7 +33,7 @@
                             </div>
                             @if( auth('pelanggan')->check() )
                                 @if($countrating == 0)
-                                <div class="col-3 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px">
+                                <div class="col-4 col-xl-4 col-lg-2 col-md-4 col-sm-4 pl-xl-0 pl-lg-3 pl-md-5 d-flex justify-content-center" style="margin-top: -8px">
                                         <a data-toggle="modal"
                                             data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
                                             data-idproduk="{{$data->id_produk}}" 
@@ -111,7 +114,7 @@
                                     @foreach($rating as $star)
                                     @if($star->id_pelanggan == auth('pelanggan')->user()->id_pelanggan && $star->id_produk == $data->id_produk)
                                     <?php $checkrating++ ?>
-                                    <div class="col-3 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px">
+                                    <div class="col-4 col-xl-4 col-lg-2 col-md-4 col-sm-4 pl-xl-0 pl-lg-3 pl-md-5 d-flex justify-content-center" style="margin-top: -6px">
                                         <a data-toggle="modal"
                                             data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
                                             data-idrating="{{$star->id_rating}}" 
@@ -192,7 +195,7 @@
                                                     <button type="button" class="btn btn-warning" data-dismiss="modal">Kembali</button>
                                                     <form role="form" method="post" action="{{route('delete.rating', $star->id_rating)}}" enctype="multipart/form-data">
                                                         @csrf
-                                                        @method('DELETE')
+                                                        @method('PUT')
                                                         <input hidden type="number" name="id_rating" id="id_rating" value=""/>
                                                         <button onclick="return confirm('Yakin ingin menghapus rating anda?')" type="submit" class="btn btn-danger">Hapus Review</button>
                                                     </form>
@@ -204,15 +207,49 @@
                                     @endif
                                     @endforeach
                                     @if($checkrating == 0)
-                                    <div class="col-3 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px">
-                                        <a data-toggle="modal"
-                                            data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
-                                            data-idproduk="{{$data->id_produk}}" 
-                                            data-namaproduk="{{$data->nama_produk}}" 
-                                            href="#ratingnew" 
-                                            class="btn grow ratingnew">
-                                            <i class="fas fa-star fa-lg mr-1 text-dark"></i>3
-                                        </a>
+                                    <div class="col-4 col-xl-4 col-lg-2 col-md-4 col-sm-4 pl-xl-0 pl-lg-3 pl-md-5 d-flex justify-content-center" style="margin-top: -6px">
+                                    @foreach($editRating as $editstar)
+                                        @if($editstar->id_produk == $data->id_produk)
+                                            <?php $checkeditrating++ ?>
+                                            <a data-toggle="modal"
+                                                data-starid="{{ $editstar->id_rating }}" 
+                                                data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
+                                                data-idproduk="{{$data->id_produk}}" 
+                                                data-namaproduk="{{$data->nama_produk}}" 
+                                                href="#ratingnew" 
+                                                class="btn grow ratingnew">
+                                                <i class="fas fa-star fa-lg mr-1 text-dark"></i>
+                                                @foreach($ratingProduk as $starProduk)
+                                                    @if($starProduk->id_produk == $data->id_produk)
+                                                    <?php $totaleditrating++ ?>
+                                                        {{round(($starProduk->hasil+3)/($starProduk->total+1), 2)}}
+                                                    @endif
+                                                @endforeach
+                                                @if($totaleditrating == 0)
+                                                    3
+                                                @endif
+                                            </a>
+                                            @endif
+                                        @endforeach
+                                        @if($checkeditrating == 0)
+                                            <a data-toggle="modal"
+                                                data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
+                                                data-idproduk="{{$data->id_produk}}" 
+                                                data-namaproduk="{{$data->nama_produk}}" 
+                                                href="#ratingnew" 
+                                                class="btn grow ratingnew">
+                                                <i class="fas fa-star fa-lg mr-1 text-dark"></i>
+                                                @foreach($ratingProduk as $starProduk)
+                                                    @if($starProduk->id_produk == $data->id_produk)
+                                                        <?php $checkeditrating++ ?>
+                                                        {{round(($starProduk->hasil+3)/($starProduk->total+1), 2)}}
+                                                    @endif
+                                                @endforeach
+                                                @if($checkeditrating == 0)
+                                                3
+                                                @endif
+                                            </a>
+                                        @endif
                                         <div class="modal fade" id="ratingnew" tabindex="-1" role="dialog">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -226,6 +263,7 @@
                                                     <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                                         <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
                                                             @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
                                                             <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
                                                             <input hidden type="number" name="id_produk" id="id_produk" value=""/>
                                                             <input hidden type="number" name="nilai" id="nilai" value="1"/>
@@ -235,6 +273,7 @@
                                                     <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                                         <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
                                                             @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
                                                             <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
                                                             <input hidden type="number" name="id_produk" id="id_produk" value=""/>
                                                             <input hidden type="number" name="nilai" id="nilai" value="2"/>
@@ -244,6 +283,7 @@
                                                     <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                                         <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
                                                             @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
                                                             <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
                                                             <input hidden type="number" name="id_produk" id="id_produk" value=""/>
                                                             <input hidden type="number" name="nilai" id="nilai" value="3"/>
@@ -253,6 +293,7 @@
                                                     <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                                         <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
                                                             @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
                                                             <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
                                                             <input hidden type="number" name="id_produk" id="id_produk" value=""/>
                                                             <input hidden type="number" name="nilai" id="nilai" value="4"/>
@@ -262,6 +303,7 @@
                                                     <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                                         <div class="no-gutters p-0 float-left" style="margin-left: -8px; margin-top: -8px">
                                                             @csrf
+                                                            <input hidden type="number" name="id_rating" id="id_rating" value=""/>
                                                             <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
                                                             <input hidden type="number" name="id_produk" id="id_produk" value=""/>
                                                             <input hidden type="number" name="nilai" id="nilai" value="5"/>
@@ -282,7 +324,7 @@
                             @else
                                 <!-- star -->
                                 @if($countrating == 0)
-                                    <div class="col-2 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px"">
+                                    <div class="col-4 col-xl-4 col-lg-2 col-md-4 col-sm-4 pl-xl-0 pl-lg-3 pl-md-5 d-flex justify-content-center" style="margin-top: -8px"">
                                         <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                             @csrf
                                             <button type="submit" class="btn grow ml-sm-3"><i class="fas fa-star text-dark fa-lg mr-sm-1"></i>3</button>
@@ -292,7 +334,7 @@
                                     @foreach($ratingProduk as $starProduk)
                                         @if($starProduk->id_produk == $data->id_produk)
                                         <?php $checkrating++ ?>
-                                            <div class="col-2 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px"">
+                                            <div class="col-4 col-xl-4 col-lg-2 col-md-4 col-sm-4 pl-xl-0 pl-lg-3 pl-md-5 d-flex justify-content-center" style="margin-top: -8px"">
                                                 <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                                     @csrf
                                                     <button type="submit" class="btn grow ml-sm-3"><i class="fas fa-star text-dark fa-lg mr-sm-1"></i>
@@ -307,7 +349,7 @@
                                         @endif
                                     @endforeach
                                     @if($checkrating == 0)
-                                        <div class="col-2 d-flex pl-xl-4 justify-content-center" style="margin-top: -8px"">
+                                        <div class="col-4 col-xl-4 col-lg-2 col-md-4 col-sm-4 pl-xl-0 pl-lg-3 pl-md-5 d-flex justify-content-center" style="margin-top: -8px"">
                                             <form role="form" method="post" action="{{ route('submit.rating') }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <button type="submit" class="btn grow ml-sm-3"><i class="fas fa-star text-dark fa-lg mr-sm-1"></i>3</button>
@@ -340,7 +382,7 @@
                                     <div class="no-gutters p-0 mb-3 col-6 float-left" style="clear: left">
                                         <form role="form" method="post" action="{{ route('delete.like', $suka->id_like) }}" enctype="multipart/form-data">
                                             @csrf
-                                            @method('DELETE')
+                                            @method('PUT')
                                             <button class="btn grow">
                                                 <i class="fas fa-heart fa-lg mr-1" style="color: red"></i>
                                                 @foreach($likeProduk as $sukaProduk)
@@ -364,6 +406,11 @@
                                             @foreach($likeProduk as $sukaProduk)
                                                 @if($sukaProduk->id_produk == $data->id_produk)
                                                     {{$sukaProduk->total}}
+                                                @endif
+                                            @endforeach
+                                            @foreach($editLike as $ubahLike)
+                                                @if($ubahLike->id_produk == $data->id_produk)
+                                                    <input hidden type="number" class="form-control" name="id_like" value="{{ $ubahLike->id_like }}">
                                                 @endif
                                             @endforeach
                                         </button>
@@ -453,7 +500,7 @@
                                                     </form>
                                                         <form role="form" method="post" action="{{route('delete.review', $ulasan->id_review)}}" enctype="multipart/form-data">
                                                             @csrf
-                                                            @method('DELETE')
+                                                            @method('PUT')
                                                             <input hidden type="number" name="id_review_delete" id="id_review_delete" value=""/>
                                                             <button onclick="return confirm('Yakin ingin menghapus comment anda?')" type="submit" class="btn btn-danger">Hapus Review</button>
                                                         </form>
@@ -466,19 +513,40 @@
                             @endforeach
                             @if($checkreview == 0)
                                 <div class="no-gutters p-0 mb-3 col-6 float-left">
-                                    <a data-toggle="modal"
-                                        data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
-                                        data-idproduk="{{$data->id_produk}}" 
-                                        data-namaproduk="{{$data->nama_produk}}" 
-                                        href="#review" 
-                                        class="btn grow review">
-                                        <i class="far fa-comment fa-lg mr-1"></i>
-                                        @foreach($reviewProduk as $ulasanProduk)
-                                            @if($ulasanProduk->id_produk == $data->id_produk)
-                                                {{$ulasanProduk->total}}
-                                            @endif
-                                        @endforeach
-                                    </a>
+                                    @foreach($editReview as $editulasan)
+                                        @if($editulasan->id_produk == $data->id_produk)
+                                        <?php $checkeditreview++ ?>
+                                        <a data-toggle="modal" 
+                                            data-reviewid="{{ $editulasan->id_review }}" 
+                                            data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
+                                            data-idproduk="{{$data->id_produk}}" 
+                                            data-namaproduk="{{$data->nama_produk}}" 
+                                            href="#review" 
+                                            class="btn grow review">
+                                            <i class="far fa-comment fa-lg mr-1"></i>
+                                            @foreach($reviewProduk as $ulasanProduk)
+                                                @if($ulasanProduk->id_produk == $data->id_produk)
+                                                    {{$ulasanProduk->total}}
+                                                @endif
+                                            @endforeach
+                                        </a>
+                                        @endif
+                                    @endforeach
+                                    @if($checkeditreview == 0)
+                                        <a data-toggle="modal" 
+                                            data-id="{{ auth('pelanggan')->user()->id_pelanggan }}" 
+                                            data-idproduk="{{$data->id_produk}}" 
+                                            data-namaproduk="{{$data->nama_produk}}" 
+                                            href="#review" 
+                                            class="btn grow review">
+                                            <i class="far fa-comment fa-lg mr-1"></i>
+                                            @foreach($reviewProduk as $ulasanProduk)
+                                                @if($ulasanProduk->id_produk == $data->id_produk)
+                                                    {{$ulasanProduk->total}}
+                                                @endif
+                                            @endforeach
+                                        </a>
+                                    @endif
                                     <div class="modal fade" id="review" tabindex="-1" role="dialog">
                                         <form role="form" method="post" action="{{ route('submit.review') }}" enctype="multipart/form-data">
                                             @csrf
@@ -492,6 +560,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <h5 class="card-title" name="nama_produk" id="nama_produk"></h5>
+                                                    <input hidden type="number" name="id_review" id="id_review" value=""/>
                                                     <input hidden type="number" name="id_pelanggan" id="id_pelanggan" value=""/>
                                                     <input hidden type="number" name="id_produk" id="id_produk" value=""/>
                                                     <textarea name="review" id="review" class="form-control border-primary" rows="5"></textarea>

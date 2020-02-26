@@ -13,22 +13,25 @@
 
 // Catatan pada file database.php strict sebelumnya true bukan false
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', 'HomeController@index')->name('dashboard');
-Route::get('/home/terjualhariIni', 'HomeController@terjualhariIni')->name('terjualhariIni');
-Route::get('/home/pendphariIni', 'HomeController@pendphariIni')->name('pendphariIni');
-Route::get('/home/newOrder', 'HomeController@newOrder')->name('newOrder');
-Route::get('/home/produkTerjual', 'HomeController@produkTerjual')->name('produkTerjual');
-Route::get('/home/byProdukterjualMakanan','HomeController@byProdukterjualMakanan');
-Route::get('/home/byProdukterjualMinuman','HomeController@byProdukterjualMinuman');
-Route::get('/home/byPendpHarian','HomeController@byPendpHarian');
-Route::get('/home/byPendpBulanan','HomeController@byPendpBulanan');
-Route::get('/home/byPendpTahunan','HomeController@byPendpTahunan');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+Route::get('/dashboard/terjualhariIni', 'HomeController@terjualhariIni')->name('terjualhariIni');
+Route::get('/dashboard/pendphariIni', 'HomeController@pendphariIni')->name('pendphariIni');
+Route::get('/dashboard/newOrder', 'HomeController@newOrder')->name('newOrder');
+Route::get('/dashboard/userRegistrations', 'HomeController@Users')->name('users');
+Route::get('/dashboard/produkTerjual', 'HomeController@produkTerjual')->name('produkTerjual');
+Route::get('/dashboard/byProdukterjualMakanan','HomeController@byProdukterjualMakanan');
+Route::get('/dashboard/byProdukterjualMinuman','HomeController@byProdukterjualMinuman');
+Route::get('/dashboard/byPendpHarian','HomeController@byPendpHarian');
+Route::get('/dashboard/byPendpBulanan','HomeController@byPendpBulanan');
+Route::get('/dashboard/byPendpTahunan','HomeController@byPendpTahunan');
+Route::get('/dashboard/Pengeluaran','HomeController@Pengeluaran');
+Route::get('/dashboard/LabaBersih','HomeController@LabaBersih');
 
 Route::prefix('admin')->group(function(){
     Route::get('/profil/{id}', 'AdminController@profile')->name('profil');
@@ -149,7 +152,7 @@ Route::prefix('labaBersih')->group(function(){
     Route::delete('/delete/{id}', 'LabaBersihController@destroy')->name('delete.labaBersih');
 });
 
-Route::prefix('itsfood')->group(function(){
+Route::prefix('/')->group(function(){
     Route::get('/', 'ItsFoodController@index');
     Route::get('/search', 'ItsfoodController@search')->name('search');
     Route::get('/checkout/search/jasa', 'ItsfoodController@searchJasa')->name('search.jasa');
@@ -165,12 +168,12 @@ Route::prefix('itsfood')->group(function(){
     Route::get('/menu', 'ItsFoodController@menu')->name('menu');
     Route::post('/menu/rating', 'RatingController@store')->name('submit.rating');
     Route::put('/menu/edit/rating/{id}', 'RatingController@update')->name('update.rating');
-    Route::delete('/menu/rating/{id}', 'RatingController@destroy')->name('delete.rating');
+    Route::put('/menu/rating/{id}', 'RatingController@destroy')->name('delete.rating');
     Route::post('/menu/like', 'LikeController@store')->name('submit.like');
-    Route::delete('/menu/like/{id}', 'LikeController@destroy')->name('delete.like');
+    Route::put('/menu/like/{id}', 'LikeController@destroy')->name('delete.like');
     Route::post('/menu/review', 'ReviewController@store')->name('submit.review');
     Route::put('/menu/edit/review/{id}', 'ReviewController@update')->name('update.review');
-    Route::delete('/menu/review/{id}', 'ReviewController@destroy')->name('delete.review');
+    Route::put('/menu/review/{id}', 'ReviewController@destroy')->name('delete.review');
     Route::get('/checkout', 'ItsFoodController@checkout')->name('checkout');
     Route::post('/checkout', 'ItsfoodController@store')->name('checkout.submit');
     Route::get('/detailproduk/{id}', 'ItsFoodController@show')->name('detailproduk');

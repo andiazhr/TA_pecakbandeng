@@ -7,17 +7,6 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Produk Terjual Table</h3>
-              <div class="box-tools">
-                <form action="{{ url()->current() }}">
-                  <div class="input-group input-group-sm" style="width: 200px;">
-                    <input type="text" name="search" class="form-control pull-right" placeholder="Search">
-
-                    <div class="input-group-btn">
-                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                    </div>
-                  </div>
-                </form>
-              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
@@ -43,7 +32,7 @@
               </table>
             </div>
             <div class="box-footer clearfix">
-              <a href="{{ route('dashboard') }}" class="btn btn-warning" style="float:right;">Back</a>
+              <a href="{{ route('dashboard') }}" class="btn btn-default" style="float:right;">Back</a>
               <ul class="pagination pagination-sm no-margin pull-right">
                 
               </ul>

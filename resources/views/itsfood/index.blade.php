@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Its Food</title>
+    <link rel="shortcut icon" href="{{ asset ('imageforuser/warung.png') }}" />
+    @if(Request::segment(1) == 'menu')
+    <title>Menu</title>
+    @elseif(Request::segment(1) == 'keranjang')
+    <title>Keranjang</title>
+    @elseif(Request::segment(1) == 'checkout')
+    <title>Checkout</title>
+    @elseif(Request::segment(1) == 'masuk')
+    <title>Login</title>
+    @elseif(Request::segment(1) == 'daftar')
+    <title>Daftar</title>
+    @elseif(Request::segment(1) == 'profile')
+    <title>Profile</title>
+    @else
+    <title>Pecak Bandeng 59</title>
+    @endif
     <link href="{{ asset('css/itsfood.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('bootstrap/dist/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/modernizr.js') }}"></script>
     <!-- <script src="{{ asset('js/checkout.js') }}"></script> -->
 </head>
 <body>
@@ -23,7 +39,7 @@
   </footer>
   
 	<button class="scroll_To_Top"><span><i class="fas fa-caret-up fa-3x"></i><!-- Image goes here. --></span></button>
-	<!-- <div class="se-pre-con"></div> -->
+	<div class="se-pre-con"></div>
 </div>
 <script>$('div.alert').delay(5000).slideUp(300);</script>
 <script src="{{ asset('bootstrap/dist/js/bootstrap.min.js')}}"></script>
@@ -31,9 +47,11 @@
 
 <script>
 $(document).on("click", ".review", function () {
+     var Id_Review = $(this).data('reviewid');
      var Id = $(this).data('id');
      var Id_Produk = $(this).data('idproduk');
      var Nama_Produk = $(this).data('namaproduk');
+     $(".modal-body #id_review").val( Id_Review );
      $(".modal-body #id_pelanggan").val( Id );
      $(".modal-body #id_produk").val( Id_Produk );
      $(".modal-body #nama_produk").text( Nama_Produk );
@@ -153,12 +171,12 @@ $(document).ready(function(){
 });
 </script>
 
-<!-- <script>
+<script>
 $(window).load(function() {
 		// Animate loader off screen
-		$(".se-pre-con").fadeOut("fast");;
+		$(".se-pre-con").fadeOut("slow");;
   });
-</script> -->
+</script>
 
 <script>
   $("video").prop('muted', true);

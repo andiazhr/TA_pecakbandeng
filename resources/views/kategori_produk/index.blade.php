@@ -79,7 +79,7 @@
                   <th>No</th>
                   <th>Kategori Produk</th>
                   <th style="text-align: center;">Status</th>
-                  <th style="text-align: center; width: 190px">Aksi</th>
+                  <th style="text-align: center;" colspan="3">Aksi</th>
                 </tr>
                 @foreach($data as $no => $kategori)
                 <tr>
@@ -92,29 +92,29 @@
                         <button type="submit" class="btn btn-xs btn-danger">Tidak Ditampilkan</button>
                     @endif
                   </td>
-                  <td>
-                    <a href="{{ route('edit.kategoriProduk', $kategori->id_kategori)}}">
-                      <button type="button" class="btn btn-sm btn-warning" style="float: left;"><i class="fa fa-edit"></i></button>
-                    </a>
+                  <td style="text-align: center">
                     @if($kategori->status == 1)
                       <form action="{{ route('status.kategoriProduk', $kategori->id_kategori)}}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="number" hidden name="status" id="status" value="0">
-                        <button type="submit" class="btn btn-sm btn-primary" style="float: left; margin-left: 10px;">Ubah Status</button>
+                        <input type="number" hidden name="status" value="0">
+                        <button type="submit" class="btn btn-sm btn-primary">Ubah Status</button>
                       </form>
                       @else
                       <form action="{{ route('status.kategoriProduk', $kategori->id_kategori)}}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="number" hidden name="status" id="status" value="1">
-                        <button type="submit" class="btn btn-sm btn-danger" style="float: left; margin-left: 10px;">Ubah Status</button>
+                        <input type="number" hidden name="status" value="1">
+                        <button type="submit" class="btn btn-sm btn-danger">Ubah Status</button>
                       </form>
                     @endif
+                    <a href="{{ route('edit.kategoriProduk', $kategori->id_kategori)}}">
+                      <button type="button" class="btn btn-sm btn-warning" style="margin-top: 5px;"><i class="fa fa-edit"></i></button>
+                    </a>
                     <form action="{{ route('delete.kategoriProduk', $kategori->id_kategori)}}" method="post">
                       @csrf
                       @method('DELETE')
-                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-sm btn-danger" style="float: left; margin-left: 10px;"><i class="fa fa-trash"></i></button>
+                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-sm btn-danger" style="margin-top: 5px;"><i class="fa fa-trash"></i></button>
                     </form>
                   </td>
                 </tr>

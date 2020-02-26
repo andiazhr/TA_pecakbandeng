@@ -31,17 +31,20 @@ class produkController extends Controller
         $rating = DB::table('rating')
                 ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
                 ->select('rating.*', DB::raw('count(*) as total, sum(nilai) as hasil'))
+                ->where('rating.status', '=', '1')
                 ->groupBy('rating.id_produk')
                 ->get();
         $like = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
                 ->select('like.*', DB::raw('count(*) as total'))
-                 ->groupBy('like.id_produk')
+                ->where('like.status', '=', '1')
+                ->groupBy('like.id_produk')
                  ->get();
         $review = DB::table('review')
                 ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
                 ->select('review.*', DB::raw('count(*) as total'))
-                 ->groupBy('review.id_produk')
+                ->where('review.status', '=', '1')
+                ->groupBy('review.id_produk')
                  ->get();
         $data = Produk::with('ProdukKegiatan')->join('kategori_produk', 'kategori_produk.id_kategori', '=', 'produk.id_kategori')
             ->when($request->search, function ($query) use ($request) {

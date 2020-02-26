@@ -90,6 +90,12 @@ class HomeController extends Controller
         return view('dashboard.neworder', compact('data'));
     }
 
+    public function Users()
+    {
+        $data = UsersPelanggan::all();
+        return view('dashboard.users', compact('data'));
+    }
+
     public function byProdukterjualMakanan()
     {
         $result = DB::select("SELECT produk.nama_produk, sum(order_details.jumbel_produk) as jumbel_produk 
@@ -116,19 +122,31 @@ class HomeController extends Controller
 
     public function byPendpHarian()
     {
-        $result = DB::select("SELECT SUM(total_pendpPerHari) AS pendpHarian, SUBSTRING(created_at,1 ,10) AS tglpendpHarian FROM `pendpperhari` GROUP BY SUBSTRING(created_at,1 ,10)");
+        $result = DB::select("SELECT SUM(total_pendpPerHari) AS pendpHarian, CONCAT(DAY(SUBSTRING(created_at,1 ,10)), ' ', MONTHNAME(SUBSTRING(created_at,1 ,10)), ' ',YEAR(SUBSTRING(created_at,1 ,10))) AS tglpendpHarian FROM `pendpperhari` GROUP BY SUBSTRING(created_at,1 ,10)");
         return response()->json($result);
     }
 
     public function byPendpBulanan()
     {
-        $result = DB::select("SELECT SUM(total_pendpPerBulan) AS pendpBulanan, MONTHNAME(bulan) AS bulanPendp FROM `pendpperbulan` GROUP BY MONTHNAME(bulan) ORDER BY MONTH(bulan) ASC");
+        $result = DB::select("SELECT SUM(total_pendpPerBulan) AS pendpBulanan, CONCAT(MONTHNAME(bulan), ' ',YEAR(bulan)) AS bulanPendp FROM `pendpperbulan` GROUP BY MONTHNAME(bulan) ORDER BY MONTH(bulan) ASC");
         return response()->json($result);
     }
     
     public function byPendpTahunan()
     {
         $result = DB::select("SELECT SUM(total_pendpPerTahun) AS pendpTahunan, tahun FROM `pendppertahun` GROUP BY tahun ORDER BY tahun ASC");
+        return response()->json($result);
+    }
+
+    public function Pengeluaran()
+    {
+        $result = DB::select("SELECT SUM(total) AS Pengeluaran, CONCAT(MONTHNAME(tanggal), ' ',YEAR(tanggal)) AS bulan FROM `pengeluaran` GROUP BY MONTHNAME(tanggal) ORDER BY MONTHNAME(tanggal) ASC");
+        return response()->json($result);
+    }
+
+    public function LabaBersih()
+    {
+        $result = DB::select("SELECT SUM(total) AS LabaBersih, CONCAT(MONTHNAME(tanggal), ' ',YEAR(tanggal)) AS bulan FROM `laba_bersih` GROUP BY MONTHNAME(tanggal) ORDER BY MONTHNAME(tanggal) ASC");
         return response()->json($result);
     }
 }

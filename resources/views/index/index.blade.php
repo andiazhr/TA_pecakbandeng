@@ -61,48 +61,61 @@
   </div>
 </div>
 
-<div class="row no-gutters bg-light p-3 d-flex justify-content-center">
-  <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-none d-lg-block d-xl-none d-xl-block py-5 pr-5">
-    <div class="spinner"></div>
-    <div class="sk-folding-cube d-none d-xl-block">
-      <div class="sk-cube1 sk-cube"></div>
-      <div class="sk-cube2 sk-cube"></div>
-      <div class="sk-cube4 sk-cube"></div>
-      <div class="sk-cube3 sk-cube"></div>
-    </div>
-  </div>
-  <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7 pt-1 c-video ">
+<?php $check = 0 ?>
+<?php $check2 = 0 ?>
     @foreach($produkkegiatan as $produkevent)
       @if($produkevent->Kegiatan->periode_awal <= Carbon\Carbon::now()->format('Y-m-d') && $produkevent->Kegiatan->periode_akhir >= Carbon\Carbon::now()->format('Y-m-d'))
-          <div class="rounded mb-2 eventPlaceholder bg-warning mySlidesEvent fadeEvent">
-              <div class="eventcircle1 bg-warning" style="font-family: asparagus sprouts; font-size: 20px">Harga Diskon <p class="bg-danger rounded text-white eventprice">{{number_format($produkevent->Produk->harga_produk-($produkevent->Produk->harga_produk*$produkevent->discount/100))}} IDR</p></div>
-              <div class="eventcircle2 bg-warning" style="font-family: asparagus sprouts; font-size: 20px">Harga Normal <p class="bg-danger rounded text-white eventprice"  style="text-decoration: line-through">{{number_format($produkevent->Produk->harga_produk)}} IDR</p></div>
-              <div class="eventcircle3 bg-warning"><a href="{{ route('addkeranjang', ['id_produk' => $produkevent->id_produk])}}" class="btn btn-danger float-right mr-1 animateBtn eventbuy">Add To Cart <i class="fa fa-utensils"></i></a></div>
-              <!-- <div class="eventrectangle bg-danger"></div> -->
-              <div class="eventsun bg-warning"><p class="eventtitle">{{$produkevent->Kegiatan->nama_kegiatan}}</p><p class="eventdesc">{{$produkevent->Kegiatan->deskripsi}}</p></div>
-          <img src="{{ asset('/imageforuser/menu/'. $produkevent->Produk->gambar_produk) }}" style="width: 100%;">
-          </div>
+      <?php $check++ ?>
       @endif
     @endforeach
-  </div>
-  <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-none d-lg-block d-xl-none d-xl-block py-5 pl-5">
-    <div class="spinner2 d-none d-xl-block">
-      <div class="cube1"></div>
-      <div class="cube2"></div>
-    </div>
-    <div class="sk-cube-grid">
-      <div class="sk-cube sk-cube1"></div>
-      <div class="sk-cube sk-cube2"></div>
-      <div class="sk-cube sk-cube3"></div>
-      <div class="sk-cube sk-cube4"></div>
-      <div class="sk-cube sk-cube5"></div>
-      <div class="sk-cube sk-cube6"></div>
-      <div class="sk-cube sk-cube7"></div>
-      <div class="sk-cube sk-cube8"></div>
-      <div class="sk-cube sk-cube9"></div>
-    </div>
-  </div>
-</div>
+    @if($check == 0)
+      <?php $check2++ ?>
+    @endif
+    @if($check2 == 0)
+      <div class="row no-gutters bg-light p-3 d-flex justify-content-center">
+        <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-none d-lg-block d-xl-none d-xl-block py-5 pr-5">
+          <div class="spinner"></div>
+          <div class="sk-folding-cube d-none d-xl-block">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7 pt-1 c-video ">
+          @foreach($produkkegiatan as $produkevent)
+            @if($produkevent->Kegiatan->periode_awal <= Carbon\Carbon::now()->format('Y-m-d') && $produkevent->Kegiatan->periode_akhir >= Carbon\Carbon::now()->format('Y-m-d'))
+            <?php $check++ ?>
+                <div class="rounded mb-2 eventPlaceholder bg-warning mySlidesEvent fadeEvent">
+                    <div class="eventcircle1 bg-warning" style="font-family: asparagus sprouts; font-size: 20px">Harga Diskon <p class="bg-danger rounded text-white eventprice">{{number_format($produkevent->Produk->harga_produk-($produkevent->Produk->harga_produk*$produkevent->discount/100))}} IDR</p></div>
+                    <div class="eventcircle2 bg-warning" style="font-family: asparagus sprouts; font-size: 20px">Harga Normal <p class="bg-danger rounded text-white eventprice"  style="text-decoration: line-through">{{number_format($produkevent->Produk->harga_produk)}} IDR</p></div>
+                    <div class="eventcircle3 bg-warning"><a href="{{ route('addkeranjang', ['id_produk' => $produkevent->id_produk])}}" class="btn btn-danger float-right mr-1 animateBtn eventbuy">Add To Cart <i class="fa fa-utensils"></i></a></div>
+                    <!-- <div class="eventrectangle bg-danger"></div> -->
+                    <div class="eventsun bg-warning"><p class="eventtitle">{{$produkevent->Kegiatan->nama_kegiatan}}</p><p class="eventdesc">{{$produkevent->Kegiatan->deskripsi}}</p></div>
+                <img src="{{ asset('/imageforuser/menu/'. $produkevent->Produk->gambar_produk) }}" style="width: 100%;">
+                </div>
+            @endif
+          @endforeach
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-none d-lg-block d-xl-none d-xl-block py-5 pl-5">
+          <div class="spinner2 d-none d-xl-block">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+          </div>
+          <div class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+          </div>
+        </div>
+      </div>
+    @endif
 
 <div class="row no-gutters p-0">
   @foreach($data as $makanan)
@@ -110,7 +123,7 @@
   <div class="col-12 mySlidesMakanan fadeMakanan">
     <div class="row no-gutters p-0">
       <div class="col-sm-12 col-md-5 col-lg-5 col-xl-5">
-          <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" style="width:100%">
+          <img src="{{ asset('/imageforuser/menu/'. $makanan->gambar_produk) }}" style="width:100%;" height="350px">
       </div>
       <div class="col-sm-12 col-md-7 col-lg-7 col-xl-7">
       <p class="HeadMakanan d-flex justify-content-center">Makanan</p>
@@ -120,8 +133,8 @@
             <div class="col-12 d-flex justify-content-center">
               <span class="badge badge-danger"><h6> {{$makanan->nama_produk}} </h6></span>
             </div>
-            <div class="col-12 d-flex justify-content-center pr-5 pl-5 pt-3 pb-3">
-              <p>
+            <div class="col-12 d-flex justify-content-center px-xl-5 px-lg-5 py-xl-3 py-lg-3 py-md-3 py-sm-2">
+              <p class="block-with-text">
                 {{$makanan->deskripsi_produk}}
               </p>
               <div class="slidemakan1 bg-light" style="z-index: -1;"></div>
@@ -202,8 +215,8 @@
             <div class="col-12 d-flex justify-content-center">
               <span class="badge badge-primary"><h6> {{$minuman->nama_produk}} </h6></span>
             </div>
-            <div class="col-12 d-flex justify-content-center pr-5 pl-5 pt-3 pb-3">
-              <p>
+            <div class="col-12 d-flex justify-content-center px-xl-5 px-lg-5 py-xl-3 py-lg-3 py-md-3 py-sm-2">
+              <p class="block-with-text">
                 {{$minuman->deskripsi_produk}}
               </p>
               <div class="slideminum1 bg-light" style="z-index: -1;"></div>

@@ -1,7 +1,7 @@
 <!-- Logo -->
-<a href="{{ url('home')}}" class="logo" style="background-color: #00a65a">
+<a href="{{ url('dashboard')}}" class="logo" style="background-color: #00a65a">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><img src="{{ asset ('imageforuser/dashboard.svg') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""></span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>Owner</b> Dashboard</span>
     </a>
@@ -16,6 +16,33 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Notifications: style can be found in dropdown.less -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-user-o"></i>
+              <span class="label label-warning">
+                <p hidden>{{$users = \App\Models\UsersPelanggan::where('status', '=', '1')->count()}}</p>
+                {{$users}}  
+              </span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">You have {{$users}} login user</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                <p hidden>{{$data = \App\Models\UsersPelanggan::where('status', '=', '1')->get()}}</p>
+                  @foreach($data as $user)
+                  <li>
+                      <i class="fa fa-list-ul text-aqua" style="margin-left: 10px; margin-top: 10px; margin-right: 5px"></i> {{$user->username}}
+                  </li>
+                  @endforeach
+                </ul>
+              </li>
+              @if($users != 0)
+              <li class="header"></li>
+              @endif
+              <li class="footer"><a href="{{ url()->current() }}">Users login</a></li>
+            </ul>
+          </li>
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
@@ -74,9 +101,9 @@
               </li>
             </ul>
           </li>
-          <li>
+          <!-- <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
+          </li> -->
         </ul>
       </div>
 

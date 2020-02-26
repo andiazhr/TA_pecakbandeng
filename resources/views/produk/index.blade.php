@@ -53,7 +53,13 @@
                 <tr>
                   <td>{{$no +1}}</td>
                   <td>{{$produk->nama_produk}}</td>
-                  <td>{{$produk->KategoriProduk->nama_kategori}}</td>
+                  <td>
+                    @if($produk->KategoriProduk->nama_kategori == 'Makanan')
+                        <span class="label label-danger">{{$produk->KategoriProduk->nama_kategori}}</span>
+                    @else
+                        <span class="label label-primary">{{$produk->KategoriProduk->nama_kategori}}</span>
+                    @endif
+                  </td>
                   <td><img src="{{ asset('/imageforuser/menu/'. $produk->gambar_produk) }}" alt="" width="150px" height="100px"></td>
                   <td>{{$produk->deskripsi_produk}}</td>
                   <td >
@@ -139,14 +145,14 @@
                     @else
                       @foreach($review as $ulasan)
                             @if($ulasan->id_produk == $produk->id_produk)
-                            <?php $checklike++ ?>
+                            <?php $checkreview++ ?>
                             <div class="col-md-12" style="text-align: center; margin-top: 10px">
                               <i class="fa fa-comment fa-lg" style="color: #444"></i> 
                                 {{$ulasan->total}}
                             </div>
                             @endif            
                         @endforeach
-                        @if($checklike == 0)
+                        @if($checkreview == 0)
                             <div class="col-md-12" style="text-align: center; margin-top: 10px">
                               <i class="fa fa-comment fa-lg" style="color: #444"></i> 0
                             </div>
@@ -158,14 +164,14 @@
                       <form action="{{ route('status.produk', $produk->id_produk)}}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="number" hidden name="status" id="status" value="0">
+                        <input type="number" hidden name="status" value="0">
                         <button type="submit" class="btn btn-sm btn-primary">Ubah Status</button>
                       </form>
                       @else
                       <form action="{{ route('status.produk', $produk->id_produk)}}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="number" hidden name="status" id="status" value="1">
+                        <input type="number" hidden name="status" value="1">
                         <button type="submit" class="btn btn-sm btn-danger">Ubah Status</button>
                       </form>
                     @endif

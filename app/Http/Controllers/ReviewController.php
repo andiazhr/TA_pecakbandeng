@@ -57,12 +57,26 @@ class ReviewController extends Controller
         {
             return redirect()->route('masuk')->with('login', 'Harus Login Terlebih Dahulu');
         }
-        $review = new Review();
-        $review->id_pelanggan = $request->get('id_pelanggan');
-        $review->id_produk = $request->get('id_produk');
-        $review->review = $request->get('review');
-        $review->save();
-        return redirect()->back();
+
+        $exists = Review::where('id_pelanggan', $request->id_pelanggan)->where('id_produk', $request->id_produk)->exists();
+        // dd($request->id_produk);
+        if($exists == true){
+            $id = $request->id_review;
+            // dd($id);
+            $review = Review::find($id);
+            $review->id_pelanggan = $request->get('id_pelanggan');
+            $review->id_produk = $request->get('id_produk');
+            $review->review = $request->get('review');
+            $review->update();
+            return redirect()->back();
+        }else{
+            $review = new Review();
+            $review->id_pelanggan = $request->get('id_pelanggan');
+            $review->id_produk = $request->get('id_produk');
+            $review->review = $request->get('review');
+            $review->save();
+            return redirect()->back();
+        }
     }
 
     /**
@@ -115,7 +129,8 @@ class ReviewController extends Controller
     {
         $id = $request->get('id_review_delete');
         $review = Review::find($id);
-        $review->delete();
+        $review->status = '0';
+        $review->update();
         
         return redirect()->back();
     }

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
-<a class="navbar-brand" href="{{ url('itsfood') }}">
+<a class="navbar-brand" href="{{ url('/') }}">
     <img src="{{ asset ('imageforuser/warung.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt="">
 </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,9 +20,9 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             @if(auth('pelanggan')->user()->foto_profil == NULL)
-            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->id_pelanggan) }}"><i class="fas fa-user-circle fa-2x"></i> Profil</a>
+            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><i class="fas fa-user-circle fa-2x"></i> Profile</a>
             @else
-            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->id_pelanggan) }}"><img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> Profil</a>
+            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> Profil</a>
             @endif
             <a class="dropdown-item" href="{{ route('keluar')}}"><img src="{{ asset ('imageforuser/logout6.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Logout</a>
         </li>
@@ -37,9 +37,9 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             @if(auth('pelanggan')->user()->foto_profil == NULL)
-            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->id_pelanggan) }}"><i class="fas fa-user-circle fa-2x"></i> Profil</a>
+            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><i class="fas fa-user-circle fa-2x"></i> Profile</a>
             @else
-            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->id_pelanggan) }}"><img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> Profil</a>
+            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> Profil</a>
             @endif
             <a class="dropdown-item" href="{{ route('keluar')}}"><img src="{{ asset ('imageforuser/logout6.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Logout</a>
         </li>
@@ -65,16 +65,16 @@
         </li>
         @endif
       @endif
-      @if(Request::segment(1) == 'itsfood' && Request::segment(2) == '')
+      @if(Request::segment(1) == '' && Request::segment(2) == '')
       <li class="nav-item active">
-        <a class="nav-link asparagus-sprouts font-18" href="{{ url('itsfood') }}"> <img src="{{ asset ('imageforuser/home.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Home </a>
+        <a class="nav-link asparagus-sprouts font-18" href="{{ url('/') }}"> <img src="{{ asset ('imageforuser/home.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Home </a>
       </li>
       @else
       <li class="nav-item">
-        <a class="nav-link asparagus-sprouts font-18" href="{{ url('itsfood') }}"> <img src="{{ asset ('imageforuser/home.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Home </a>
+        <a class="nav-link asparagus-sprouts font-18" href="{{ url('/') }}"> <img src="{{ asset ('imageforuser/home.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Home </a>
       </li>
       @endif
-      @if(Request::segment(2) == 'menu')
+      @if(Request::segment(1) == 'menu')
       <li class="nav-item active">
         <a class="nav-link asparagus-sprouts font-18" href="{{ route('menu') }}"> <img src="{{ asset ('imageforuser/menu.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Menu</a>
       </li>
@@ -83,7 +83,7 @@
         <a class="nav-link asparagus-sprouts font-18" href="{{ route('menu') }}"> <img src="{{ asset ('imageforuser/menu.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Menu</a>
       </li>
       @endif
-      @if(Request::segment(2) == 'keranjang')
+      @if(Request::segment(1) == 'keranjang')
       <li class="nav-item active">
         <a class="nav-link asparagus-sprouts font-18" href="{{ route('keranjang') }}"> <img src="{{ asset ('imageforuser/cart.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> <span class="badge badge-warning">{{ Session::has('keranjang') ? Session::get('keranjang')->totalJumbel : ''}}</span> Keranjang </a>
       </li>
@@ -92,18 +92,18 @@
         <a class="nav-link asparagus-sprouts font-18" href="{{ route('keranjang') }}"> <img src="{{ asset ('imageforuser/cart.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> <span class="badge badge-warning">{{ Session::has('keranjang') ? Session::get('keranjang')->totalJumbel : ''}}</span> Keranjang </a>
       </li>
       @endif
-      @if(Request::segment(2) != 'itsfood')
+      @if(Request::segment(1) != '')
       <li class="nav-item">
-        <a class="nav-link asparagus-sprouts font-18" href="{{url('itsfood')}}#lokasi"> <img src="{{ asset ('imageforuser/location.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Lokasi</a>
+        <a class="nav-link asparagus-sprouts font-18" href="{{url('/')}}#lokasi"> <img src="{{ asset ('imageforuser/location.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Lokasi</a>
       </li>
       @else
       <li class="nav-item">
         <a class="nav-link asparagus-sprouts font-18" href="#lokasi"> <img src="{{ asset ('imageforuser/location.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Lokasi</a>
       </li>
       @endif
-      @if(Request::segment(2) != 'itsfood')
+      @if(Request::segment(2) != '')
       <li class="nav-item">
-        <a class="nav-link asparagus-sprouts font-18" href="{{url('itsfood')}}#about"> <img src="{{ asset ('imageforuser/info.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Tentang Kami</a>
+        <a class="nav-link asparagus-sprouts font-18" href="{{url('/')}}#about"> <img src="{{ asset ('imageforuser/info.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Tentang Kami</a>
       </li>
       @else
       <li class="nav-item">

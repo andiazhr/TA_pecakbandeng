@@ -26,7 +26,7 @@ class orderController extends Controller
     public function index(Request $request)
     {
         $data = Order::when($request->search, function ($query) use ($request) {
-            $query->where('nama_produk', 'like', "%{$request->search}%");
+            $query->where('kode_order', 'like', "%{$request->search}%");
         })->paginate(10);
         return view('order.index', compact('data'));
     }

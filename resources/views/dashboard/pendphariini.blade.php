@@ -9,6 +9,14 @@
               <h3 class="box-title">Pendapatan Hari Ini Table</h3>
             </div>
             <!-- /.box-header -->
+            <?php $check = 0 ?>
+            @foreach($data as $no => $pendapatan)
+            <?php $check++ ?>
+            @endforeach
+            @if($check == 0)
+              <center><h3>Belum Ada Pendapatan</h3></center>
+            @endif
+            @if($check != 0)
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover table-striped table-bordered">
                 <tr>
@@ -31,6 +39,7 @@
                 @endforeach
               </table>
             </div>
+            @endif
             <div class="box-footer clearfix">
               <a href="{{ route('dashboard') }}" class="btn btn-default" style="float:right;">Back</a>
                 <ul class="pagination pagination-sm no-margin pull-right">

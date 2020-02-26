@@ -90,7 +90,7 @@
                   <th>Nama Bahan Utama</th>
                   <th>Stok</th>
                   <th style="text-align: center;">Status Bahan Lain</th>
-                  <th style="text-align: center; width: 190px">Aksi</th>
+                  <th style="text-align: center; width: 220px">Aksi</th>
                 </tr>
                 @foreach($data as $no => $stok)
                 <tr>
@@ -105,28 +105,28 @@
                     @endif
                   </td>
                   <td style="text-align: center;">
-                    <a href="{{ route('edit.stok', $stok->id_stok)}}">
-                      <button type="button" class="btn btn-sm btn-warning" style="float: left;"><i class="fa fa-edit"></i></button>
-                    </a>
                     @if($stok->status == 1)
                       <form action="{{ route('status.stok', $stok->id_stok)}}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="number" hidden name="status" id="status" value="0">
-                        <button type="submit" class="btn btn-sm btn-primary" style="float: left; margin-left: 10px;">Ubah Status</button>
+                        <input type="number" hidden name="status" value="0">
+                        <button type="submit" class="btn btn-sm btn-primary">Ubah Status</button>
                       </form>
                       @else
                       <form action="{{ route('status.stok', $stok->id_stok)}}" method="post">
                         @csrf
                         @method('PUT')
                         <input type="number" hidden name="status" id="status" value="1">
-                        <button type="submit" class="btn btn-sm btn-danger" style="float: left; margin-left: 10px;">Ubah Status</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Ubah Status</button>
                       </form>
                     @endif
+                    <a href="{{ route('edit.stok', $stok->id_stok)}}">
+                      <button type="button" class="btn btn-sm btn-warning" style="margin-top: 5px;"><i class="fa fa-edit"></i></button>
+                    </a>
                     <form action="{{ route('delete.stok', $stok->id_stok)}}" method="post">
                       @csrf
                       @method('DELETE')
-                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-sm btn-danger" style="float: left; margin-left: 10px;"><i class="fa fa-trash"></i></button>
+                      <button onclick="return confirm('Yakin ingin menghapus data?')" type="submit" class="btn btn-sm btn-danger" style="margin-top: 5px;"><i class="fa fa-trash"></i></button>
                     </form>
                   </td>
                 </tr>

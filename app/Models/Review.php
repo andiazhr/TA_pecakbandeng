@@ -11,7 +11,8 @@ class Review extends Model
     protected $fillable = [
         'id_pelanggan',
         'id_produk',
-        'review'
+        'review',
+        'status'
       ];
 
     public function Pelanggan()

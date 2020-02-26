@@ -89,7 +89,7 @@
                         @csrf
                         @method('PUT')
                         <input type="text" hidden name="kode_pembayaran" id="kode_pembayaran" value="{{$order->kode_order}}">
-                        <input type="number" hidden name="status" id="status" value="1">
+                        <input type="number" hidden name="status" value="1">
                         <button type="submit" class="btn btn-sm btn-danger">Ubah Status</button>
                       </form>
                     @endif

@@ -11,7 +11,8 @@ class Rating extends Model
     protected $fillable = [
         'id_pelanggan',
         'id_produk',
-        'nilai'
+        'nilai',
+        'status'
       ];
 
     public function Pelanggan()

@@ -40,11 +40,22 @@ class LikeController extends Controller
         {
             return redirect()->route('masuk')->with('login', 'Harus Login Terlebih Dahulu');
         }
-        $like = new Like();
-        $like->id_pelanggan = $request->get('id_pelanggan');
-        $like->id_produk = $request->get('id_produk');
-        $like->save();
-        return redirect()->back();
+        $exists = Like::where('id_pelanggan', $request->id_pelanggan)->where('id_produk', $request->id_produk)->exists();
+        // dd($exists);
+        if($exists == true){
+            $id = $request->id_like;
+            // dd($id);
+            $like = Like::find($id);
+            $like->status = '1';
+            $like->update();  
+            return redirect()->back();
+        }else{
+            $like = new Like();
+            $like->id_pelanggan = $request->get('id_pelanggan');
+            $like->id_produk = $request->get('id_produk');
+            $like->save();
+            return redirect()->back();
+        }
     }
 
     /**
@@ -87,10 +98,11 @@ class LikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {   
         $like = Like::find($id);
-        $like->delete();
+        $like->status = '0';
+        $like->update();
         
         return redirect()->back();
     }

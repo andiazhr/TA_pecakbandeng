@@ -22,6 +22,7 @@ class UsersPelanggan extends Migration
             $table->string('password');
             $table->string('foto_profil', 100)->nullable();
             $table->text('bio')->nullable();
+            $table->enum('status', ['1', '0']);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -12,21 +12,21 @@
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        @if(Request::segment(1) == 'home')
+        @if(Request::segment(1) == 'dashboard')
         <li class="active">
-          <a href="{{ url('home')}}">
+          <a href="{{ url('dashboard')}}">
             <i class="fa fa-bar-chart"></i> <span>Dashboard</span>
           </a>
         </li>
         @else
         <li>
-          <a href="{{ url('home')}}">
+          <a href="{{ url('dashboard')}}">
             <i class="fa fa-bar-chart"></i> <span>Dashboard</span>
           </a>
         </li>
         @endif
 
-        @if(Request::segment(1) == 'kategoriproduk')
+        @if(Request::segment(1) == 'kategoriProduk')
         <li class="active">
           <a href="{{ url('kategoriProduk')}}">
             <i class="fa fa-table"></i> <span>Kategori Produk</span>

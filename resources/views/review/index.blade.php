@@ -68,14 +68,14 @@
                       <form action="{{ route('review.status', $review->id_review)}}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="number" hidden name="status" id="status" value="0">
+                        <input type="number" hidden name="status" value="0">
                         <button type="submit" class="btn btn-sm btn-primary">Ubah Status</button>
                       </form>
                       @else
                       <form action="{{ route('review.status', $review->id_review)}}" method="post">
                         @csrf
                         @method('PUT')
-                        <input type="number" hidden name="status" id="status" value="1">
+                        <input type="number" hidden name="status" value="1">
                         <button type="submit" class="btn btn-sm btn-danger">Ubah Status</button>
                       </form>
                     @endif

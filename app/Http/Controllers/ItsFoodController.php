@@ -69,37 +69,43 @@ class ItsFoodController extends Controller
         $countreview = Review::count();
         $rating = DB::table('rating')
                 ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
-                ->select('rating.*', DB::raw('count(*) as total'))
+                ->select('rating.*')
+                ->where('rating.status', '=', '1')
                 ->groupBy('rating.id_pelanggan')
                 ->groupBy('rating.id_produk')
                 ->get();
         $ratingProduk = DB::table('rating')
                 ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
                 ->select('rating.*', DB::raw('count(*) as total, sum(nilai) as hasil'))
+                ->where('rating.status', '=', '1')
                 ->groupBy('rating.id_produk')
                 ->get();
         $like = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
-                ->select('like.*', DB::raw('count(*) as total'))
-                 ->groupBy('like.id_pelanggan')
-                 ->groupBy('like.id_produk')
-                 ->get();
+                ->select('like.*')
+                ->where('like.status', '=', '1')
+                ->groupBy('like.id_pelanggan')
+                ->groupBy('like.id_produk')
+                ->get();
         $likeProduk = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
                 ->select('like.*', DB::raw('count(*) as total'))
-                 ->groupBy('like.id_produk')
-                 ->get();
+                ->where('like.status', '=', '1')
+                ->groupBy('like.id_produk')
+                ->get();
         $review = DB::table('review')
                 ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
-                ->select('review.*', DB::raw('count(*) as total'))
-                 ->groupBy('review.id_pelanggan')
-                 ->groupBy('review.id_produk')
-                 ->get();
+                ->select('review.*')
+                ->where('review.status', '=', '1')
+                ->groupBy('review.id_pelanggan')
+                ->groupBy('review.id_produk')
+                ->get();
         $reviewProduk = DB::table('review')
                 ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
                 ->select('review.*', DB::raw('count(*) as total'))
-                 ->groupBy('review.id_produk')
-                 ->get();
+                ->where('review.status', '=', '1')
+                ->groupBy('review.id_produk')
+                ->get();
         $search = $request->get('search');
         $exists = DB::table('produk')
         ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
@@ -140,7 +146,33 @@ class ItsFoodController extends Controller
                 ->select('*')
                 ->get();
 
-                return view('itsfood.search', compact('hasil', 'minuman', 'countrating', 'kategori', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk'));
+                if (is_null(auth('pelanggan')->user())){
+                    return view('itsfood.search', compact('hasil', 'minuman', 'countrating', 'kategori', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk'));
+                }
+        
+                $editRating = DB::table('rating')
+                        ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                        ->select('rating.*')
+                        ->where('rating.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                        ->where('rating.status', '=', '0')
+                        ->groupBy('rating.id_produk')
+                        ->get();
+                $editLike = DB::table('like')
+                        ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                        ->select('like.*')
+                        ->where('like.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                        ->where('like.status', '=', '0')
+                        ->groupBy('like.id_produk')
+                        ->get();
+                $editReview = DB::table('review')
+                        ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                        ->select('review.*')
+                        ->where('review.status', '=', '0')
+                        ->where('review.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                        ->groupBy('review.id_produk')
+                        ->get();
+                        
+                return view('itsfood.search', compact('hasil', 'minuman', 'countrating', 'kategori', 'countlike', 'countreview', 'rating', 'ratingProduk', 'editRating', 'like', 'likeProduk', 'editLike', 'review', 'reviewProduk', 'editReview'));
             }
             elseif($data == 'Minuman'){
                 $makanan = DB::table('produk')
@@ -149,7 +181,33 @@ class ItsFoodController extends Controller
                 ->select('*')
                 ->get();
 
-                return view('itsfood.search', compact('hasil', 'makanan', 'countrating', 'kategori', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk'));
+                if (is_null(auth('pelanggan')->user())){
+                    return view('itsfood.search', compact('hasil', 'makanan', 'countrating', 'kategori', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk'));
+                }
+        
+                $editRating = DB::table('rating')
+                        ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                        ->select('rating.*')
+                        ->where('rating.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                        ->where('rating.status', '=', '0')
+                        ->groupBy('rating.id_produk')
+                        ->get();
+                $editLike = DB::table('like')
+                        ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                        ->select('like.*')
+                        ->where('like.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                        ->where('like.status', '=', '0')
+                        ->groupBy('like.id_produk')
+                        ->get();
+                $editReview = DB::table('review')
+                        ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                        ->select('review.*')
+                        ->where('review.status', '=', '0')
+                        ->where('review.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                        ->groupBy('review.id_produk')
+                        ->get();
+
+                return view('itsfood.search', compact('hasil', 'makanan', 'countrating', 'kategori', 'countlike', 'countreview', 'rating', 'ratingProduk', 'editRating', 'like', 'likeProduk', 'editLike', 'review', 'reviewProduk', 'editReview'));
             }
             elseif(($data != 'Makanan') && ($data != 'Minuman')){
                 $shop = DB::table('produk')
@@ -185,11 +243,21 @@ class ItsFoodController extends Controller
         auth('pelanggan')->login($userspelanggan);
         
         if (Session::has('keranjang')) {
-            return redirect()->to('/itsfood/keranjang')->with('login', 'Hai');
+            $id = auth('pelanggan')->user()->id_pelanggan;
+            // dd($id);
+            $login = UsersPelanggan::find($id);
+            $login->status = '1';
+            $login->update();
+            return redirect()->to('/keranjang')->with('login', 'Hai');
         }
 
         if (!Session::has('keranjang')) {
-            return redirect()->to('/itsfood')->with('login', 'Hai');
+            $id = auth('pelanggan')->user()->id_pelanggan;
+            // dd($id);
+            $login = UsersPelanggan::find($id);
+            $login->status = '1';
+            $login->update();
+            return redirect()->to('/')->with('login', 'Hai');
         }
     }
 
@@ -204,31 +272,40 @@ class ItsFoodController extends Controller
             if (auth('pelanggan')->attempt(request(['email_pelanggan', 'password'])) == false) {
                 return redirect()->route('masuk')->with('fail', 'Email dan Password tidak valid');
             }
-            return redirect()->to('/itsfood')->with('login', 'Hai');
+            $id = auth('pelanggan')->user()->id_pelanggan;
+            // dd($id);
+            $login = UsersPelanggan::find($id);
+            $login->status = '1';
+            $login->update();
+            return redirect()->to('/')->with('login', 'Hai');
         }
 
         if (Session::has('keranjang')) {
             if (auth('pelanggan')->attempt(request(['email_pelanggan', 'password'])) == false) {
                 return redirect()->route('masuk')->with('fail', 'Email dan Password tidak valid');
             }
+            $id = auth('pelanggan')->user()->id_pelanggan;
+            // dd($id);
+            $login = UsersPelanggan::find($id);
+            $login->status = '1';
+            $login->update();
             return redirect()->route('keranjang')->with('login', 'Hai');
         }
     }
 
     public function profile(Request $request, $id_pelanggan)
     {
-        $url = $request->segment(3);
         if (is_null(auth('pelanggan')->user())){
-            return view('itsfood.login');
+            return redirect()->route('masuk');
         }
 
-        if (!($url == NULL)){
-            $pelanggan = UsersPelanggan::find($id_pelanggan)->where($url);
+        // if (!($url == NULL)){
+            $pelanggan = UsersPelanggan::find($id_pelanggan);
             $order = DB::table('order')
             ->join('order_details', 'order.id_order', '=', 'order_details.id_order')
             ->join('produk', 'order_details.id_produk', '=', 'produk.id_produk')
             ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
-            ->where('order.id_pelanggan', $url)
+            ->where('order.id_pelanggan', auth('pelanggan')->user()->id_pelanggan)
             ->where('order.status', 'Lunas')
             ->where('kategori_produk.nama_kategori', 'Makanan')
             ->orwhere('kategori_produk.nama_kategori', 'Minuman')
@@ -242,7 +319,7 @@ class ItsFoodController extends Controller
             ->join('order_details', 'order.id_order', '=', 'order_details.id_order')
             ->join('produk', 'order_details.id_produk', '=', 'produk.id_produk')
             ->join('kategori_produk', 'produk.id_kategori', '=', 'kategori_produk.id_kategori')
-            ->where('order.id_pelanggan', $url)
+            ->where('order.id_pelanggan', auth('pelanggan')->user()->id_pelanggan)
             ->where('kategori_produk.nama_kategori', '!=', 'Makanan')
             ->where('kategori_produk.nama_kategori', '!=', 'Minuman')
             ->select(DB::raw('SUM(order_details.jumbel_produk) as jumbel_produk, produk.nama_produk'))
@@ -251,11 +328,17 @@ class ItsFoodController extends Controller
             ->orderBy('produk.nama_produk', 'asc')
             ->get();
             return view('Itsfood.profile', compact('pelanggan', 'order', 'produk'));
-        }
+        // }
     }
 
     public function logout()
     {
+        $id = auth('pelanggan')->user()->id_pelanggan;
+        // dd($id);
+        $login = UsersPelanggan::find($id);
+        $login->status = '0';
+        $login->update();
+
         auth('pelanggan')->logout();
         
         return redirect()->route('masuk');
@@ -274,37 +357,43 @@ class ItsFoodController extends Controller
         $countreview = Review::count();
         $rating = DB::table('rating')
                 ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
-                ->select('rating.*', DB::raw('count(*) as total'))
+                ->select('rating.*')
+                ->where('rating.status', '=', '1')
                 ->groupBy('rating.id_pelanggan')
                 ->groupBy('rating.id_produk')
                 ->get();
         $ratingProduk = DB::table('rating')
                 ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
                 ->select('rating.*', DB::raw('count(*) as total, sum(nilai) as hasil'))
+                ->where('rating.status', '=', '1')
                 ->groupBy('rating.id_produk')
                 ->get();
         $like = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
-                ->select('like.*', DB::raw('count(*) as total'))
-                 ->groupBy('like.id_pelanggan')
-                 ->groupBy('like.id_produk')
-                 ->get();
+                ->select('like.*')
+                ->where('like.status', '=', '1')
+                ->groupBy('like.id_pelanggan')
+                ->groupBy('like.id_produk')
+                ->get();
         $likeProduk = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
                 ->select('like.*', DB::raw('count(*) as total'))
-                 ->groupBy('like.id_produk')
-                 ->get();
+                ->where('like.status', '=', '1')
+                ->groupBy('like.id_produk')
+                ->get();
         $review = DB::table('review')
                 ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
-                ->select('review.*', DB::raw('count(*) as total'))
-                 ->groupBy('review.id_pelanggan')
-                 ->groupBy('review.id_produk')
-                 ->get();
+                ->select('review.*')
+                ->where('review.status', '=', '1')
+                ->groupBy('review.id_pelanggan')
+                ->groupBy('review.id_produk')
+                ->get();
         $reviewProduk = DB::table('review')
                 ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
                 ->select('review.*', DB::raw('count(*) as total'))
-                 ->groupBy('review.id_produk')
-                 ->get();
+                ->where('review.status', '=', '1')
+                ->groupBy('review.id_produk')
+                ->get();
         // $review = Review::all();
         // dd($reviewProduk);
         $data = Produk::with('Like')->with('ProdukKegiatan')
@@ -322,7 +411,34 @@ class ItsFoodController extends Controller
         // ->orwhere('nama_kategori', 'Minuman')
         // ->select('*')
         // ->get();
-        return view('itsfood.menu', compact('data', 'countProduk', 'produkkegiatan', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk', 'countrating', 'countlike', 'countreview'));
+        
+        if (is_null(auth('pelanggan')->user())){
+            return view('itsfood.menu', compact('data', 'countProduk', 'produkkegiatan', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk', 'countrating', 'countlike', 'countreview'));
+        }
+
+        $editRating = DB::table('rating')
+                ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                ->select('rating.*')
+                ->where('rating.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                ->where('rating.status', '=', '0')
+                ->groupBy('rating.id_produk')
+                ->get();
+        $editLike = DB::table('like')
+                ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                ->select('like.*')
+                ->where('like.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                ->where('like.status', '=', '0')
+                ->groupBy('like.id_produk')
+                ->get();
+        $editReview = DB::table('review')
+                ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                ->select('review.*')
+                ->where('review.status', '=', '0')
+                ->where('review.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                ->groupBy('review.id_produk')
+                ->get();
+                
+        return view('itsfood.menu', compact('data', 'countProduk', 'produkkegiatan', 'rating', 'ratingProduk', 'editRating', 'like', 'likeProduk', 'editLike', 'review', 'reviewProduk', 'editReview', 'countrating', 'countlike', 'countreview'));
     }
 
     public function create()
@@ -376,7 +492,7 @@ class ItsFoodController extends Controller
         ]);
 
         if (!Session::has('keranjang')){
-            return redirect()->to('/itsfood');
+            return redirect()->to('/');
         }
         
         $Keranjanglama = Session::get('keranjang');
@@ -435,7 +551,7 @@ class ItsFoodController extends Controller
                         }
                     
             Session::forget('keranjang');
-            return redirect()->to('/itsfood')->with('success', 'Pesanan Anda Telah Dikirim');
+            return redirect()->to('/')->with('success', 'Pesanan Anda Telah Dikirim');
             }        
                 
         return redirect('/checkout')->with('fail', 'Please Pilih Dikirim atau Pilihan Lain');
@@ -449,49 +565,84 @@ class ItsFoodController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $countProduk = Produk::count();
         $countrating = Rating::count();
         $countlike = Like::count();
         $countreview = Review::count();
         $rating = DB::table('rating')
                 ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
-                ->select('rating.*', DB::raw('count(*) as total'))
+                ->select('rating.*')
+                ->where('rating.status', '=', '1')
                 ->groupBy('rating.id_pelanggan')
                 ->groupBy('rating.id_produk')
                 ->get();
         $ratingProduk = DB::table('rating')
                 ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
                 ->select('rating.*', DB::raw('count(*) as total, sum(nilai) as hasil'))
+                ->where('rating.status', '=', '1')
                 ->groupBy('rating.id_produk')
                 ->get();
         $like = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
-                ->select('like.*', DB::raw('count(*) as total'))
-                 ->groupBy('like.id_pelanggan')
-                 ->groupBy('like.id_produk')
-                 ->get();
+                ->select('like.*')
+                ->where('like.status', '=', '1')
+                ->groupBy('like.id_pelanggan')
+                ->groupBy('like.id_produk')
+                ->get();
         $likeProduk = DB::table('like')
                 ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
                 ->select('like.*', DB::raw('count(*) as total'))
-                 ->groupBy('like.id_produk')
-                 ->get();
+                ->where('like.status', '=', '1')
+                ->groupBy('like.id_produk')
+                ->get();
         $review = DB::table('review')
                 ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
-                ->select('review.*', DB::raw('count(*) as total'))
-                 ->groupBy('review.id_pelanggan')
-                 ->groupBy('review.id_produk')
-                 ->get();
+                ->select('review.*')
+                ->where('review.status', '=', '1')
+                ->groupBy('review.id_pelanggan')
+                ->groupBy('review.id_produk')
+                ->get();
         $reviewProduk = DB::table('review')
                 ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
                 ->select('review.*', DB::raw('count(*) as total'))
-                 ->groupBy('review.id_produk')
-                 ->get();
+                ->where('review.status', '=', '1')
+                ->groupBy('review.id_produk')
+                ->get();
         $data = Produk::with('ProdukKegiatan')->find($id);
+        // dd($data);
         $getUlasan = Review::where('status', '1')->get();
         // dd($data);
         if($data === null){
             return view('itsfood.Not_Found');
         }
-        return view('itsfood.detailproduk', compact('data', 'countrating', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk', 'getUlasan'));
+
+        if (is_null(auth('pelanggan')->user())){
+            return view('itsfood.detailproduk', compact('data', 'countrating', 'countlike', 'countreview', 'rating', 'ratingProduk', 'like', 'likeProduk', 'review', 'reviewProduk', 'getUlasan'));
+        }
+
+        $editRating = DB::table('rating')
+                ->join('produk', 'rating.id_produk', '=', 'produk.id_produk')
+                ->select('rating.*')
+                ->where('rating.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                ->where('rating.status', '=', '0')
+                ->groupBy('rating.id_produk')
+                ->get();
+        $editLike = DB::table('like')
+                ->join('produk', 'like.id_produk', '=', 'produk.id_produk')
+                ->select('like.*')
+                ->where('like.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                ->where('like.status', '=', '0')
+                ->groupBy('like.id_produk')
+                ->get();
+        $editReview = DB::table('review')
+                ->join('produk', 'review.id_produk', '=', 'produk.id_produk')
+                ->select('review.*')
+                ->where('review.status', '=', '0')
+                ->where('review.id_pelanggan', '=', auth('pelanggan')->user()->id_pelanggan)
+                ->groupBy('review.id_produk')
+                ->get();
+                
+        return view('itsfood.detailproduk', compact('data', 'countrating', 'countlike', 'countreview', 'rating', 'ratingProduk', 'editRating', 'like', 'likeProduk', 'editLike', 'review', 'reviewProduk', 'editReview', 'getUlasan'));
     }
 
     /**
@@ -515,7 +666,6 @@ class ItsFoodController extends Controller
      */
     public function update(Request $request, $id_pelanggan)
     {
-        $id_pelanggan = $request->segment(3);
         $profil = UsersPelanggan::find($id_pelanggan);
         
         $data = $profil->foto_profil;
@@ -562,7 +712,7 @@ class ItsFoodController extends Controller
             $profil->update();
         }
 
-        return redirect('itsfood/profile/' . $id_pelanggan)->with('success', 'Profile Berhasil Diperbaharui');
+        return redirect()->to('profile/' . $id_pelanggan)->with('success', 'Profile Berhasil Diperbaharui');
     }
 
     /**
@@ -577,7 +727,7 @@ class ItsFoodController extends Controller
         $Keranjanglama = Session::has('keranjang') ? Session::get('keranjang') : null;
         $keranjang = new Keranjang($Keranjanglama);
         $keranjang->add($produk, $produk->id_produk);
-        $url = $request->segment(3);
+        $url = $request->segment(2);
 
         $request->session('keranjang')->put('keranjang', $keranjang);
 
@@ -592,10 +742,10 @@ class ItsFoodController extends Controller
         }
         
         if($test == 'Makanan' || $test == 'Minuman'){
-            return redirect()->to('/itsfood/menu');
+            return redirect()->to('/menu');
         }
         elseif($test != 'Makanan' || $test != 'Minuman'){
-            return redirect()->to('/itsfood/shop');
+            return redirect()->to('/shop');
         }
     }
 
@@ -607,7 +757,7 @@ class ItsFoodController extends Controller
         $keranjang->add($produk, $produk->id_produk);
 
         $request->session('keranjang')->put('keranjang', $keranjang);
-        return redirect()->to('/itsfood/keranjang');
+        return redirect()->to('/keranjang');
     }
     
     public function kurangiKeranjang($id_produk)
@@ -640,8 +790,8 @@ class ItsFoodController extends Controller
     
     public function remove(Request $request, $id_pelanggan)
     {
-        $id_pelanggan = $request->segment(3);
         $profil = UsersPelanggan::find($id_pelanggan);
+        unlink(public_path().'/imageforuser/pelanggan/'. $profil->foto_profil);
         $profil->nama_pelanggan = $request->get('nama_pelanggan');
         $profil->username = $request->get('username');
         $profil->email_pelanggan = $request->get('email_pelanggan');
@@ -650,6 +800,6 @@ class ItsFoodController extends Controller
         $profil->bio = $request->get('bio');
         $profil->update();
 
-        return redirect('itsfood/editprofile/' . $id_pelanggan)->with('success', 'Photo Removed');
+        return redirect('editprofile/' . $id_pelanggan)->with('success', 'Photo Removed');
     }
 }

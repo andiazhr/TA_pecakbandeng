@@ -46,10 +46,9 @@ class RatingController extends Controller
             $id = $request->id_rating;
             // dd($id);
             $rating = Rating::find($id);
-            $rating->id_pelanggan = $request->get('id_pelanggan');
-            $rating->id_produk = $rating->id_produk;
             $rating->nilai = $request->get('nilai');
-            $rating->save();        
+            $rating->status = '1';
+            $rating->update();        
             return redirect()->back();
         }else{
             $rating = new Rating();
@@ -105,7 +104,8 @@ class RatingController extends Controller
     {
         $id = $request->get('id_rating');
         $rating = Rating::find($id);
-        $rating->delete();
+        $rating->status = '0';
+        $rating->update();
         
         return redirect()->back();
     }

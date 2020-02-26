@@ -6,7 +6,7 @@
         Dashboard
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{ url('dashboard') }}"><i class="fa fa-bar-chart"></i> Pecak Bandeng 59</a></li>
         <li class="active">Dashboard</li>
       </ol>
     </section>
@@ -113,7 +113,7 @@
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="{{route('users')}}" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -158,7 +158,7 @@
           <!-- /.box -->
         </div>
         <!-- ./col -->
-        <div class="col-lg-6 col-xs-12">
+        <div class="col-lg-12 col-xs-12">
           <!-- DONUT CHART -->
           <div class="box box-primary">
             <div class="box-header with-border">
@@ -170,7 +170,7 @@
               </div>
             </div>
             <div class="box-body">
-              <canvas id="Pendp_Harian" width="400" height="300"></canvas>
+              <canvas id="Pendp_Harian" width="400" height="150"></canvas>
             </div>
             <!-- /.box-body -->
           </div>
@@ -209,6 +209,44 @@
             </div>
             <div class="box-body">
               <canvas id="Pendp_Tahunan" width="400" height="300"></canvas>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-6 col-xs-12">
+          <!-- DONUT CHART -->
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">Grafik Pengeluaran</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body">
+              <canvas id="Pengeluaran" width="400" height="300"></canvas>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-6 col-xs-12">
+          <!-- DONUT CHART -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Grafik Laba Bersih</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body">
+              <canvas id="Laba_Bersih" width="400" height="300"></canvas>
             </div>
             <!-- /.box-body -->
           </div>

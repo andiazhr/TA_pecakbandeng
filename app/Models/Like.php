@@ -10,7 +10,8 @@ class Like extends Model
     protected $primaryKey = 'id_like';
     protected $fillable = [
         'id_pelanggan',
-        'id_produk'
+        'id_produk',
+        'status'
       ];
     
     public function Pelanggan()

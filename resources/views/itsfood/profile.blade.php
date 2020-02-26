@@ -3,7 +3,7 @@
 <br><br><br>
 <div class="container mb-2">
     <div class="col-sm-8 col-md-7 col-xl-6 mx-auto card border-info p-4">
-    <a href="{{ url('itsfood') }}"><button type="button" class="btn btn-warning float-right mb-3"><i class="fa fa-chevron-left"></i> Kembali</button></a>
+    <a href="{{ url('/') }}"><button type="button" class="btn btn-warning float-right mb-3"><i class="fa fa-chevron-left"></i> Kembali</button></a>
         <h5 class="card-header primary-col white-text text-center py-3">
             <strong>Profile</strong>
         </h5>

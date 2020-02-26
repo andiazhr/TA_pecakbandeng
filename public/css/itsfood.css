@@ -1,11 +1,12 @@
 html{
   scroll-behavior: smooth;
+  scroll-margin: 50px 0 0 50px;
 }
 @media (max-width: 575.98px){ .slide-image-smf{height: 280px !important;}.menu-image-smf{height: 220px !important;}.image-smf{height: 280px !important ;}.font-8-sm{font-size: 8px !important;}.font-10-sm{font-size: 10px !important;}.font-12-sm{font-size: 12px !important;}.font-14-sm{font-size: 14px !important;} }
-@media (max-width: 767.98px){ .slide-image-mdf{height: 450px !important;}.menu-image-mdf{height: 450px !important;}.image-mdf{height: 450px !important;}.font-8-md{font-size: 8px !important;}.font-10-md{font-size: 10px !important;}.font-12-md{font-size: 12px !important;}.font-14-md{font-size: 14px !important;} }
+@media (max-width: 767.98px){ .slide-image-mdf{height: 290px !important;}.menu-image-mdf{height: 450px !important;}.image-mdf{height: 450px !important;}.font-8-md{font-size: 8px !important;}.font-10-md{font-size: 10px !important;}.font-12-md{font-size: 12px !important;}.font-14-md{font-size: 14px !important;} }
 @media (max-width: 991.98px){ .slide-image-lgf{height: 290px !important;}.menu-image-lgf{height: 290px !important;}.image-lgf{height: 290px !important;}.font-8-lg{font-size: 8px !important;}.font-10-lg{font-size: 10px !important;}.font-12-lg{font-size: 12px !important;}.font-14-lg{font-size: 14px !important;} }
-@media (max-width: 1199.98px){ .slide-image-xlf{height: 220px !important;}.menu-image-xlf{height: 220px !important;}.image-xlf{height: 220px !important;}.font-8-xl{font-size: 8px !important;}.font-10-xl{font-size: 10px !important;}.font-12-xl{font-size: 12px !important;}.font-14-xl{font-size: 14px !important;} }
-.slide-image{height: 180px;}
+@media (max-width: 1199.98px){ .slide-image-xlf{height: 310px !important;}.menu-image-xlf{height: 220px !important;}.image-xlf{height: 220px !important;}.font-8-xl{font-size: 8px !important;}.font-10-xl{font-size: 10px !important;}.font-12-xl{font-size: 12px !important;}.font-14-xl{font-size: 14px !important;} }
+.slide-image{height: 350px;}
 .menu-image{height: 180px;}
 .image{height: 180px;}
 *
@@ -277,11 +278,16 @@ input[type=mysearch] {
     text-align: right;
     transform: rotateZ(-3deg);
   }
-
+  .block-with-text { 
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+  }
   .slidemakan4{
     display: inline-block;
     position: absolute;
-    width: 500px;
+    width: 225px;
     height: 300px;
     border-radius: 20px;
     top: 120px;
@@ -778,6 +784,36 @@ input:checked + .slider:before {
   animation: clockwiseSpin 5s infinite linear;
 }
 
+.iconMakanan2 {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: antiClockwiseSpin 5s infinite linear;
+  animation: antiClockwiseSpin 5s infinite linear;
+}
+
+.iconMakanan3 {
+  position: absolute;
+  top: 240px;
+  left: 280px;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: antiClockwiseSpin 5s infinite linear;
+  animation: antiClockwiseSpin 5s infinite linear;
+}
+
+.iconMakanan4 {
+  position: absolute;
+  top: 20px;
+  left: 520px;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: clockwiseSpin 5s infinite linear;
+  animation: clockwiseSpin 5s infinite linear;
+}
+
 .iconMinuman {
   position: absolute;
   top: 10px;
@@ -786,6 +822,46 @@ input:checked + .slider:before {
   height: 70px;
   -webkit-animation: clockwiseSpin 3s infinite linear;
   animation: clockwiseSpin 3s infinite linear;
+}
+
+.iconMinuman2 {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: antiClockwiseSpin 3s infinite linear;
+  animation: antiClockwiseSpin 3s infinite linear;
+}
+
+.iconMinuman3 {
+  position: absolute;
+  top: 350px;
+  right: 220px;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: clockwiseSpin 3s infinite linear;
+  animation: clockwiseSpin 3s infinite linear;
+}
+
+.iconMinuman4 {
+  position: absolute;
+  bottom: 50px;
+  right: 620px;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: antiClockwiseSpin 3s infinite linear;
+  animation: antiClockwiseSpin 3s infinite linear;
+}
+
+@keyframes antiClockwiseSpin {
+	0%  {transform: rotate(360deg);}
+	100% {transform: rotate(0deg);}	
+}
+
+@keyframes antiClockwiseSpin {
+	0%  {transform: rotate(360deg);}
+	100% {transform: rotate(0deg);}	
 }
 
 @-webkit-keyframes clockwiseSpin {
