@@ -22,7 +22,7 @@
             </div>
             @endif
             <div class="col-12 d-flex justify-content-center">
-                <h2 class="mt-3">{{ auth('pelanggan')->user()->nama_pelanggan }}</h2>
+                <h2 class="mt-3">{{ ucwords(auth('pelanggan')->user()->nama_pelanggan) }}</h2>
             </div>
             <div class="col-12 d-flex justify-content-center">
                 <h5 class="mt-1"><span class="badge badge-warning"><i class="fa fa-mobile-alt"></i> {{ auth('pelanggan')->user()->phone_number }}</span></h5>
@@ -36,7 +36,7 @@
                 <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     <i class="fa fa-history"></i> Riwayat Pembelian
                 </button>
-                <a href="{{ route('editprofile', auth('pelanggan')->user()->id_pelanggan) }}">
+                <a href="{{ route('editprofile', auth('pelanggan')->user()->username) }}">
                     <button class="btn btn-light btn-sm" type="button">
                         <i class="far fa-edit"></i> Edit Profile
                     </button>

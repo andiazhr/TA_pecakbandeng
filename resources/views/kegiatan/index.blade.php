@@ -117,7 +117,7 @@
                     @endif
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$kegiatan->nama_kegiatan}}</td>
+                  <td>{{ucwords($kegiatan->nama_kegiatan)}}</td>
                   <td>{{$kegiatan->deskripsi}}</td>
                   <td style="text-align: center;">{{$kegiatan->periode_awal}}</td>
                   <td style="text-align: center;">{{$kegiatan->periode_akhir}}</td>

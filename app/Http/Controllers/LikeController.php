@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Like;
+use Carbon\Carbon;
 
 class LikeController extends Controller
 {
@@ -43,10 +44,13 @@ class LikeController extends Controller
         $exists = Like::where('id_pelanggan', $request->id_pelanggan)->where('id_produk', $request->id_produk)->exists();
         // dd($exists);
         if($exists == true){
+            $tgl = Date('Y-m-d h:i:s');
             $id = $request->id_like;
             // dd($id);
             $like = Like::find($id);
             $like->status = '1';
+            $like->created_at = $tgl;
+            $like->updated_at = $tgl;
             $like->update();  
             return redirect()->back();
         }else{

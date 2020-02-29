@@ -99,7 +99,7 @@
                 @foreach($data as $no => $pengeluaran)
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$pengeluaran->nama_barang}}</td>
+                  <td>{{ucwords($pengeluaran->nama_barang)}}</td>
                   <td style="text-align: center"><?php echo date('d F Y', strtotime($pengeluaran->tanggal))?></td>
                   <td style="text-align: right; padding-right: 25px">{{number_format($pengeluaran->total)}}</td>
                   <td style="text-align: right;">

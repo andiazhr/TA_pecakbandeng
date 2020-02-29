@@ -52,7 +52,7 @@
                 <?php $checkreview = 0 ?>
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$produk->nama_produk}}</td>
+                  <td>{{ucwords($produk->nama_produk)}}</td>
                   <td>
                     @if($produk->KategoriProduk->nama_kategori == 'Makanan')
                         <span class="label label-danger">{{$produk->KategoriProduk->nama_kategori}}</span>

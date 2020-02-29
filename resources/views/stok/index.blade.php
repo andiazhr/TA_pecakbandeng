@@ -95,7 +95,7 @@
                 @foreach($data as $no => $stok)
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$stok->nama_barang}}</td>
+                  <td>{{ucwords($stok->nama_barang)}}</td>
                   <td>{{$stok->stok}}</td>
                   <td style="text-align: center">
                     @if($stok->status == 1)

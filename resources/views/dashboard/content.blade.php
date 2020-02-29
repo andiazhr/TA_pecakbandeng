@@ -29,7 +29,7 @@
               <i class="fa fa-shopping-cart"></i>
             </div>
             <a href="{{route('terjualhariIni')}}" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Rincian <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -46,7 +46,7 @@
               <i class="fa fa-money"></i>
             </div>
             <a href="{{ route('pendphariIni')}}" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Rincian <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -57,13 +57,13 @@
             <div class="inner">
               <h3>{{$neworder}}</h3>
 
-              <p>New Orders</p>
+              <p>Pesanan Baru</p>
             </div>
             <div class="icon">
               <i class="fa fa-cart-plus"></i>
             </div>
             <a href="{{ route('newOrder')}}" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Rincian <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -80,7 +80,7 @@
               <i class="fa fa-cart-arrow-down"></i>
             </div>
             <a href="{{ route('produkTerjual')}}" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Rincian <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -97,7 +97,7 @@
               <i class="fas fa-egg"></i>
             </div>
             <a href="{{ url('produk')}}" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Rincian <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -108,13 +108,13 @@
             <div class="inner">
               <h3>{{$userRegistrations}}</h3>
 
-              <p>User Registrations</p>
+              <p>User Terdaftar</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
             <a href="{{route('users')}}" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Rincian <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>

@@ -13,16 +13,16 @@
         <li class="nav-item dropdown active">
           <a class="nav-link asparagus-sprouts font-18 dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           @if(auth('pelanggan')->user()->foto_profil == NULL)
-          <i class="fa fa-user-circle fa-lg" style="margin-right: 3px"></i> {{ auth('pelanggan')->user()->username }}
+          <i class="fa fa-user-circle fa-lg" style="margin-right: 3px"></i> {{ ucwords(auth('pelanggan')->user()->username) }}
           @else
-          <img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> {{ auth('pelanggan')->user()->username }}
+          <img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> {{ ucwords(auth('pelanggan')->user()->username) }}
           @endif
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             @if(auth('pelanggan')->user()->foto_profil == NULL)
             <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><i class="fas fa-user-circle fa-2x"></i> Profile</a>
             @else
-            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> Profil</a>
+            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> Profile</a>
             @endif
             <a class="dropdown-item" href="{{ route('keluar')}}"><img src="{{ asset ('imageforuser/logout6.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Logout</a>
         </li>
@@ -30,16 +30,16 @@
         <li class="nav-item dropdown">
           <a class="nav-link asparagus-sprouts font-18 dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           @if(auth('pelanggan')->user()->foto_profil == NULL)
-          <i class="fas fa-user-circle fa-lg" style="margin-right: 3px"></i> {{ auth('pelanggan')->user()->username }}
+          <i class="fas fa-user-circle fa-lg" style="margin-right: 3px"></i> {{ ucwords(auth('pelanggan')->user()->username) }}
           @else
-          <img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> {{ auth('pelanggan')->user()->username }}
+          <img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> {{ ucwords(auth('pelanggan')->user()->username) }}
           @endif
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             @if(auth('pelanggan')->user()->foto_profil == NULL)
             <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><i class="fas fa-user-circle fa-2x"></i> Profile</a>
             @else
-            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> Profil</a>
+            <a class="dropdown-item" href="{{ route('profile', auth('pelanggan')->user()->username) }}"><img class="profil mb-1" src="{{ asset('/imageforuser/pelanggan/'. auth('pelanggan')->user()->foto_profil) }}" alt="" width="25px" height="25px"> Profile</a>
             @endif
             <a class="dropdown-item" href="{{ route('keluar')}}"><img src="{{ asset ('imageforuser/logout6.png') }}" width="25px" height="25px" class="d-inline-block align-top" alt=""> Logout</a>
         </li>

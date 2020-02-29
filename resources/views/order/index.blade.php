@@ -59,7 +59,7 @@
                 @foreach($data as $no => $order)
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$order->Pelanggan->nama_pelanggan}}</td>
+                  <td>{{ucwords($order->Pelanggan->nama_pelanggan)}}</td>
                   <td>{{$order->kode_order}}</td>
                   <td style="text-align: center;">
                     @if($order->status == 1)

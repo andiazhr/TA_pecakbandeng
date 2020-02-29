@@ -91,8 +91,7 @@
                   <a href="{{ route('profil', auth()->user()->id) }}" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="{{ route('logout') }}" class="btn btn-danger btn-flat"  onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                  <a href="{{ route('logout.profil') }}" class="btn btn-danger btn-flat" style="background-color: #dd4b39;">
                                         <i class="fa fa-power-off"></i> {{ __('Logout') }}</a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf

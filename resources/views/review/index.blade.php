@@ -53,8 +53,8 @@
                 @foreach($data as $no => $review)
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$review->Pelanggan->nama_pelanggan}}</td>
-                  <td>{{$review->Produk->nama_produk}}</td>
+                  <td>{{ucwords($review->Pelanggan->nama_pelanggan)}}</td>
+                  <td>{{ucwords($review->Produk->nama_produk)}}</td>
                   <td>{{$review->review}}</td>
                   <td style="text-align: center;">
                     @if($review->status == 1)

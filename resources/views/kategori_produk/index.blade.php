@@ -84,7 +84,7 @@
                 @foreach($data as $no => $kategori)
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$kategori->nama_kategori}}</td>
+                  <td>{{ucwords($kategori->nama_kategori)}}</td>
                   <td style="text-align: center;">
                     @if($kategori->status == 1)
                         <button type="submit" class="btn btn-xs btn-success">Ditampilkan</button>

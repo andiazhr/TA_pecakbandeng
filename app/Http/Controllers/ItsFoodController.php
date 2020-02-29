@@ -712,7 +712,7 @@ class ItsFoodController extends Controller
             $profil->update();
         }
 
-        return redirect()->to('profile/' . $id_pelanggan)->with('success', 'Profile Berhasil Diperbaharui');
+        return redirect()->to('profile/' . $profil->username)->with('success', 'Profile Berhasil Diperbaharui');
     }
 
     /**

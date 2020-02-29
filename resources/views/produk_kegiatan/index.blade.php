@@ -81,8 +81,8 @@
                 @foreach($data as $no => $produkKegiatan)
                 <tr>
                   <td>{{$no +1}}</td>
-                  <td>{{$produkKegiatan->Kegiatan->nama_kegiatan}}</td>
-                  <td>{{$produkKegiatan->Produk->nama_produk}}</td>
+                  <td>{{ucwords($produkKegiatan->Kegiatan->nama_kegiatan)}}</td>
+                  <td>{{ucwords($produkKegiatan->Produk->nama_produk)}}</td>
                   <td>{{$produkKegiatan->discount}}</td>
                   <td style="text-align: right;">
                     <a href="{{ route('edit.produkKegiatan', $produkKegiatan->id_produk_kegiatan)}}">

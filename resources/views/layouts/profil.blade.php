@@ -7,7 +7,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('dashboard') }}"><i class="fa fa-dashboard"></i> Pecak Bandeng 59</a></li>
-        <li><a href="{{ url()->current() }}"> {{$profil->name}}</a></li>
+        <li><a href="{{ url()->current() }}"> {{ucwords($profil->name)}}</a></li>
         <li class="active"> Profile</li>
       </ol>
     </section>
@@ -19,68 +19,26 @@
         <div class="col-md-3">
 
           <!-- Profile Image -->
-          <div class="box box-primary">
+          <div class="box box-success">
             <div class="box-body box-profile">
               <img class="profile-user-img img-responsive img-circle" src="{{ asset('assetsadmin/dist/img/admin.png') }}" alt="User profile picture">
 
-              <h3 class="profile-username text-center">{{$profil->name}}</h3>
+              <h3 class="profile-username text-center">{{ucwords($profil->name)}}</h3>
 
               <p class="text-muted text-center">Pengusaha</p>
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Followers</b> <a class="pull-right">1,322</a>
+                  <b>Pesanan baru</b> <a class="pull-right">{{$neworder}}</a>
                 </li>
                 <li class="list-group-item">
-                  <b>Following</b> <a class="pull-right">543</a>
+                  <b>Pendapatan hari ini</b> <a class="pull-right">{{$pendpHrIni}} IDR</a>
                 </li>
                 <li class="list-group-item">
-                  <b>Friends</b> <a class="pull-right">13,287</a>
+                  <b>User terdaftar</b> <a class="pull-right">{{$userRegistrations}}</a>
                 </li>
               </ul>
 
-              <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-
-          <!-- About Me Box -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">About Me</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
-
-              <p class="text-muted">
-                B.S. in Computer Science from the University of Tennessee at Knoxville
-              </p>
-
-              <hr>
-
-              <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-
-              <p class="text-muted">Malibu, California</p>
-
-              <hr>
-
-              <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
-              <p>
-                <span class="label label-danger">UI Design</span>
-                <span class="label label-success">Coding</span>
-                <span class="label label-info">Javascript</span>
-                <span class="label label-warning">PHP</span>
-                <span class="label label-primary">Node.js</span>
-              </p>
-
-              <hr>
-
-              <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
             </div>
             <!-- /.box-body -->
           </div>
@@ -118,7 +76,7 @@
                   <!-- /.user-block -->
                 </div>
                 @endforeach
-                @if($star->count() == 0)
+                @if($rating->count() == 0)
                     <h3>Belum ada yang memberikan rating pada produk</h3>
                 @endif
                 <!-- /.post -->
@@ -341,31 +299,33 @@
               <!-- /.tab-pane -->
 
               <div class="tab-pane" id="settings">
-                <form class="form-horizontal">
+                <form class="form-horizontal" method="post" action="{{ route('edit.profil', $profil->id) }}">
+                  @csrf
+                  @method('PUT')
                   <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Name</label>
 
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+                      <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="{{$profil->name}}">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                     <div class="col-sm-10">
-                      <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                      <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="{{$profil->email}}">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Password</label>
 
                     <div class="col-sm-10">
-                      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                      <input type="password" class="form-control" name="password" id="password" placeholder="Password" >
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
+                      <button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit Profile</button>
                     </div>
                   </div>
                 </form>

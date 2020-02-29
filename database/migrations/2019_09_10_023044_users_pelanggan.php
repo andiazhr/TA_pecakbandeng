@@ -18,6 +18,7 @@ class UsersPelanggan extends Migration
             $table->string('nama_pelanggan', 40);
             $table->string('username', 25)->unique();
             $table->string('email_pelanggan', 35)->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('phone_number', 25);
             $table->string('password');
             $table->string('foto_profil', 100)->nullable();

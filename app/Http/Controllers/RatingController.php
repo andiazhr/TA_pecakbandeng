@@ -43,11 +43,14 @@ class RatingController extends Controller
         $exists = Rating::where('id_pelanggan', $request->id_pelanggan)->where('id_produk', $request->id_produk)->exists();
         // dd($request->id_produk);
         if($exists == true){
+            $tgl = Date('Y-m-d h:i:s');
             $id = $request->id_rating;
             // dd($id);
             $rating = Rating::find($id);
             $rating->nilai = $request->get('nilai');
             $rating->status = '1';
+            $rating->created_at = $tgl;
+            $rating->updated_at = $tgl;
             $rating->update();        
             return redirect()->back();
         }else{

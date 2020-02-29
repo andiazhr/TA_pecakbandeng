@@ -131,7 +131,7 @@
         <div class="p-5">
           <div class="row no-gutters p-0">
             <div class="col-12 d-flex justify-content-center">
-              <span class="badge badge-danger"><h6> {{$makanan->nama_produk}} </h6></span>
+              <span class="badge badge-danger"><h6> {{ucwords($makanan->nama_produk)}} </h6></span>
             </div>
             <div class="col-12 d-flex justify-content-center px-xl-5 px-lg-5 py-xl-3 py-lg-3 py-md-3 py-sm-2">
               <p class="block-with-text">
@@ -213,7 +213,7 @@
         <div class="p-5">
           <div class="row no-gutters p-0">
             <div class="col-12 d-flex justify-content-center">
-              <span class="badge badge-primary"><h6> {{$minuman->nama_produk}} </h6></span>
+              <span class="badge badge-primary"><h6> {{ucwords($minuman->nama_produk)}} </h6></span>
             </div>
             <div class="col-12 d-flex justify-content-center px-xl-5 px-lg-5 py-xl-3 py-lg-3 py-md-3 py-sm-2">
               <p class="block-with-text">
@@ -271,7 +271,7 @@
                 <div class="card-body">
                   <strong>
                     <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                      {{$makanan->nama_produk}}
+                      {{ucwords($makanan->nama_produk)}}
                     </p>
                   </strong>
                   <p class="card-title" style="font-size: 14px; font-family: raleway; white-space: nowrap; width: 215px; overflow: hidden; text-overflow: ellipsis;">
@@ -299,7 +299,7 @@
                 <div class="card-body">
                   <strong>
                     <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                      {{$makanan->nama_produk}}
+                      {{ucwords($makanan->nama_produk)}}
                     </p>
                   </strong>
                   <p class="card-title" style="font-size: 14px; font-family: raleway; white-space: nowrap; width: 215px; overflow: hidden; text-overflow: ellipsis;">
@@ -325,7 +325,7 @@
                 <div class="card-body">
                   <strong>
                     <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                      {{$minuman->nama_produk}}
+                      {{ucwords($minuman->nama_produk)}}
                     </p>
                   </strong>
                   <p class="card-title" style="font-size: 14px; font-family: raleway; white-space: nowrap; width: 215px; overflow: hidden; text-overflow: ellipsis;">
@@ -353,7 +353,7 @@
               <div class="card-body">
                 <strong>
                   <p class="card-title" style="font-family: asparagus sprouts; font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    {{$minuman->nama_produk}}
+                    {{ucwords($minuman->nama_produk)}}
                   </p>
                 </strong>
                 <p class="card-title" style="font-size: 14px; font-family: raleway; white-space: nowrap; width: 215px; overflow: hidden; text-overflow: ellipsis;">

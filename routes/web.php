@@ -35,6 +35,8 @@ Route::get('/dashboard/LabaBersih','HomeController@LabaBersih');
 
 Route::prefix('admin')->group(function(){
     Route::get('/profil/{id}', 'AdminController@profile')->name('profil');
+    Route::put('/profil/{id}', 'AdminController@update')->name('edit.profil');
+    Route::get('/logout', 'AdminController@logout')->name('logout.profil');
 });
 
 Route::prefix('kategoriProduk')->group(function(){
